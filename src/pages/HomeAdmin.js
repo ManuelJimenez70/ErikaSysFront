@@ -1,73 +1,74 @@
 import React, { useState } from 'react';
-import "../styles/homeAdmin.css";
 import empLog from "../images/employee.png";
+import menu from "../images/menu.png";
+import "../styles/homeAdmin.css";
 import prodLog from "../images/caja.png";
 import servLog from "../images/campanas.png";
 import repLog from "../images/reporte.png";
-import close from "../images/cerca.png"
-import menu from "../images/menu.png"
+
+
+
+
 
 
 function HomeAdmin() {
 
     const [showSideBar, setSideBar] = useState(false);
 
-    const toggleShowSideBar = () => {
-        setSideBar(!showSideBar);
-    };
-
     return (
-        <div className='genealContainer'>
+        <div>
             <div className='header'>
-                <div className='divBTNMenu'>
+                <button class="btn btn btn-outline-primary border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
                     <img
-                        src={showSideBar ? menu : close}
-                        onClick={toggleShowSideBar}
+                        src={menu}
                     />
-                </div>
-                <div className='divAux'>
+                </button>
+                <div className='divAux ph'>
                     <h3>Usuario administrador</h3>
                     <img src={empLog}></img>
                 </div>
             </div>
-            <div className='aside'>
-                <div className='divUserAd'>
-                    <div className='divBClose'> <img src={close}></img></div>
-                    <div className='divLog'>
-                        <img src={empLog}></img>
-                        <h3>Usuario administrador</h3>
+            <div class="offcanvas offcanvas-start bg-primary-subtle" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+
+                <div class="offcanvas-body d-flex aside">
+                    <div className="z-0 p-2 w-100">
+                        <div className='divUserAd'>
+                            <div className='divLog'>
+                                <img src={empLog}></img>
+                                <h3>Usuario administrador</h3>
+                            </div>
+                        </div>
+
+                        <div className='divList'>
+                            <ol>
+                                <li class="pt-4 pb-2">
+                                    <img src={empLog}></img>
+                                    <h4>Gestionar empleados</h4>
+
+                                </li>
+                                <li class="pb-2">
+                                    <img src={prodLog}></img>
+                                    <h4>Gestionar productos</h4>
+
+                                </li>
+                                <li class="pb-2">
+                                    <img src={servLog}></img>
+                                    <h4>Gestionar servicios</h4>
+
+                                </li>
+                                <li class="pb-2">
+                                    <img src={repLog}></img>
+                                    <h4>Generar reportes</h4>
+
+                                </li>
+                            </ol>
+                        </div>
+
                     </div>
+                    <a type="button" class="z-1 btn-close bn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></a>
+
                 </div>
-
-                <div className='divList'>
-                    <ol>
-                        <li>
-                            <img src={empLog}></img>
-                            <h3>Gestionar empleados</h3>
-
-                        </li>
-                        <li>
-                            <img src={prodLog}></img>
-                            <h3>Gestionar productos</h3>
-
-                        </li>
-                        <li>
-                            <img src={servLog}></img>
-                            <h3>Gestionar servicios</h3>
-
-                        </li>
-                        <li>
-                            <img src={repLog}></img>
-                            <h3>Generar reportes</h3>
-
-                        </li>
-                    </ol>
-                </div>
-
-                <div className='divButtonLO'></div>
             </div>
-            <div className='body'></div>
-
         </div>
     );
 }

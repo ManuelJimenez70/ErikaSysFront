@@ -8,15 +8,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    justify-content: center;
-    background-image: url('../images/logBg.jpg'); 
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: center; 
     overflow: hidden;
 }
 
-.card{
+.mycard{
     width: 35%;
     min-height: 80vh;
     background-color: #16276E;
@@ -24,14 +22,15 @@
     border: solid 1px azure;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.9);
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     filter: saturate(0.9)!;
 }
 
 h2{
-    margin-top: 15%;
-  color: aliceblue;
+  margin-top: 15%;
+  color: aliceblue!important;
   text-transform: uppercase;  
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -78,8 +77,9 @@ button{
 
 .checkB{
     display: flex;
-    margin-top: -20px;
+    margin-top: 20px;
     font-style: normal;
+    
 }
 
 .checkB input{

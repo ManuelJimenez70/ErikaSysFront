@@ -36,7 +36,7 @@ function LoginForm() {
 
   return (
     <div className='general'>
-      <div className='card'>
+      <div className='mycard'>
 
         <h2>Ingresa</h2>
         <form className='formCard'>
@@ -47,16 +47,16 @@ function LoginForm() {
             </div>
             <div className='passwordInput'>
               <input placeholder='Contraseña' type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}></input>
-              <img src={passLog}></img>
-            </div>
-          </div>
-
-          <div className='showOrHide'>
-            <img
+              <img
               src={showPassword ? hidePasswordImage : showPasswordImage}
               onClick={toggleShowPassword}
               style={{ cursor: 'pointer', width: '20px', height: '20px' }}
             />
+            </div>
+          </div>
+
+          <div className='showOrHide'>
+          
           </div>
           <div className='buttonLog'>
             <button onClick={handleLogin}>Ingresar</button>
