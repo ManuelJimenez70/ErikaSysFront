@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import "../styles/homeAdmin.css";
 import empLog from "../images/employee.png";
+import close from "../images/cerca.png";
+import menu from "../images/menu.png";
+import "../styles/homeAdmin.css";
 import prodLog from "../images/caja.png";
 import servLog from "../images/campanas.png";
 import repLog from "../images/reporte.png";
-import close from "../images/cerca.png"
-import menu from "../images/menu.png"
+
 
 
 function HomeAdmin() {
 
     const [showSideBar, setSideBar] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const toggleShowSideBar = () => {
         setSideBar(!showSideBar);
@@ -30,9 +33,11 @@ function HomeAdmin() {
                     <img src={empLog}></img>
                 </div>
             </div>
-            <div className='aside'>
+            <div className={isOpen ? "aside open" : "aside"}>
                 <div className='divUserAd'>
-                    <div className='divBClose'> <img src={close}></img></div>
+                    <div className='divBClose'>
+                        <img src={isOpen ? menu: close} onClick={() => setIsOpen(!isOpen)}></img>
+                    </div>
                     <div className='divLog'>
                         <img src={empLog}></img>
                         <h3>Usuario administrador</h3>
