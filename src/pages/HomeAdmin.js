@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import empLog from "../images/employee.png";
+import { useNavigate } from 'react-router-dom';
 import menu from "../images/menu.png";
 import "../styles/homeAdmin.css";
 import prodLog from "../images/caja.png";
@@ -14,6 +15,14 @@ import repLog from "../images/reporte.png";
 function HomeAdmin() {
 
     const [showSideBar, setSideBar] = useState(false);
+    const navigate = useNavigate();
+    const handleModal = async () => {
+        try {
+          navigate('/homeAdmin');  
+        } catch (error) {
+          console.error('Error de autenticación:', error);
+        }
+      };
 
     return (
         <div>
@@ -49,6 +58,7 @@ function HomeAdmin() {
                                     </li>
                                     <li class="pb-2">
                                         <img src={prodLog}></img>
+                                        
                                         <h4>Gestionar productos</h4>
 
                                     </li>
