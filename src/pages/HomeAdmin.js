@@ -14,6 +14,11 @@ import repLog from "../images/reporte.png";
 function HomeAdmin() {
 
     const [showSideBar, setSideBar] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleShowSideBar = () => {
+        setSideBar(!showSideBar);
+    };
 
     return (
         <div>
@@ -38,6 +43,16 @@ function HomeAdmin() {
                                 <h3>Usuario administrador</h3>
                             </div>
                         </div>
+            <div className={isOpen ? "aside open" : "aside"}>
+                <div className='divUserAd'>
+                    <div className='divBClose'>
+                        <img src={isOpen ? menu: close} onClick={() => setIsOpen(!isOpen)}></img>
+                    </div>
+                    <div className='divLog'>
+                        <img src={empLog}></img>
+                        <h3>Usuario administrador</h3>
+                    </div>
+                </div>
 
                         <div className='divList'>
                             <ol>
