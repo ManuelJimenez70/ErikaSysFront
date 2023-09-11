@@ -3,7 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importa Routes en lugar de Route
 import HomeAdmin from './pages/HomeAdmin';
 import LoginForm from './pages/LoginForm';
-import { API_BASE_URL } from './apiConfig'; // Importa la constante aquí
+import ModalProduct from './pages/ModalProduct';
+
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginForm />} />
         <Route path="/homeAdmin" element={<HomeAdmin />} />
+        <Route path="/modalProduct" element={<ModalProduct />} />
       </Routes>
     </div>
   );
