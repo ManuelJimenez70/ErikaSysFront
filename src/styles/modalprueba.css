@@ -1,0 +1,41 @@
+/* Estilo para el modal */
+#agregarProductoModal {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: flex-start; /* Alinear la parte superior del modal con el contenido */
+    padding-top: 50px; /* Ajusta la distancia superior para dejar espacio para la parte superior del círculo */
+  }
+  
+  /* Estilo para el contenido del modal (modal-body) */
+  .modal-body {
+    text-align: center; /* Centrar el contenido horizontalmente */
+    position: relative; /* Permite superponer elementos */
+  }
+  
+  /* Estilo para la vista previa del producto */
+  .producto-preview {
+    width: 200px; /* Ajusta el ancho de la vista previa del producto */
+    height: 200px; /* Ajusta la altura de la vista previa del producto */
+    overflow: hidden; /* Oculta cualquier contenido fuera de los límites del círculo */
+    border-radius: 50%; /* Hace que el contenedor sea un círculo */
+    margin: 0 auto; /* Centra el círculo horizontalmente */
+  }
+  
+  /* Estilo para la imagen del producto */
+  .producto-preview img {
+    width: 40%; /* Ajusta el ancho de la imagen al contenedor */
+    height: 40%; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
+    position: absolute;
+    top: -20%; /* Desplaza la imagen hacia arriba para que la parte superior esté fuera del modal */
+    left: 50%; /* Desplaza la imagen hacia la izquierda un 50% */
+    transform: translateX(-50%); /* Centra la imagen horizontalmente */
+    z-index: 1; /* Coloca la imagen encima del formulario */
+  }
+  
+  /* Estilo para el formulario de agregar producto */
+  .formulario-agregar {
+    z-index: 2; /* Coloca el formulario encima de la imagen */
+    background-color: #fff; /* Fondo blanco para el formulario */
+    padding: 20px;
+    border-radius: 10px;
+  }
