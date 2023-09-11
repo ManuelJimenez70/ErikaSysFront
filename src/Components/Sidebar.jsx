@@ -65,8 +65,15 @@ function Sidebar() {
                             Reportes
                         </a>
                     </li>
+                    <li>
+                        <a href="/">
+                            <i class="glyphicon glyphicon-link"></i>
+                            Cerrar Sesion
+                        </a>
+                    </li>
+                    
                 </ul>
-
+                
             </nav>
 
             {/* Page Content Holder */}
