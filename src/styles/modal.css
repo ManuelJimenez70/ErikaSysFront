@@ -1,0 +1,59 @@
+.modal-body{
+    background-color: #CDD7FF;
+}
+.modal-footer{
+    background-color: #CDD7FF;
+}
+#guardar{
+    color: black;
+   background-color: #CDD7FF;
+}
+  /* Estilo para la vista previa del producto */
+  .producto-preview {
+    width: 200px; /* Ajusta el ancho de la vista previa del producto */
+    height: 200px; /* Ajusta la altura de la vista previa del producto */
+    overflow: hidden; /* Oculta cualquier contenido fuera de los límites del círculo */
+    border-radius: 50%; /* Hace que el contenedor sea un círculo */
+    margin: 0 auto; /* Centra el círculo horizontalmente */
+    border: 10px;
+    border-color: black;
+  }
+  
+  /* Estilo para la imagen del producto */
+  .producto-preview img {
+    
+    width: 30%; /* Ajusta el ancho de la imagen al contenedor */
+    height: 20%; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
+    position: absolute;
+    top: 15%; /* Desplaza la imagen hacia arriba para que la parte superior esté fuera del modal */
+    left: 50%; /* Desplaza la imagen hacia la izquierda un 50% */
+    transform: translateX(-50%); /* Centra la imagen horizontalmente */
+    z-index: 1; /* Coloca la imagen encima del formulario */
+    border-radius: 50%;
+    background-color: white;
+    border: solid 1px black;
+    box-shadow: 1px 5px 5px  rgba(0, 0, 0, 0.9);
+  }
+
+  .modal-footer img {
+    max-width: 100%; /* Establece un ancho máximo del 100% del contenedor (el botón) */
+    max-height: 100%; /* Establece una altura máxima del 100% del contenedor (el botón) */
+    display: block; /* Para centrar verticalmente las imágenes */
+    margin: 0 auto; /* Para centrar horizontalmente las imágenes */
+    
+  }
+  .btn-image {
+    padding: 0; /* Elimina el relleno interno de los botones */
+    border: none; /* Elimina los bordes de los botones */
+    background: none; /* Elimina el fondo de los botones */
+    max-width: 40px; /* Establece un ancho máximo para los botones (ajusta según tu preferencia) */
+    cursor: pointer; /* Cambia el cursor al pasar sobre los botones */
+  }
+  
+  /* Estilo para las imágenes dentro de los botones */
+  .btn-image img {
+    max-width: 100%; /* Establece un ancho máximo del 100% del contenedor (el botón) */
+    max-height: 100%; /* Establece una altura máxima del 100% del contenedor (el botón) */
+    display: block; /* Para centrar verticalmente las imágenes */
+    margin: 0 auto; /* Para centrar horizontalmente las imágenes */
+  }
