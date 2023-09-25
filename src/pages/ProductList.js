@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import "../styles/formModal.css";
 import "../styles/productList.css";
 import CardProduct from "../Components/CardProduct";
+import FormProduct from '../Components/formProduct';
+import axios from 'axios';
 
-const ProductList = () => {
+
+function ProductList() {
+
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -18,7 +22,9 @@ const ProductList = () => {
             });
     }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
 
-    console.log("Tamaño: " + products.length);
+    const updateList = (list) =>{
+        setProducts(list);
+    }
 
     const [page, setPage] = useState(1);
     const cardsPerPage = 8;
@@ -42,20 +48,50 @@ const ProductList = () => {
     };
 
     return (
-        <div className="card-container">
-            <div className='cardsContainer'>
-                {cardsToShow.map(product => (
-                    <CardProduct name={product.title.value} description={product.description.value} cost={product.price.value} quantity={product.stock.value}></CardProduct>
-                ))}
+        <div>
+            <div className='searchPanel'>
+                <nav class="navbar navbar-light bg-light container-centered">
+                    <div class="container-fluid">
+                        <button type="button" class="btn btn-outline-primary" onClick={() => window.location.href = "#modal1"}>Agregar</button>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Nombre del producto" aria-label="Buscar"></input>
+                            <input class="btn btn-primary" type="submit" value="Buscar"></input>
+                        </form>
+                    </div>
+                </nav>
             </div>
 
-            <div className="pagination">
-                <button onClick={handlePrevPage} disabled={page === 1}>Página anterior</button>
-                <span>Página {page} de {totalPages}</span>
-                <button onClick={handleNextPage} disabled={page === totalPages}>Página siguiente</button>
+            <div className="card-container">
+                <div className='cardsContainer'>
+                    {cardsToShow.map(product => (
+                        <CardProduct
+                            key={product.id_product}
+                            idProduct={ product.id_product}
+                            title={product.title.value}
+                            description={product.description.value}
+                            price={product.price.value}
+                            stock={product.stock.value}
+                            
+                        />
+                    ))}
+                </div>
+
+                <div className="pagination">
+                    <button onClick={handlePrevPage} disabled={page === 1}>Página anterior</button>
+                    <span>Página {page} de {totalPages}</span>
+                    <button onClick={handleNextPage} disabled={page === totalPages}>Página siguiente</button>
+                </div>
+
+            </div>
+
+            <div id="modal1" className="modalmask">
+                <div className="modalbox movedown">
+                    <FormProduct updateList= { updateList } metod = "create"></FormProduct>
+                </div>
             </div>
         </div>
     );
 };
 
 export default ProductList;
+

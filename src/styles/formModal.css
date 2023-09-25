@@ -1,0 +1,118 @@
+/*Efecto*/
+.modalmask {
+    position: fixed;
+    font-family: Arial, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.modalmask:target {
+    opacity:1;
+    pointer-events: auto;
+}
+
+/*Movimientos*/
+.movedown {
+    margin: 0 auto;
+}
+
+.modalmask:target .movedown{       
+    margin:5% auto;
+}
+
+.contentForm{
+    margin: 0 auto;
+    margin-top: 100px !important;
+    width: 477px;
+    height: 551px;
+    background-color: #CDD7FF;
+    border-radius: 20px;
+}
+
+.imageContent{
+    width: 144px;
+    height: 144px;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 50%;
+    margin: 0 auto;
+    position: relative;
+    top: -72px;
+}
+
+.bodyContent{
+    width: 349px;
+    height: 356px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: -12%;
+}
+
+.dataInput{
+    width: 100%;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #16276E;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 10px;
+}
+
+.label {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.label p{
+    height: 70%;
+    padding-top: 2px;
+    padding-right: 20px;
+    padding-left: 10px;
+    margin-top: 18px;
+    color: #16276E;
+    border-right: 1px solid #16276E;
+}
+
+.input{
+    margin-left: 20px;
+}
+
+.input input{
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.footerContent{
+    height: 10%;
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerContent button{
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    background-color: #16276E;
+}

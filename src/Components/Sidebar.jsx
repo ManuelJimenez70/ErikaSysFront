@@ -4,11 +4,6 @@ import $ from 'jquery';
 import "../styles/style4.css";
 import ProductList from '../pages/ProductList';
 
-import empLog from "../images/employee.png";
-import prodLog from "../images/caja.png";
-import servLog from "../images/campanas.png";
-import repLog from "../images/reporte.png";
-
 function Sidebar() {
     const [nameUser, setNameUser] = useState("Jorge Ayala");
 
@@ -32,13 +27,13 @@ function Sidebar() {
                     <strong>{nameUser.toUpperCase().split(' ').map(nameUser => nameUser.charAt(0)).join('')}</strong>
                 </div>
 
-                <ul class="list-unstyled components">
-                    <li class="active">
+                <ul className="list-unstyled components">
+                    <li className="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
-                            <i class="glyphicon glyphicon-home"></i>
+                            <i className="glyphicon glyphicon-home"></i>
                             Empleados
                         </a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <ul className="collapse list-unstyled" id="homeSubmenu">
                             <li><a href="#">Home 1</a></li>
                             <li><a href="#">Home 2</a></li>
                             <li><a href="#">Home 3</a></li>
@@ -46,14 +41,14 @@ function Sidebar() {
                     </li>
                     <li>
                         <a href="#">
-                            <i class="glyphicon glyphicon-briefcase"></i>
+                            <i className="glyphicon glyphicon-briefcase"></i>
                             Productos
                         </a>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
-                            <i class="glyphicon glyphicon-duplicate"></i>
+                            <i className="glyphicon glyphicon-duplicate"></i>
                             Servicios
                         </a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <ul className="collapse list-unstyled" id="pageSubmenu">
                             <li><a href="#">Page 1</a></li>
                             <li><a href="#">Page 2</a></li>
                             <li><a href="#">Page 3</a></li>
@@ -61,7 +56,7 @@ function Sidebar() {
                     </li>
                     <li>
                         <a href="#">
-                            <i class="glyphicon glyphicon-link"></i>
+                            <i className="glyphicon glyphicon-link"></i>
                             Reportes
                         </a>
                     </li>
@@ -75,7 +70,10 @@ function Sidebar() {
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <button type="button" id="sidebarCollapse" className="btn btn-info navbar-btn">
-                                <span>Mostar contenido</span>
+                                <span>Muestrame</span>
+                            </button>
+                            <button type="button" id="sidebarCollapse" className="btn btn-info navbar-btn">
+                                <span>Agregar</span>
                             </button>
                         </div>
                     </div>

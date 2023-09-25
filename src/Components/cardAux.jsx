@@ -1,9 +1,57 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "../styles/productList.css";
-import FormProduct from './formProduct';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const CardProduct = ({ idProduct, title, description, image, price, stock, updateList }) => {
+const CardProduct = ({ idProduct, title, description, image, price, stock }) => {
+
+    const [newTitle, setTitle] = useState('');
+    const [newDescription, setDescripcion] = useState('');
+    const [newImage, setImage] = useState('');
+    const [newPrice, setPrice] = useState(0);
+    const [newStock, setStock] = useState(0);
+    const [loginError, setLoginError] = useState('');
+    const [actionSuccess, setActionSuccess] = useState('');
+
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
+        try {
+            const requestData = {
+                idProduct: idProduct,
+            };
+            if (title) {
+                requestData.title = newTitle;
+            }
+            if (description) {
+                requestData.description = newDescription;
+            }
+            if (image) {
+                requestData.image = newImage;
+            }
+            if (price) {
+                requestData.price = newPrice;
+            }
+            if (stock) {
+                requestData.stock = newStock;
+            }
+
+            const response = await axios.post(
+                'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
+                requestData
+            );
+
+            // Mueve este bloque dentro del .then
+            if (response.data.state === 'SUCCESS') {
+                console.log(response.data.data)
+                setActionSuccess('Producto correctamente agregado')
+            } else {
+                setLoginError(response.data.data);
+            }
+        } catch (error) {
+            console.error('Error al agregar:', error);
+            setLoginError('Error al agregar producto');
+        }
+    };
 
     return (
         <div>
@@ -35,9 +83,6 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                             </div>
                             <div className="solu_description">
                                 <p>
-                                    Nombre: {title}
-                                </p>
-                                <p>
                                     Descripción: {description}
                                 </p>
                                 <p>
@@ -47,7 +92,7 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                                     Stock: {stock}
                                 </p>
                                 <div className="ButtonsDiv">
-                                    <button type="button" className="read_more_btn" onClick={() => window.location.href = "#modal" + idProduct}>
+                                    <button type="button" className="read_more_btn" onClick={() => window.location.href = "#modal1"}>
                                         Editar
                                     </button>
                                     <button type="button" className="read_more_btn">
@@ -60,9 +105,12 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                 </div>
             </div>
 
-            <div id={`modal${idProduct}`} className="modalmask">
+
+            <div id="modal1" className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct idProduct = {idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateList= { updateList } metod = "update"></FormProduct>
+                    <div className='body'>
+                        
+                    </div>
                 </div>
             </div>
 
