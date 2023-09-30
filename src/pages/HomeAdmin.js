@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SideBar2 } from '../Components/SideBar2';
-import ProductList from './ProductList';
+import ProductList from '../Components/ProductList';
+import Reports from '../Components/Reports';
 import "../styles/sideBar2.css";
 
 function HomeAdmin() {
@@ -25,6 +26,7 @@ function HomeAdmin() {
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>
                 {/* Renderiza el componente correspondiente en función de currentContent */}
                 {currentContent === "Productos" && <ProductList />}
+                {currentContent === "Reportes" && <Reports />}
             </div>
         </div>
     );

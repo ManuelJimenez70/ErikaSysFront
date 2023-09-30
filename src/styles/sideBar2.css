@@ -1,3 +1,13 @@
+.dropdown-container{
+    width: 90%;
+    float: right !important;
+}
+
+.sidebar-button p{
+    width: 58%;
+    text-align: left;
+}
+
 /* Estilo para el contenido principal cuando el Sidebar2 está cerrado */
 .content {
     transition: margin-left 0.3s ease;
@@ -95,6 +105,13 @@
     border-radius: 8px;
     color: #f9f9f9;
     opacity: 0.8;
+}
+
+.clicked{
+    background: rgb(0 0 0 / 30%) !important;
+    opacity: 1 !important;
+    color: white !important;
+    font-weight: bold !important;
 }
 
 .sidebar-button:hover {

@@ -6,11 +6,13 @@ import axios from "axios";
 
 const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateList, metod }) => {
 
-    const [title, setTitle] = useState('');
-    const [description, setDescripcion] = useState('');
-    const [image, setImage] = useState('');
-    const [price, setPrice] = useState(0);
-    const [stock, setStock] = useState(0);
+    console.log("descripcion que llega: " + newDescription)
+
+    const [title, setTitle] = useState(newTitle);
+    const [description, setDescripcion] = useState(newDescription);
+    const [image, setImage] = useState('hola');
+    const [price, setPrice] = useState(newPrice);
+    const [stock, setStock] = useState(newStock);
     const [id, setId] = useState(idProduct);
     const [state, setState] = useState('');
     const [loginError, setLoginError] = useState('');
@@ -19,19 +21,24 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
     const handleCreateProduct = async (e) => {
         window.location.href = "#";
+        console.log("Creando el producto de nombre: " + title);
         try {
+
             const requestData = {
+                id: id,
                 title: title,
                 description: description,
                 image: image,
                 price: price,
-                stock: stock
+                stock: stock,
             };
 
             const response = await axios.post(
                 'http://www.ErikaSys.somee.com/api/Product/createProduct/',
                 requestData
             );
+
+            console.log("Respuesta: " + response.data.data)
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
 
@@ -56,45 +63,40 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
     };
 
     const handleUpdateProduct = async (e) => {
-        window.location.href = "#";
-        e.preventDefault();
         try {
+
             const requestData = {
-                idProduct:id,
-              };
-              if (title) {
-                requestData.title = newTitle;
-              }
-              if (description) {
-                requestData.description = newDescription;
-              }
-              if (image) {
-                requestData.image = "";
-              }
-              if (price) {
-                requestData.price = newPrice;
-              }
-              if (stock) {
-                requestData.stock = newStock;
-              }
+                id: id,
+                title: title,
+                price: price,
+                description: description,
+                image: image,
+                stock: stock,
+                state: "Activo",
+            };
 
             const response = await axios.post(
                 'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
                 requestData
             );
 
+            console.log("Respuesta: " + requestData)
+
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
-                console.log(response.data.data)
-                setActionSuccess('Producto correctamente agregado')
+
+                //Actualizar productos
                 axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
-                    .then(response => {
+                    .then(respuesta => {
                         // Almacena los datos de productos en el estado
-                        updateList(response.data.data);
+                        updateList(respuesta.data.data);
                     })
                     .catch(error => {
                         console.error('Error al cargar los productos:', error);
                     });
+                window.location.href = "/homeAdmin";
+                console.log(response.data.data)
+            
             } else {
                 setLoginError(response.data.data);
             }
