@@ -12,7 +12,7 @@ function ProductList() {
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
-        axios.get('http://localhost:7289/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
+        axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
