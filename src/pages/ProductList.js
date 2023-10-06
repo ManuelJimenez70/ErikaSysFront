@@ -8,7 +8,7 @@ const ProductList = () => {
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
-        axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
+        axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=100')
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
