@@ -44,33 +44,6 @@ function ModalProduct() {
       };
 
       
-      const handleUpdateState = async (e) => {
-        e.preventDefault();
-        try {
-          const requestData = {
-            id:id,
-            state: state,
-          };
-    
-          const response = await axios.post(
-            'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
-            requestData
-          );
-    
-          // Mueve este bloque dentro del .then
-          if (response.data.state === 'SUCCESS') {
-            console.log(response.data.data)
-          } else {
-            setLoginError(response.data.data);
-          }
-        } catch (error) {
-          console.error('Error al agregar:', error);
-          setLoginError('Error al agregar producto');
-        }
-      };
-
-      
-
     return (
         <div>
             <UpdateProduct idProduct="12" title="Checho" description="Loca" image='asd' price='adsasd' stock='sdf' ></UpdateProduct>
