@@ -1,23 +1,77 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+
+* {
     padding: none;
     margin: none;
+    font-family: Mulish;
 }
 
-.general{
-    min-height: 97vh;
+:root {
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color-hover: #14588b;
+    --button-color: #227fc5;
+    --button-color-shadow: #114770;
+    --text-color: white;
+}
+
+.general {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: var(--primary-color);
     display: flex;
-    justify-content: center;
     align-items: center;
-    background-size: cover; 
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: center; 
+    background-position: center;
     overflow: hidden;
 }
 
-.mycard{
-    width: 35%;
+.pizza-slice {
+    width: 55%;
+    height: 100vh;
+    float: left;
+
+}
+
+.borderContent {
+    display: flex;
+    position: relative;
+    width: 200%;
+    height: 200%;
+    border-radius: 50%;
+    background-color: var(--primary-color-dark);
+    left: -100%;
+    top: -100%;
+
+}
+
+.textContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    left: 50%;
+    top: 50%;
+}
+
+.textContent h2 {
+    font-weight: bold;
+}
+
+.contentCard {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mycard {
+    width: 65%;
     min-height: 80vh;
-    background-color: #16276E;
+    background-color: var(--button-color-hover);
     border-radius: 20px;
     border: solid 1px azure;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.9);
@@ -25,20 +79,16 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    filter: saturate(0.9)!;
+    filter: saturate(0.9) !;
 }
 
-h2{
-  margin-top: 15%;
-  color: aliceblue!important;
-  text-transform: uppercase;  
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 40px;
-  text-align: center;
+h2 {
+    color: aliceblue !important;
+    font-family: "Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif";
+    font-weight: bold;
 }
 
-.inputs{
+.inputs {
     margin-top: 10%;
     display: flex;
     align-items: center;
@@ -46,48 +96,52 @@ h2{
     flex-direction: column;
 }
 
-.buttonLog{
+.buttonLog {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 15%;
 }
 
-button{
+button {
     height: 5vh;
-    width: 10vw;
-    background-color: #2F55ED;
+    width: 14vw;
+    background-color: var(--button-color);
     color: aliceblue;
     text-transform: uppercase;
     font-weight: 16px;
     font-weight: bold;
-    border-radius: 20px;
+    border-radius: 20px !important;
     border: none;
 }
 
-.forgot{
-    margin-top: 20px;
+button:hover{
+    background-color: var(--button-color-shadow);
+}
+
+.forgot {
+    margin-top: 28px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: aliceblue;
-    font-style: italic;
 }
 
-.checkB{
+.checkB {
     display: flex;
     margin-top: 20px;
     font-style: normal;
-    
+
 }
 
-.checkB input{
+.checkB input {
     margin-right: 10px;
+    margin-top: -5px;
     background-color: transparent;
 }
 
-.inputs input{
+.inputs input {
     margin-top: 10px;
     border: none;
     outline: none;
@@ -96,28 +150,31 @@ button{
     color: aliceblue;
 }
 
-.userInput, .passwordInput{
+.userInput,
+.passwordInput {
     border-bottom: 1px solid aliceblue;
     margin-top: 15px;
 }
 
-.inputs img{
+.inputs img {
     width: 25px;
 }
 
-.showOrHide{
+.showOrHide {
     display: flex;
     width: 30%;
     margin-top: 5px;
 }
 
 @media screen and (min-width: 1920px) {
+
     /* Estilos específicos para pantallas grandes (1920x1080) */
     .card {
-      width: 30%; /* Ajusta el ancho para pantallas grandes */
+        width: 30%;
+        /* Ajusta el ancho para pantallas grandes */
     }
 
-    .formCard{
+    .formCard {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -132,46 +189,50 @@ button{
         width: 100%;
     }
 
-    .inputs input{
+    .inputs input {
         flex: 1;
         width: 87%;
         font-size: 20px;
     }
 
-    .passwordInput{
+    .passwordInput {
         margin-top: 40px;
     }
 
-    .userInput, .passwordInput, .showOrHide{
+    .userInput,
+    .passwordInput,
+    .showOrHide {
         width: 50%;
     }
 
-    .buttonLog button{
+    .buttonLog button {
         font-size: 16px;
     }
 
-    .forgot{
+    .forgot {
         font-size: 20px;
         margin-top: 15%;
     }
 
-    .inputs img{
+    .inputs img {
         width: 30px;
     }
-    
-  }
-  
-  @media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
     /* Estilos específicos para dispositivos móviles (768x*) */
     .card {
-      width: 90%; /* Ajusta el ancho para dispositivos móviles */
+        width: 90%;
+        /* Ajusta el ancho para dispositivos móviles */
     }
 
-    .buttonLog{
+    .buttonLog {
         width: 100%;
     }
 
-    .buttonLog button{
+    .buttonLog button {
         width: 50%;
     }
-  }
+}

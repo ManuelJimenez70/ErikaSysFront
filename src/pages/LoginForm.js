@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faEye,
+  faEyeSlash
+} from "@fortawesome/free-solid-svg-icons";
+
 import '../styles/login.css';
-import userLog from '../images/perfil.png';
-import showPasswordImage from '../images/show.png';
-import hidePasswordImage from '../images/hide.png';
 import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
@@ -39,9 +43,9 @@ function LoginForm() {
 
         const decoded = jwt_decode(response.data.data);
 
-        if(decoded.roles.toLowerCase() === "administrador"){
+        if (decoded.roles.toLowerCase() === "administrador") {
           navigate('/homeAdmin');
-        }else{
+        } else {
           navigate('/home');
         }
         console.log(response.data.data)
@@ -56,51 +60,65 @@ function LoginForm() {
 
   return (
     <div className="general">
-      <div className="mycard">
-        <h2>Ingresa</h2>
-        <form className="formCard">
-          <div className="inputs">
-            <div className="userInput">
-              <input
-                placeholder="Usuario"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <img src={userLog} alt="User Icon" />
-            </div>
-            <div className="passwordInput">
-              <input
-                placeholder="Contraseña"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <img
-                src={showPassword ? hidePasswordImage : showPasswordImage}
-                onClick={toggleShowPassword}
-                alt="Toggle Password Visibility"
-                style={{ cursor: 'pointer', width: '20px', height: '20px' }}
-              />
-            </div>
+      <div className="pizza-slice">
+        <div className='borderContent'>
+          <div className='textContent'>
+            <h2>Bienvenido</h2>
           </div>
+        </div>
+      </div>
+      <div className='contentCard'>
+        <div className="mycard">
+          <h2>Ingresa</h2>
+          <form className="formCard">
+            <div className="inputs">
+              <div className="userInput">
+                <input
+                  placeholder="Usuario"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <span className="material-symbols-outlined iconDropDown">
+                  <FontAwesomeIcon icon={faUser} style={{ color: 'white', marginRight:"5px"}} />
+                </span>
+              </div>
+              <div className="passwordInput">
+                <input
+                  placeholder="Contraseña"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
 
-          {loginError &&
-
-            <div class="alert alert-danger mt-3 p-1" role="alert">{loginError}
+                <span className="material-symbols-outlined iconDropDown">
+                  <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    style={{ color: 'white', cursor: 'pointer', marginRight:"5px"}}
+                    onClick={toggleShowPassword}
+                    alt="Toggle Password Visibility"
+                  />
+                </span>
+              </div>
             </div>
-          }
 
-          <div className="buttonLog">
-            <button onClick={handleLogin}>Ingresar</button>
-          </div>
-          <div className="forgot">
-            <h5>Olvidé mi contraseña</h5>
-            <div className="checkB">
-              <input type="checkbox" />
-              <h5>Recordar datos</h5>
+            {loginError &&
+
+              <div class="alert alert-danger mt-3 p-1" role="alert">{loginError}
+              </div>
+            }
+
+            <div className="buttonLog">
+              <button onClick={handleLogin}>Ingresar</button>
             </div>
-          </div>
-        </form>
+            <div className="forgot">
+              <h5>Olvidé mi contraseña</h5>
+              <div className="checkB">
+                <input type="checkbox" />
+                <h5>Recordar datos</h5>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

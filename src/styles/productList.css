@@ -1,3 +1,18 @@
+:root {
+    --primary-color: #309df0;
+    --primary-color-dark: #227fc5;
+    --button-color-hover: #1b6caa;
+    --button-color: #227fc5;
+    --button-color-shadow: #5433FF30;
+    --text-color: white;
+}
+
+.container-centered {
+    max-width: 91%;
+    margin: 0 auto;
+    /* Esto centrará el contenido horizontalmente */
+}
+
 .section_our_solution .row {
     align-items: center;
 }
@@ -73,10 +88,8 @@
 
 .solution_cards_box .solution_card:hover .solu_description button {
     background: #fff !important;
-    color: #309df0;
+    color: #309df0 !important;
 }
-
-.solution_card .so_top_icon {}
 
 .solution_card .solu_title h3 {
     color: #212121;
@@ -93,7 +106,7 @@
 .solution_card .solu_description button {
     border: 0;
     border-radius: 15px;
-    background: #2644BD !important;
+    background: var(--button-color-hover) !important;
     color: #fff;
     font-weight: 500;
     font-size: 1rem;
@@ -105,8 +118,6 @@
     margin-bottom: 1rem;
     font-size: 2.5rem;
 }
-
-.our_solution_content p {}
 
 .hover_color_bubble {
     position: absolute;
@@ -165,6 +176,7 @@
     display: flex;
     flex-direction: column;
     width: 65vw;
+    margin-top: 20px;
 }
 
 .cardsContainer {
@@ -172,10 +184,10 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: -10px;
-    grid-auto-rows: minmax(100px, auto); 
+    grid-auto-rows: minmax(100px, auto);
 }
 
-.pagination{
+.pagination {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -183,17 +195,18 @@
     margin-top: 30px;
 }
 
-.pagination button{
+.pagination button {
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 20px;
-    background-color: #2644BD;
+    background-color: var(--button-color-hover);
 }
 
-.pagination button:hover{
-    background-color: #2F55ED !important;
+.pagination button:hover {
+    background-color: var(--button-color) !important;
     transform: scale(1.1);
     cursor: pointer;
+    transition: 0.5s;
 }
 
 @media only screen and (min-width: 768px) {

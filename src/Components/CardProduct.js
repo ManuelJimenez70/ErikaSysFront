@@ -1,10 +1,58 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 import "../styles/productList.css";
+import FormProduct from './formProduct';
 
-const CardProduct = ({ name, description, cost, quantity }) => {
+const CardProduct = ({ idProduct, title, description, image, price, stock, updateList }) => {
+
+    const [deleteError, setDeleteError] = useState('');
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const handleDeleteClick = () => {
+        // Abre el pop-up de confirmación
+        setShowConfirmation(true);
+    };
+
+    const handleConfirmDelete = () => {
+        // Confirma la eliminación y cierra el pop-up
+        handleUpdateState();
+        setShowConfirmation(false);
+    };
+
+    const handleCancelDelete = () => {
+        // Cancela la eliminación y cierra el pop-up
+        setShowConfirmation(false);
+    };
+
+    const handleUpdateState = async (e) => {
+        try {
+            const requestData = {
+                id: idProduct,
+                state: 'inactivo',
+            };
+
+            const response = await axios.post(
+                'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
+                requestData
+            );
+
+            // Mueve este bloque dentro del .then
+            if (response.data.state === 'SUCCESS') {
+                console.log(response.data.data)
+                console.log(idProduct)
+                window.location.href = "/homeAdmin";
+                
+            } else {
+                setDeleteError(response.data.data);
+            }
+        } catch (error) {
+            console.error('Error al agregar:', error);
+            setDeleteError('Error al agregar producto');
+        }
+    };
+
     return (
         <div>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
             <div className="our_solution_category">
                 <div className="solution_cards_box">
                     <div className="our_solution_category">
@@ -29,31 +77,50 @@ const CardProduct = ({ name, description, cost, quantity }) => {
                                 </svg>
                             </div>
                             <div className="solu_title">
-                                <h3> {name} </h3>
+                                <h3> {title} </h3>
                             </div>
                             <div className="solu_description">
+                                <p>
+                                    Nombre: {title}
+                                </p>
                                 <p>
                                     Descripción: {description}
                                 </p>
                                 <p>
-                                    Costo: {cost}
+                                    Costo: {price}
                                 </p>
                                 <p>
-                                    Stock: {quantity}
+                                    Stock: {stock}
                                 </p>
                                 <div className="ButtonsDiv">
-                                    <button type="button" className="read_more_btn">
+                                    <button type="button" className="read_more_btn" onClick={() => window.location.href = "#modal" + idProduct}>
                                         Editar
                                     </button>
-                                    <button type="button" className="read_more_btn">
+                                    <button type="button" className="read_more_btn" onClick={handleDeleteClick}>
                                         Borrar
                                     </button>
                                 </div>
+
+                                {/* Pop-up de confirmación */}
+                                {showConfirmation && (
+                                    <div className="confirmation-popup">
+                                        <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                                        <button onClick={handleConfirmDelete}>Sí</button>
+                                        <button onClick={handleCancelDelete}>Cancelar</button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div id={`modal${idProduct}`} className="modalmask">
+                <div className="modalbox movedown">
+                    <FormProduct idProduct={idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateList={updateList} metod="update"></FormProduct>
+                </div>
+            </div>
+
         </div>
     );
 }

@@ -1,9 +1,9 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importa Routes en lugar de Route
+import { Routes, Route } from 'react-router-dom'; // Importa Routes en lugar de Route
 import HomeAdmin from './pages/HomeAdmin';
 import LoginForm from './pages/LoginForm';
-import ModalProduct from './pages/ModalProduct';
+import ProductList from './Components/ProductList';
 
 
 function App() {
@@ -11,8 +11,9 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<LoginForm />} />
-        <Route path="/homeAdmin" element={<HomeAdmin />} />
-        <Route path="/modalProduct" element={<ModalProduct />} />
+        <Route path="/homeAdmin" element={<HomeAdmin />}>
+          <Route path="productos" element={<ProductList />} />
+        </Route>
       </Routes>
     </div>
   );

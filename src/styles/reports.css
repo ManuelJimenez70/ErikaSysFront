@@ -1,0 +1,44 @@
+/* styles/reports.css */
+
+.reports {
+    width: 95%;
+    padding: 20px;
+    margin-left: 50px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Divide en 2 columnas iguales */
+    gap: 20px; /* Espacio entre los elementos */
+  }
+  
+  .container {
+    background-color: #f8f8f8; /* Fondo del contenedor (puedes personalizarlo) */
+    padding: 20px;
+    border: 1px solid #ddd; /* Borde del contenedor (puedes personalizarlo) */
+    border-radius: 5px;
+  }
+  
+  /* Estilos para los botones y el gráfico, puedes personalizarlos según tus preferencias */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .chart-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .titleReport {
+    color: black !important;
+    /* Estilos adicionales para el título si es necesario... */
+  }
+  
+  /* Resto de tus estilos... */
+  

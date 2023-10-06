@@ -1,0 +1,150 @@
+.app-container{
+    display: flex;
+}
+
+.dropdown-container{
+    width: 90%;
+    float: right !important;
+}
+
+.sidebar-button p{
+    width: 58%;
+    text-align: left;
+}
+
+/* Estilo para el contenido principal cuando el Sidebar2 está cerrado */
+.content {
+    transition: margin-left 0.3s ease;
+    /* Agrega una transición suave para la animación */
+    margin-left: 10px;
+    /* Margen izquierdo predeterminado cuando el Sidebar2 está cerrado */
+}
+
+/* Estilo para el contenido principal cuando el Sidebar2 está abierto */
+.content-open {
+    margin-left: 250px;
+    /* Elige el margen izquierdo que desees cuando el Sidebar2 esté abierto */
+    transition: margin-left 0.3s ease;
+    /* Agrega una transición suave para la animación */
+}
+
+.sidebar-closed {
+    margin-left: 250px;
+    /* Elige el margen izquierdo que desees cuando el Sidebar2 esté abierto */
+    transition: margin-left 0.3s ease;
+    /* Agrega una transición suave para la animación */
+}
+
+
+.sidebar-button span {
+    margin-left: 10px;
+}
+
+.sidebar-inner button {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.sidebar {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100%;
+    background: #29277a;
+    transition: width 0.4s;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.sidebar.open {
+    width: 260px;
+}
+
+.sidebar-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 260px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    height: 72px;
+    background: rgb(0 0 0 / 15%);
+}
+
+.sidebar-burger {
+    width: 60px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    color: #f9f9f9;
+}
+
+.sidebar-logo {
+    height: 28px;
+}
+
+.sidebar-menu {
+    display: grid;
+    padding: 10px;
+}
+
+.sidebar-button {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    height: 56px;
+    width: 100%;
+    font-family: "Poppins";
+    font-size: 17px;
+    text-transform: capitalize;
+    line-height: 1;
+    padding: 0 10px;
+    border-radius: 8px;
+    color: #f9f9f9;
+    opacity: 0.8;
+}
+
+.clicked{
+    background: rgb(0 0 0 / 30%) !important;
+    opacity: 1 !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.sidebar-button:hover {
+    background: rgb(0 0 0 / 30%);
+    opacity: 1;
+    color: white !important;
+    font-weight: bold;
+}
+
+.sidebar-button:hover>span {
+    opacity: 1;
+}
+
+.sidebar-logo,
+.sidebar-button p {
+    opacity: 0;
+    transition: 0.3s;
+    margin-top: 12px;
+}
+
+.sidebar.open :is(.sidebar-button p, .sidebar-logo) {
+    opacity: 1;
+}
+
+.sidebar-button>img {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-button>span {
+    opacity: 0.5;
+}
