@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { SideBar2 } from '../Components/SideBar2';
+import Sidebar from '../Components/SideBar3';
 import ProductList from '../Components/ProductList';
 import Reports from '../Components/Reports';
-import "../styles/sideBar2.css";
+import "../styles/homeAdmin.css";
 
 function HomeAdmin() {
     const [currentContent, setCurrentContent] = useState(null);
@@ -20,7 +20,7 @@ function HomeAdmin() {
     return (
         <div className='app-container'>
             {/* Renderiza el Sidebar2 */}
-            <SideBar2 onSidebarItemClick={handleSidebarItemClick} sideBarOpen = { alterSideBar } />
+            <Sidebar onSidebarItemClick={handleSidebarItemClick} sideBarOpen = { alterSideBar } />
 
             {/* Renderiza el contenido principal */}
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>

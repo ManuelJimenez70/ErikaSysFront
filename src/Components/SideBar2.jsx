@@ -36,13 +36,6 @@ export const SideBar2 = ({ onSidebarItemClick, sideBarOpen }) => {
         onSidebarItemClick(pageName);
     }
 
-    const navItems = [
-        { name: "Productos", icon: faShoppingCart },
-        { name: "Empleados", icon: faUsers },
-        { name: "Servicios", icon: faCogs },
-        { name: "Reportes", icon: faChartBar },
-    ];
-
 
     const [isOpen, setIsOpen] = useState(false);
 

@@ -1,12 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+
 * {
     padding: none;
     margin: none;
+    font-family: Mulish;
+}
+
+:root {
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color-hover: #14588b;
+    --button-color: #227fc5;
+    --button-color-shadow: #114770;
+    --text-color: white;
 }
 
 .general {
     width: 100vw;
     min-height: 100vh;
-    background-color: #2F55ED;
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     background-size: cover;
@@ -28,7 +40,7 @@
     width: 200%;
     height: 200%;
     border-radius: 50%;
-    background-color: #042CCB;
+    background-color: var(--primary-color-dark);
     left: -100%;
     top: -100%;
 
@@ -46,7 +58,6 @@
 }
 
 .textContent h2 {
-    font-family: "Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif";
     font-weight: bold;
 }
 
@@ -60,7 +71,7 @@
 .mycard {
     width: 65%;
     min-height: 80vh;
-    background-color: #16276E;
+    background-color: var(--button-color-hover);
     border-radius: 20px;
     border: solid 1px azure;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.9);
@@ -95,13 +106,17 @@ h2 {
 button {
     height: 5vh;
     width: 14vw;
-    background-color: #2F55ED;
+    background-color: var(--button-color);
     color: aliceblue;
     text-transform: uppercase;
     font-weight: 16px;
     font-weight: bold;
     border-radius: 20px !important;
     border: none;
+}
+
+button:hover{
+    background-color: var(--button-color-shadow);
 }
 
 .forgot {
