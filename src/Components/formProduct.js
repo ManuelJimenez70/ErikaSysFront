@@ -4,9 +4,7 @@ import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import "../styles/formModal.css";
 import axios from "axios";
 
-const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateList, metod }) => {
-
-    console.log("descripcion que llega: " + newDescription)
+const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateThisList, metod }) => {
 
     const [title, setTitle] = useState(newTitle);
     const [description, setDescripcion] = useState(newDescription);
@@ -14,9 +12,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
     const [price, setPrice] = useState(newPrice);
     const [stock, setStock] = useState(newStock);
     const [id, setId] = useState(idProduct);
-    const [state, setState] = useState('');
     const [loginError, setLoginError] = useState('');
-    const [actionSuccess, setActionSuccess] = useState('');
 
 
     const handleCreateProduct = async (e) => {
@@ -41,17 +37,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
             console.log("Respuesta: " + response.data.data)
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
-
-                //Actualizar productos
-                axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
-                    .then(response => {
-                        // Almacena los datos de productos en el estado
-                        updateList(response.data.data);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar los productos:', error);
-                    });
-
+                updateThisList();
                 console.log(response.data.message)
             } else {
                 setLoginError(response.data.message);
@@ -84,55 +70,9 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
+                updateThisList();
+                console.log(response.data.message)
 
-                //Actualizar productos
-                axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
-                    .then(respuesta => {
-                        // Almacena los datos de productos en el estado
-                        updateList(respuesta.data.data);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar los productos:', error);
-                    });
-                window.location.href = "/homeAdmin";
-                console.log(response.data.data)
-            
-            } else {
-                setLoginError(response.data.data);
-            }
-        } catch (error) {
-            console.error('Error al agregar:', error);
-            setLoginError('Error al agregar producto');
-        }
-    };
-
-    const handleUpdateState = async (e) => {
-        window.location.href = "#";
-        e.preventDefault();
-        try {
-            const requestData = {
-                id: id,
-                state: state,
-            };
-
-            const response = await axios.post(
-                'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
-                requestData
-            );
-
-            // Mueve este bloque dentro del .then
-            if (response.data.state === 'SUCCESS') {
-                console.log(response.data.data)
-
-                //Actualizamos la lista de datos
-                axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
-                    .then(response => {
-                        // Almacena los datos de productos en el estado
-                        updateList(response.data.data);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar los productos:', error);
-                    });
             } else {
                 setLoginError(response.data.data);
             }

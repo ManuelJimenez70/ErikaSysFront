@@ -62,7 +62,7 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
 
             <div id={`modal${idProduct}`} className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct idProduct = {idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateList= { updateList } metod = "update"></FormProduct>
+                    <FormProduct idProduct = {idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateThisList= { updateList } metod = "update"></FormProduct>
                 </div>
             </div>
 

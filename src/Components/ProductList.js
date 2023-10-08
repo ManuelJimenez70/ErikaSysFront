@@ -12,6 +12,10 @@ function ProductList() {
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
+        updateList();
+    }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
+
+    const updateList = () => {
         axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
             .then(response => {
                 // Almacena los datos de productos en el estado
@@ -20,10 +24,6 @@ function ProductList() {
             .catch(error => {
                 console.error('Error al cargar los productos:', error);
             });
-    }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
-
-    const updateList = (list) =>{
-        setProducts(list);
     }
 
     const [page, setPage] = useState(1);
@@ -66,12 +66,12 @@ function ProductList() {
                     {cardsToShow.map(product => (
                         <CardProduct
                             key={product.id_product}
-                            idProduct={ product.id_product}
+                            idProduct={product.id_product}
                             title={product.title.value}
                             description={product.description.value}
                             price={product.price.value}
                             stock={product.stock.value}
-                            
+                            updateList = {updateList}
                         />
                     ))}
                 </div>
@@ -86,7 +86,7 @@ function ProductList() {
 
             <div id="modal1" className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct updateList= { updateList } metod = "create"></FormProduct>
+                    <FormProduct updateThisList={updateList} metod="create"></FormProduct>
                 </div>
             </div>
         </div>

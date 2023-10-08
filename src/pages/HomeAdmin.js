@@ -5,7 +5,7 @@ import Reports from '../Components/Reports';
 import "../styles/homeAdmin.css";
 
 function HomeAdmin() {
-    const [currentContent, setCurrentContent] = useState(null);
+    const [currentContent, setCurrentContent] = useState("Productos");
     const [isSideBarOpen, setIsOpen] = useState(null);
 
     // Función para cambiar el contenido principal en función del botón seleccionado
