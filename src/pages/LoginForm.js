@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../Components/AuthContext'; 
+
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,8 +20,10 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const { setUserId } = useAuth();
 
   const navigate = useNavigate();
+  
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -27,6 +31,7 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
       const requestData = {
         email: username,
@@ -44,11 +49,12 @@ function LoginForm() {
         const decoded = jwt_decode(response.data.data);
 
         if (decoded.roles.toLowerCase() === "administrador") {
+          setUserId(decoded.id);
           navigate('/homeAdmin');
         } else {
           navigate('/home');
         }
-        console.log(response.data.data)
+        console.log(decoded)
       } else {
         setLoginError(response.data.data);
       }
