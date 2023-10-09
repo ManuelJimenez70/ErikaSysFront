@@ -16,7 +16,8 @@ import {
     faHotel,
     faSwimmingPool,
     faBellConcierge,
-    faBed
+    faBed,
+    faDollar
 } from "@fortawesome/free-solid-svg-icons";
 
 import Logo from "../images/Logo2.jpg";
@@ -156,7 +157,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                         onClick={() => handleSidebarItemClick("VentP")}
                                     >
                                         <div className="icon">
-                                            <FontAwesomeIcon icon={faPenToSquare} />
+                                            <FontAwesomeIcon icon={faDollar} />
                                         </div>
                                         <span className="link hide">Venta</span>
                                     </button>
