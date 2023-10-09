@@ -3,6 +3,7 @@ import Sidebar from '../Components/SideBar3';
 import ProductList from '../Components/ProductList';
 import Reports from '../Components/Reports';
 import "../styles/homeAdmin.css";
+import Venta from '../Components/Venta';
 
 function HomeAdmin() {
     const [currentContent, setCurrentContent] = useState(null);
@@ -27,6 +28,7 @@ function HomeAdmin() {
                 {/* Renderiza el componente correspondiente en función de currentContent */}
                 {currentContent === "Productos" && <ProductList />}
                 {currentContent === "Reportes" && <Reports />}
+                {currentContent === "Venta" && <Venta />}
             </div>
         </div>
     );

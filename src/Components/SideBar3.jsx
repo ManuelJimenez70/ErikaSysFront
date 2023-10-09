@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import '../styles/sideBar3.css'; // Asegúrate de ajustar la ruta correcta a tu archivo CSS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuth } from '../Components/AuthContext'; 
 import {
     faShoppingCart,
     faUsers,
@@ -22,6 +23,8 @@ import Logo from "../images/Logo2.jpg";
 
 export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
 
+    const [userName, setUserName] = useState('');
+    const { userId } = useAuth();
     const [isOpenProductos, setIsOpenProductos] = useState(false);
     const [isOpenEmployees, setIsOpenEmployees] = useState(false);
     const [isOpenServices, setIsOpenServices] = useState(false);
@@ -31,6 +34,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
     const [isOpenRooms, setIsOpenRooms] = useState(false);
     const [isOpenGestionProducts, setIsOpenGestionProducts] = useState(false);
     const [isOpenGestionEmpleados, setIsOpenGestionEmpleados] = useState(false);
+    const [isOpenVenta , setIsOpenVenta] = useState(false);
 
     const handleSidebarItemClick = (buttonName) => {
         if (buttonName === 'Productos') {
@@ -57,12 +61,37 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
         } else if (buttonName === 'GesE') {
             setIsOpenGestionEmpleados(!isOpenGestionEmpleados);
             changePage("Empleados");
+        } else if (buttonName === 'VentP'){
+            setIsOpenVenta(!isOpenVenta);
+            changePage("Venta")
+            
         }
     };
 
     const changePage = (pageName) => {
         onSidebarItemClick(pageName);
     }
+
+    useEffect(() => {
+        if (userId) {
+          // Realiza la solicitud a la API usando el userId
+          const fetchUserInfo = async () => {
+            try {
+              const response = await fetch(`http://www.erikasys.somee.com/api/User/getUserById/${userId}`);
+              const userData = await response.json();
+    
+              if (userData.state === 'SUCCESS') {
+                const { name } = userData.data;
+                setUserName(name.value); // Actualiza el estado con el nombre del usuario
+              }
+            } catch (error) {
+              console.error('Error al obtener la información del usuario:', error);
+            }
+          };
+    
+          fetchUserInfo(); // Llama a la función para obtener la información del usuario
+        }
+      }, [userId]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeLink, setActiveLink] = useState('');
@@ -83,7 +112,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                         src={Logo}
                         className="logo"
                     ></img>
-                    <h3 className="hide">Checho Locuras</h3>
+                    <h3 className="hide">{userName}</h3> {/* Muestra el nombre del usuario */}
                 </div>
                 <div className="sidebar-links">
                     <ul>
@@ -120,6 +149,18 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                         </div>
                                         <span className="link hide">Gestionar</span>
                                     </button>
+
+                                    <button
+                                        type="button"
+                                        className={`subMenu ${isOpenGestionProducts ? "activeSub" : ""}`}
+                                        onClick={() => handleSidebarItemClick("VentP")}
+                                    >
+                                        <div className="icon">
+                                            <FontAwesomeIcon icon={faPenToSquare} />
+                                        </div>
+                                        <span className="link hide">Venta</span>
+                                    </button>
+
                                 </div>
                             )}
 
