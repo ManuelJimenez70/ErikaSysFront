@@ -33,7 +33,7 @@ function Reports() {
   useEffect(() => {
     const formattedStartDate = startDate2.toISOString().split('T')[0];
     const formattedEndDate = endDate2.toISOString().split('T')[0];
-
+    //Para ver si funciona
     // Realiza la solicitud para obtener las acciones
     axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`)
       .then(response => {
