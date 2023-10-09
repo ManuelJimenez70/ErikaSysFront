@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../Components/AuthContext'; 
+import { useAuth } from '../Components/AuthContext';
+import "../styles/ventaProduct.css";
+import { set } from 'date-fns';
 
 function Venta() {
   const [productId, setProductId] = useState('');
@@ -31,7 +33,7 @@ function Venta() {
           quantity: quantity,
         };
         console.log(newProduct);
-        
+
         setProducts([...products, newProduct]);
       }
       // Limpia los campos después de agregar un producto
@@ -60,8 +62,9 @@ function Venta() {
       console.log(producto);
       // Actualiza el estado "productInfo" con la información del producto
       setProductInfo(producto);
-      setMensaje('Producto encontrado.');
-
+      if (producto === null) {
+        setMensaje('No se pudo encontrar el producto.');
+      }
     } catch (error) {
       console.error('Error al buscar el producto:', error);
       setMensaje('No se pudo encontrar el producto.');
@@ -72,7 +75,6 @@ function Venta() {
     // Verifica si productInfo no es null
     if (productInfo) {
       console.log(productInfo.title.value);
-      console.log("Entro pa");
       handleAddProduct();
       calculateTotal(); // Actualiza el total cuando se agrega un producto
     }
@@ -92,25 +94,31 @@ function Venta() {
       // Crea un objeto con la información de la venta
       for (const product of products) {
         // Crea un objeto con la información de cada producto
+        console.log(product);
         const saleData = {
-          id_user: userId, // Cambia esto al ID del usuario actual
+          id_user: 1, // Cambia esto al ID del usuario actual
           id_action: 6, // ID correspondiente a la acción de venta
           id_product: product.id, // ID del producto actual
           id_module: 1, // Cambia esto al ID del módulo correspondiente
-          quantity: product.quantity, // Cantidad del producto actual
-          state: 'Success',
+          quantity: product.quantity // Cantidad del producto actual
         };
-  
+
         // Realiza la solicitud POST para registrar el producto
-        const response = await axios.post('http://www.erikasys.somee.com/api/Action/recordAction', saleData);
-  
+        const response = await axios.post('http://www.ErikaSys.somee.com/api/Action/recordAction', saleData);
+
         // Verifica si el producto se registró con éxito
         if (response.status === 200) {
           // Realiza alguna acción adicional si es necesario
           console.log(`Venta del producto ${product.id} registrada con éxito`);
+          setProductId('');
+          setProductInfo(null);
+          setProducts([]);
+          setTotal(0);
+          setMensaje('Venta registrada con éxito.');
         }
       }
     } catch (error) {
+      setMensaje('Error al registrar la venta.');
       console.error('Error al registrar la venta:', error);
     }
   }
@@ -123,7 +131,7 @@ function Venta() {
 
 
   return (
-    <div>
+    <div class='ventaProduct'>
       <h1>Registro de Ventas</h1>
       <div>
         <label>ID del Producto:</label>
@@ -139,11 +147,11 @@ function Venta() {
         <div>
           <h3>Información del Producto:</h3>
           <p>Nombre: {productInfo?.title?.value}</p>
-          <p>Precio: ${productInfo?.price?.value }</p>
+          <p>Precio: ${productInfo?.price?.value}</p>
         </div>
       )}
       <h3>Productos Agregados:</h3>
-      <table>
+      <table class="styled-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -167,6 +175,17 @@ function Venta() {
       </table>
       <p>Total: ${total}</p>
       <button onClick={fetchProductSell}>Registrar venta</button>
+      {mensaje !== "" ? (
+        (mensaje === "Error al registrar la venta." || mensaje === "No se pudo encontrar el producto.") ? (
+          <div className="alert alert-danger mt-2" role="alert">
+            {mensaje}
+          </div>
+        ) : (
+          <div className="alert alert-success mt-2" role="alert">
+            {mensaje}
+          </div>
+        )
+      ) : null}
     </div>
   );
 }
