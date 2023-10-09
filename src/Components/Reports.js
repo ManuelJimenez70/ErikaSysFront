@@ -22,6 +22,12 @@ function Reports() {
     title: "Balance",
     curveType: "function",
     legend: { position: "bottom" },
+    hAxis: {
+      title: "Dias",
+    },
+    vAxis: {
+      title: "Cantidad",
+    },
   };
 
   useEffect(() => {
@@ -29,38 +35,38 @@ function Reports() {
     const formattedEndDate = endDate2.toISOString().split('T')[0];
 
     // Realiza la solicitud para obtener las acciones
-    axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=in`)
-    .then(response => {
-      const responseData = response.data; // Listado de acciones
+    axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`)
+      .then(response => {
+        const responseData = response.data; // Listado de acciones
 
-      // Calcula la cantidad de acciones por módulo dinámicamente
-      const moduleCounts = {};
+        // Calcula la cantidad de acciones por módulo dinámicamente
+        const moduleCounts = {};
 
-      responseData.forEach(action => {
-        const moduleName = action.moduleName;
-        if (!moduleCounts[moduleName]) {
-          moduleCounts[moduleName] = 1;
-        } else {
-          moduleCounts[moduleName] += 1;
-        }
+        responseData.forEach(action => {
+          const moduleName = action.moduleName;
+          if (!moduleCounts[moduleName]) {
+            moduleCounts[moduleName] = 1;
+          } else {
+            moduleCounts[moduleName] += 1;
+          }
+        });
+
+        // Extrae los nombres de módulos y sus conteos
+        const moduleNames = Object.keys(moduleCounts);
+        const moduleValues = moduleNames.map(moduleName => moduleCounts[moduleName]);
+        console.log("Module names", moduleNames,"modulevalues",moduleValues)
+        // Actualiza los datos del gráfico
+        setChartData(moduleValues);
+
+        // Actualiza las etiquetas del gráfico
+        setOptions({
+          labels: moduleNames,
+          // Otras opciones de configuración del gráfico
+        });
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos de las acciones:', error);
       });
-
-      // Extrae los nombres de módulos y sus conteos
-      const moduleNames = Object.keys(moduleCounts);
-      const moduleValues = moduleNames.map(moduleName => moduleCounts[moduleName]);
-
-      // Actualiza los datos del gráfico
-      setChartData(moduleValues);
-
-      // Actualiza las etiquetas del gráfico
-      setOptions({
-        labels: moduleNames,
-        // Otras opciones de configuración del gráfico
-      });
-    })
-    .catch(error => {
-      console.error('Error al obtener los datos de las acciones:', error);
-    });
   }, [startDate2, endDate2, showApexChart])
 
 
@@ -101,13 +107,26 @@ function Reports() {
               exitsByDay[date] = 0;
             }
             exitsByDay[date] += item.quantity.value;
+
+
           });
 
           // Crear el formato final para el gráfico
           const chartData = [['Dias', 'Entradas', 'Salidas']];
-          Object.keys(entriesByDay).forEach(date => {
-            chartData.push([date, entriesByDay[date], exitsByDay[date] || 0]);
+          const startDate = new Date(formattedStartDate);
+          const endDate = new Date(formattedEndDate);
+          const datesInRange = getDatesInRange(startDate, endDate);
+          console.log(datesInRange);
+          
+          datesInRange.forEach(date => {
+            console.log(date.substring(date.length-2, date.length));
+            console.log(entriesByDay[date])
+
+            chartData.push([date.substring(date.length-2, date.length), entriesByDay[date] || 0 , exitsByDay[date]|| 0]);
           });
+
+
+          
 
           // Actualizar el estado 'data' con los datos combinados
           setData(chartData);
@@ -117,6 +136,23 @@ function Reports() {
         });
     }
   }, [startDate, endDate, showChart]);
+
+  function getDatesInRange(startDate, endDate) {
+    const dateArray = [];
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      dateArray.push(currentDate.toISOString().slice(0, 10)); // Agrega la fecha al array en formato 'YYYY-MM-DD'
+      currentDate.setDate(currentDate.getDate() + 1); // Incrementa la fecha en 1 día
+    }
+
+    return dateArray;
+  }
+
+
+  // Obtén el array de fechas en el rango
+  
+
 
   const handleButtonClick = () => {
     setShowChart(true);
@@ -161,22 +197,22 @@ function Reports() {
           <br></br>
           <h3>Fecha Final</h3>
           <DataPicker selected={endDate2} onChange={date => setEndDate2(date)} />
-          
+
           <div id="chart">
-          <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
-          {showApexChart && (
+            <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
+            {showApexChart && (
               <ReactApexChart options={options} series={chartData} type="pie" width="380" />
             )}
-            
+
           </div>
           <br></br>
-          
+
         </div>
         {/* Agrega más reportes aquí siguiendo el mismo patrón */}
       </div>
     </div>
   );
-  
+
 }
 
 export default Reports;
