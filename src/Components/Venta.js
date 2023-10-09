@@ -142,7 +142,7 @@ function Venta() {
           onKeyDown={handleQuantityKeyPress} // Maneja la tecla "Enter"
         />
       </div>
-      <button class="mt-2" onClick={fetchProductInfo}>Agregar Producto</button>
+      <button onClick={fetchProductInfo}>Agregar Producto</button>
       {productInfo && (
         <div>
           <h3>Información del Producto:</h3>
