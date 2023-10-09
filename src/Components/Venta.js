@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../Components/AuthContext'; 
+import { useAuth } from '../Components/AuthContext';
+import "../styles/ventaProducto.css";
 
 function Venta() {
   const [productId, setProductId] = useState('');
@@ -10,6 +11,8 @@ function Venta() {
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
   const [mensaje, setMensaje] = useState('');
   const [total, setTotal] = useState(0);
+
+
 
   // Función para manejar la adición de productos
   const handleAddProduct = () => {
@@ -31,7 +34,7 @@ function Venta() {
           quantity: quantity,
         };
         console.log(newProduct);
-        
+
         setProducts([...products, newProduct]);
       }
       // Limpia los campos después de agregar un producto
@@ -60,8 +63,10 @@ function Venta() {
       console.log(producto);
       // Actualiza el estado "productInfo" con la información del producto
       setProductInfo(producto);
-      setMensaje('Producto encontrado.');
-
+      if (producto===null) {
+        setMensaje('No se pudo encontrar el producto.');
+      }
+      
     } catch (error) {
       console.error('Error al buscar el producto:', error);
       setMensaje('No se pudo encontrar el producto.');
@@ -100,17 +105,22 @@ function Venta() {
           quantity: product.quantity, // Cantidad del producto actual
           state: 'Success',
         };
-  
+
         // Realiza la solicitud POST para registrar el producto
         const response = await axios.post('http://www.erikasys.somee.com/api/Action/recordAction', saleData);
-  
+
         // Verifica si el producto se registró con éxito
         if (response.status === 200) {
           // Realiza alguna acción adicional si es necesario
           console.log(`Venta del producto ${product.id} registrada con éxito`);
+          setProductId('');
+          setProducts([]);
+          setProductInfo(null); // Información del producto seleccionado
+          setMensaje('Venta registrada con éxito.');
         }
       }
     } catch (error) {
+      setMensaje('Error al registrar la venta.');
       console.error('Error al registrar la venta:', error);
     }
   }
@@ -123,7 +133,7 @@ function Venta() {
 
 
   return (
-    <div>
+    <div class='m-4'>
       <h1>Registro de Ventas</h1>
       <div>
         <label>ID del Producto:</label>
@@ -134,16 +144,16 @@ function Venta() {
           onKeyDown={handleQuantityKeyPress} // Maneja la tecla "Enter"
         />
       </div>
-      <button onClick={fetchProductInfo}>Agregar Producto</button>
+      <button class='mt-2' onClick={fetchProductInfo}>Agregar Producto</button>
       {productInfo && (
         <div>
           <h3>Información del Producto:</h3>
           <p>Nombre: {productInfo?.title?.value}</p>
-          <p>Precio: ${productInfo?.price?.value }</p>
+          <p>Precio: ${productInfo?.price?.value}</p>
         </div>
       )}
       <h3>Productos Agregados:</h3>
-      <table>
+      <table class='styled-table'>
         <thead>
           <tr>
             <th>ID</th>
@@ -167,6 +177,19 @@ function Venta() {
       </table>
       <p>Total: ${total}</p>
       <button onClick={fetchProductSell}>Registrar venta</button>
+      {
+        mensaje !== '' ? (
+          mensaje === 'Venta registrada con éxito.' ? (
+            <div className="alert alert-success mt-2" role="alert">
+              {mensaje}
+            </div>
+          ) : (
+            <div className="alert alert-danger mt-2" role="alert">
+              {mensaje}
+            </div>
+          ) 
+        ) : null
+      }
     </div>
   );
 }
