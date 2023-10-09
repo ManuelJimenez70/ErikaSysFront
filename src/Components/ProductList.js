@@ -12,11 +12,15 @@ function ProductList() {
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
+<<<<<<< HEAD
         updateList();
     }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
 
     const updateList = () => {
         axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
+=======
+        axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
+>>>>>>> origin/Pagination
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);

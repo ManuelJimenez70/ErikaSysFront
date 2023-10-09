@@ -44,6 +44,33 @@ function ModalProduct() {
       };
 
       
+      const handleUpdateState = async (e) => {
+        e.preventDefault();
+        try {
+          const requestData = {
+            id:id,
+            state: state,
+          };
+    
+          const response = await axios.post(
+            'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
+            requestData
+          );
+    
+          // Mueve este bloque dentro del .then
+          if (response.data.state === 'SUCCESS') {
+            console.log(response.data.data)
+          } else {
+            setLoginError(response.data.data);
+          }
+        } catch (error) {
+          console.error('Error al agregar:', error);
+          setLoginError('Error al agregar producto');
+        }
+      };
+
+      
+
     return (
         <div>
             <UpdateProduct idProduct="12" title="Checho" description="Loca" image='asd' price='adsasd' stock='sdf' ></UpdateProduct>
@@ -58,7 +85,6 @@ function ModalProduct() {
                             <form method='POST'>
                                 <label for="exampleFormControlInput1" class="form-label">Tipo Manilla</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Manilla Amarilla" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-                                
                                 <label for="exampleFormControlInput1" class="form-label">Descripción</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Descripción..." value={description} onChange={(e) => setDescripcion(e.target.value)}></input>
                                 

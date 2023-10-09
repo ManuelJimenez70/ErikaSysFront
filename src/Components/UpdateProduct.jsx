@@ -1,54 +1,61 @@
 import React, { useState } from 'react';
-import "../styles/modal.css";
 import axios from 'axios';
-import UpdateProduct from '../Components/UpdateProduct';
 
-function ModalProduct() {
-
-    const [title, setTitle] = useState('');
-    const [description, setDescripcion] = useState('');
-    const [image, setImage] = useState('');
-    const [price, setPrice] = useState(0);
-    const [stock, setStock] = useState(0);
-    const [id, setId] = useState(0);
-    const [state, setState] = useState('');
+const UpdateProduct = ({idProduct, title, description, image, price, stock}) =>{
+    // Desestructura las propiedades para usarlas fácilmente
+    const [newTitle, setTitle] = useState('');
+    const [newDescription, setDescripcion] = useState('');
+    const [newImage, setImage] = useState('');
+    const [newPrice, setPrice] = useState(0);
+    const [newStock, setStock] = useState(0);
     const [loginError, setLoginError] = useState('');
     const [actionSuccess, setActionSuccess] = useState('');
-
-
-    const handleCreateProduct = async (e) => {
+    console.log("Titulo" + title)
+    
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
         try {
           const requestData = {
-            title: title,
-            description: description,
-            image: image,
-            price: price,
-            stock: stock
+            idProduct:idProduct,
           };
+          if (title) {
+            requestData.title = newTitle;
+          }
+          if (description) {
+            requestData.description = newDescription;
+          }
+          if (image) {
+            requestData.image = newImage;
+          }
+          if (price) {
+            requestData.price = newPrice;
+          }
+          if (stock) {
+            requestData.stock = newStock;
+          }
     
           const response = await axios.post(
-            'http://www.ErikaSys.somee.com/api/Product/createProduct/',
+            'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
             requestData
           );
+    
           // Mueve este bloque dentro del .then
           if (response.data.state === 'SUCCESS') {
+            console.log(response.data.data)
             setActionSuccess('Producto correctamente agregado')
-            console.log(response.data.message)
           } else {
-            setLoginError(response.data.message);
+            setLoginError(response.data.data);
           }
-        } catch (error) {  
+        } catch (error) {
           console.error('Error al agregar:', error);
           setLoginError('Error al agregar producto');
         }
       };
 
-      
     return (
-        <div>
-            <UpdateProduct idProduct="12" title="Checho" description="Loca" image='asd' price='adsasd' stock='sdf' ></UpdateProduct>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">CREAR PRODUCTO</button>
-            <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UpdateModal">ACTUALIZAR PRODUCTO</button>
+            <div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="producto-preview">
                         <img src="https://manillasdecontrol.com/wp-content/uploads/2023/03/amarillo-bandera.png" alt="Producto"></img>
@@ -58,7 +65,6 @@ function ModalProduct() {
                             <form method='POST'>
                                 <label for="exampleFormControlInput1" class="form-label">Tipo Manilla</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Manilla Amarilla" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-                                
                                 <label for="exampleFormControlInput1" class="form-label">Descripción</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Descripción..." value={description} onChange={(e) => setDescripcion(e.target.value)}></input>
                                 
@@ -80,17 +86,14 @@ function ModalProduct() {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" id='guardar' onClick={handleCreateProduct}>Guardar</button>
+                            <button type="submit" class="btn btn-primary" id='guardar' onClick={handleUpdateProduct}>Guardar</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-  
-
-        
+      </div>
     );
+  
 }
 
-export default ModalProduct;
+export default UpdateProduct;
