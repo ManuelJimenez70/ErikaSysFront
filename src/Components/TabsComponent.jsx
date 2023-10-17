@@ -16,7 +16,7 @@ function TabsComponent() {
     const [data, setData] = useState([]);
     const [showChart, setShowChart] = useState(true); // Estado para controlar la visualización del gráfico
     const [chartData, setChartData] = useState([]);
-    const [showApexChart, setShowApexChart] = useState(false);
+    const [showApexChart, setShowApexChart] = useState(true);
     const [options, setOptions] = useState({
         labels: [],
     });
@@ -170,10 +170,10 @@ function TabsComponent() {
     return (
         <div className='contentTabs'>
             <div className='main'>
-                <input id="tab1" type="radio" name="tabs" checked />
+                <input id="tab1" type="radio" name="tabs"/>
                 <label htmlFor="tab1">Ventas generales</label>
 
-                <input id="tab2" type="radio" name="tabs" />
+                <input id="tab2" type="radio" name="tabs"/>
                 <label htmlFor="tab2">Ventas por módulo</label>
 
                 <section id="content1">

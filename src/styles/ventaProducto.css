@@ -1,0 +1,100 @@
+:root {
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color: #14588b;
+    --button-color-hover: #227fc5;
+    --button-color-shadow: #114770;
+    --text-color: white;
+}
+
+.m-4 {
+    color: white;
+    background-color: var(--primary-color);
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.m-4>table {
+    background-color: var(--button-color);
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 50px;
+    /* Ajusta este valor según tu preferencia */
+}
+
+thead {
+    background-color: var(--button-color-shadow);
+    border-radius: 10px 10px 0 0 !important;
+}
+
+thead:hover {
+    background-color: var(--button-color-hover) !important;
+}
+
+.m-4 table th,
+td {
+    padding: 6px 15px 6px 10px;
+}
+
+.m-4 table tbody tr:hover {
+    background-color: white;
+    color: var(--button-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+    scale: 1.05;
+    transition: .2s;
+
+    border: 1px solid #000;
+    /* Agrega un borde de 1px sólido a todas las filas */
+    border-radius: 10px;
+}
+
+.searchButton>input {
+    border: none;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+    width: 150px;
+    color: var(--button-color-shadow);
+}
+
+.editId {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editId>label {
+    font-weight: bold;
+}
+
+.searchButton {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.m-4>button {
+    border: none;
+    background-color: var(--button-color);
+    color: white;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.m-4 p {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.searchButton>button {
+    margin-bottom: 8px;
+    background-color: var(--button-color);
+    color: white;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    outline: none;
+    top: -10px;
+}
