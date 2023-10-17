@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import '../styles/sideBar3.css'; // Asegúrate de ajustar la ruta correcta a tu archivo CSS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -65,7 +65,6 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
     }
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeLink, setActiveLink] = useState('');
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);

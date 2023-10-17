@@ -4,6 +4,13 @@ import "../styles/productList.css";
 import CardProduct from "./CardProduct";
 import FormProduct from './formProduct';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faArrowLeft,
+    faArrowRight,
+    faPlus,
+    faSearch
+} from "@fortawesome/free-solid-svg-icons";
 
 
 function ProductList() {
@@ -16,7 +23,7 @@ function ProductList() {
     }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
 
     const updateList = () => {
-        axios.get('http://www.erikasys.somee.com/api/Product/getProductsByRange?numI=0&numF=50')
+        axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
@@ -48,15 +55,26 @@ function ProductList() {
     };
 
     return (
-        <div>
+        <div className='contentList'>
             <div className='searchPanel'>
-                <nav class="navbar navbar-light bg-light container-centered">
-                    <div class="container-fluid">
-                        <button type="button" class="btn btn-outline-primary" onClick={() => window.location.href = "#modal1"}>Agregar</button>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Nombre del producto" aria-label="Buscar"></input>
-                            <input class="btn btn-primary" type="submit" value="Buscar"></input>
-                        </form>
+                <nav className="navbar navbar-light bg-light container-centered">
+                    <div className="container-fluid">
+                        <button type="button" onClick={() => window.location.href = "#modal1"}>
+                            <span>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </span>
+                            Agregar
+                        </button>
+                        <div className="formContent">
+                            <div className='searchBar'>
+                                <input className="form-control me-2" type="search" placeholder="Nombre del producto"></input>
+                                <button type='button'>
+                                    <span>
+                                        <FontAwesomeIcon icon={faSearch} />
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -71,22 +89,36 @@ function ProductList() {
                             description={product.description.value}
                             price={product.price.value}
                             stock={product.stock.value}
-                            updateList = {updateList}
+                            updateList={updateList}
+
                         />
                     ))}
                 </div>
 
                 <div className="pagination">
-                    <button onClick={handlePrevPage} disabled={page === 1}>Página anterior</button>
+                    <button onClick={handlePrevPage} disabled={page === 1}>
+                        <span>
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </span>
+
+                        Página anterior
+                    </button>
+
                     <span>Página {page} de {totalPages}</span>
-                    <button onClick={handleNextPage} disabled={page === totalPages}>Página siguiente</button>
+
+                    <button onClick={handleNextPage} disabled={page === totalPages}>
+                        Página siguiente
+                        <span>
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </span>
+                    </button>
                 </div>
 
             </div>
 
             <div id="modal1" className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct updateThisList={updateList} metod="create"></FormProduct>
+                    <FormProduct updateList={updateList} metod="create"></FormProduct>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import "../styles/formModal.css";
@@ -8,10 +8,10 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
     const [title, setTitle] = useState(newTitle);
     const [description, setDescripcion] = useState(newDescription);
-    const [image, setImage] = useState('hola');
+    const [image] = useState('hola');
     const [price, setPrice] = useState(newPrice);
     const [stock, setStock] = useState(newStock);
-    const [id, setId] = useState(idProduct);
+    const [id] = useState(idProduct);
     const [loginError, setLoginError] = useState('');
 
 

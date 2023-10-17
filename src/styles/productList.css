@@ -1,9 +1,15 @@
+* {
+    padding: none;
+    margin: none;
+    font-family: "Rockwell";
+}
+
 :root {
-    --primary-color: #309df0;
-    --primary-color-dark: #227fc5;
-    --button-color-hover: #1b6caa;
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color-hover: #14588b;
     --button-color: #227fc5;
-    --button-color-shadow: #5433FF30;
+    --button-color-shadow: #114770;
     --text-color: white;
 }
 
@@ -34,7 +40,7 @@
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
         0 5px 15px 0 rgba(37, 44, 97, 0.15);
-    border-radius: 15px;
+    border-radius: 5px;
     margin: 8px;
     padding: 10px 15px;
     position: relative;
@@ -48,13 +54,6 @@
 .ButtonsDiv {
     display: flex;
     align-items: center;
-}
-
-.solu_description button {
-    margin-top: 5px;
-    margin-left: 5px;
-    width: 100px;
-    text-align: center;
 }
 
 .solution_cards_box .solution_card:hover {
@@ -103,14 +102,25 @@
     margin-bottom: 15px;
 }
 
+.solu_title h3 {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
 .solution_card .solu_description button {
     border: 0;
-    border-radius: 15px;
-    background: var(--button-color-hover) !important;
+    border-radius: 6px;
+    background: var(--button-color) !important;
     color: #fff;
     font-weight: 500;
     font-size: 1rem;
-    padding: 5px 16px;
+    display: flex;
+    margin: 9px;
+    padding: 5px 15px;
+}
+
+.solution_card .solu_description button span {
+    padding-right: 5px;
 }
 
 .our_solution_content h1 {
@@ -195,18 +205,62 @@
     margin-top: 30px;
 }
 
-.pagination button {
+.contentList button {
     margin-left: 20px;
     margin-right: 20px;
-    border-radius: 20px;
-    background-color: var(--button-color-hover);
+    border-radius: 7px;
+    background-color: var(--button-color);
 }
 
-.pagination button:hover {
-    background-color: var(--button-color) !important;
+.contentList {
+    width: 100%;
+    max-height: 100vh;
+}
+
+.searchPanel{
+    margin-top: 20px;
+}
+
+.searchBar{
+    display: flex;
+    align-items: right;
+}
+
+.searchBar input{
+    margin: 0 !important;
+    width: 80%;
+    border-radius: 6px 0 0 6px;
+}
+
+.searchBar button{
+    margin: 0 !important;
+    border: none;
+    color: white;
+    border-radius: 0 6px 6px 0;
+    width: 20%;
+}
+
+.container-fluid> button, .pagination>button{
+    border: none;
+    color: white;
+    padding: 5px 15px;
+}
+
+.formContent {
+    display: flex;
+    max-height: 40px !important;
+}
+
+.pagination span, .container-fluid span{
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.contentList button:hover {
+    background-color: var(--button-color-hover) !important;
     transform: scale(1.1);
     cursor: pointer;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 @media only screen and (min-width: 768px) {

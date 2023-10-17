@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Sidebar from '../Components/SideBar3';
 import ProductList from '../Components/ProductList';
-import Reports from '../Components/Reports';
+import TabsComponent from '../Components/TabsComponent';
+import Venta from '../Components/Venta';
 import "../styles/homeAdmin.css";
+
 
 function HomeAdmin() {
     const [currentContent, setCurrentContent] = useState("Productos");
@@ -26,7 +28,8 @@ function HomeAdmin() {
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>
                 {/* Renderiza el componente correspondiente en función de currentContent */}
                 {currentContent === "Productos" && <ProductList />}
-                {currentContent === "Reportes" && <Reports />}
+                {currentContent === "Reportes" && <TabsComponent />}
+                {currentContent === "Venta" && <Venta />}
             </div>
         </div>
     );

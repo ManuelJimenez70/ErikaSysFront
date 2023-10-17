@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Chart } from 'react-google-charts';
 import DataPicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../styles/reports.css';
 import ReactApexChart from 'react-apexcharts';
 
 function Reports() {

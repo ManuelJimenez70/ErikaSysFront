@@ -1,0 +1,169 @@
+:root {
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color-hover: #14588b;
+    --button-color: #227fc5;
+    --button-color-shadow: #114770;
+    --text-color: white;
+}
+
+.contentTabs{
+    margin-top: 20px;
+    color: white;
+}
+
+.main {
+    padding: 50px;
+    margin: 0 auto;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+.contentTabs section {
+    display: none;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--button-color-hover);
+}
+
+.main>input {
+    display: none;
+}
+
+.contentTabs label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.contentTabs label:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.contentTabs label[for*='1']:before {
+    content: '\f1cb';
+}
+
+.contentTabs label[for*='2']:before {
+    content: '\f17d';
+}
+
+.contentTabs label {
+    border-radius: 5px 5px 0 0;
+}
+
+.contentTabs label:hover {
+    background-color: var(--button-color-hover);
+    transform: scaleX(1.1);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.main input:checked+label {
+    background-color: var(--button-color-hover);
+    border: 1px solid var(--button-color-hover);
+    border-bottom: 1px solid var(--button-color-hover);
+}
+
+.chart {
+    min-width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#tab1:checked~#content1,
+#tab2:checked~#content2,
+#tab3:checked~#content3,
+#tab4:checked~#content4 {
+    display: block;
+}
+
+@media screen and (max-width: 650px) {
+
+    .main {
+        width: 90%;
+    }
+
+    .contentTabs label {
+        font-size: 0;
+    }
+
+    .contentTabs label:before {
+        margin: 0;
+        font-size: 18px;
+    }
+}
+
+@media screen and (width > 400px) {
+    .main {
+        width: 90%;
+        max-height: 90% !important;
+    }
+
+    .chart {
+        max-width: 90%;
+    }
+    
+}
+
+@media screen and (max-width: 400px) {
+    .contentTabs label {
+        padding: 15px;
+    }
+
+    .main {
+        width: 90%;
+    }
+}
+
+.container input[type="date"] {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+}
+
+.datas {
+    display: flex;
+    align-items: flex-start;
+}
+
+.datas> button {
+    background-color: var(--button-color);
+    padding: 5px 10px 5px 10px;
+    border: none;
+    outline: none;
+}
+
+.datas> button:hover {
+    background-color: var(--button-color-hover);
+    transform: scale(1.1);
+    transition: .1s;
+}
+
+.contentData {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 10px;
+}
+
+.contentData>input {
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    border-radius: none !important;
+    border-bottom: 1px solid var(--button-color-hover) !important;
+}
+
+.contentData p {
+    padding: 3px;
+    text-align: center;
+}

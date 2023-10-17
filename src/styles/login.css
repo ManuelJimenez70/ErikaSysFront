@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
-
 * {
     padding: none;
     margin: none;
-    font-family: Mulish;
+    font-family: "Rockwell";
 }
 
 :root {
@@ -13,6 +11,16 @@
     --button-color: #227fc5;
     --button-color-shadow: #114770;
     --text-color: white;
+}
+
+h2 {
+    color: aliceblue !important;
+    font-weight: bold !important;
+}
+
+h4 {
+    color: aliceblue;
+    font-size: 15px !important;
 }
 
 .general {
@@ -31,7 +39,6 @@
     width: 55%;
     height: 100vh;
     float: left;
-
 }
 
 .borderContent {
@@ -66,13 +73,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: bold !important;
 }
 
 .mycard {
     width: 65%;
     min-height: 80vh;
     background-color: var(--button-color-hover);
-    border-radius: 20px;
+    border-radius: 10px;
     border: solid 1px azure;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.9);
     display: flex;
@@ -80,12 +88,6 @@
     align-items: center;
     flex-direction: column;
     filter: saturate(0.9) !;
-}
-
-h2 {
-    color: aliceblue !important;
-    font-family: "Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif";
-    font-weight: bold;
 }
 
 .inputs {
@@ -103,19 +105,25 @@ h2 {
     margin-top: 15%;
 }
 
-button {
+.buttonLog> button {
     height: 5vh;
-    width: 14vw;
+    width: 60%;
     background-color: var(--button-color);
     color: aliceblue;
-    text-transform: uppercase;
-    font-weight: 16px;
-    font-weight: bold;
-    border-radius: 20px !important;
+    text-align: center;
+    border-radius: 5px !important;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-button:hover{
+.alertContent {
+    width: 60%;
+    margin: 0 auto;
+}
+
+button:hover {
     background-color: var(--button-color-shadow);
 }
 
@@ -126,13 +134,6 @@ button:hover{
     justify-content: center;
     align-items: center;
     color: aliceblue;
-}
-
-.checkB {
-    display: flex;
-    margin-top: 20px;
-    font-style: normal;
-
 }
 
 .checkB input {
@@ -156,23 +157,7 @@ button:hover{
     margin-top: 15px;
 }
 
-.inputs img {
-    width: 25px;
-}
-
-.showOrHide {
-    display: flex;
-    width: 30%;
-    margin-top: 5px;
-}
-
 @media screen and (min-width: 1920px) {
-
-    /* Estilos específicos para pantallas grandes (1920x1080) */
-    .card {
-        width: 30%;
-        /* Ajusta el ancho para pantallas grandes */
-    }
 
     .formCard {
         width: 100%;
@@ -186,38 +171,16 @@ button:hover{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 60%;
+    }
+
+    .ad-textbox {
         width: 100%;
     }
 
-    .inputs input {
-        flex: 1;
-        width: 87%;
-        font-size: 20px;
+    .buttonLog {
+        width: 100%;
     }
-
-    .passwordInput {
-        margin-top: 40px;
-    }
-
-    .userInput,
-    .passwordInput,
-    .showOrHide {
-        width: 50%;
-    }
-
-    .buttonLog button {
-        font-size: 16px;
-    }
-
-    .forgot {
-        font-size: 20px;
-        margin-top: 15%;
-    }
-
-    .inputs img {
-        width: 30px;
-    }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -235,4 +198,76 @@ button:hover{
     .buttonLog button {
         width: 50%;
     }
+}
+
+.passwordContent{
+    margin-top: 30px;
+}
+
+.ad-textbox {
+    position: relative;
+}
+
+.ad-textbox>.underline {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transition: 0.35s;
+}
+
+.ad-textbox> span,
+.ad-textbox> label {
+    position: absolute;
+    pointer-events: none;
+    translate: 0 -50%;
+    color: var(--button-color);
+    transition: 0.35s;
+}
+
+.ad-textbox>span {
+    margin-left: 5px;
+    top: 50%;
+    left: 0;
+}
+
+.ad-textbox>label {
+    top: 50%;
+    left: 34px;
+    white-space: nowrap;
+}
+
+.iconButton{
+    color: var(--button-color);
+}
+
+.ad-textbox>input {
+    height: 30px;
+    width: 100%;
+    padding-left: 34px;
+    background: transparent;
+    border: 0;
+    outline: none;
+    border-bottom: 2px solid var(--button-color);
+    color: rgba(255, 255, 255, 0.96);
+    font-size: 16px;
+}
+
+.ad-textbox> :is(input:focus, input.has-value)~span {
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.ad-textbox> :is(input:focus, input.has-value)~label {
+    color: var(--primary-color);
+}
+
+.ad-textbox> :is(input:focus, input.has-value)~label {
+    translate: -42px -44px;
+    scale: 0.875;
+}
+
+.ad-textbox> :is(input:focus, input.has-value)~.underline {
+    transform: scaleX(1);
 }
