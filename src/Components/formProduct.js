@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import "../styles/formModal.css";
 import axios from "axios";
+import Snack from './Snack';
 
 const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateThisList, metod }) => {
 
@@ -12,6 +13,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
     const [price, setPrice] = useState(newPrice);
     const [stock, setStock] = useState(newStock);
     const [id] = useState(idProduct);
+    const [showSnack, setShowSnack] = useState(false);
     const [loginError, setLoginError] = useState('');
 
 
@@ -71,6 +73,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
                 updateThisList();
+                window.location.href = "#";
                 console.log(response.data.message)
 
             } else {

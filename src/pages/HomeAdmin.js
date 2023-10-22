@@ -8,15 +8,15 @@ import "../styles/homeAdmin.css";
 
 function HomeAdmin() {
     const [currentContent, setCurrentContent] = useState("Productos");
-    const [isSideBarOpen, setIsOpen] = useState(null);
+    const [isSideBarOpen, setIsOpen] = useState(true);
 
     // Función para cambiar el contenido principal en función del botón seleccionado
     const handleSidebarItemClick = (content) => {
         setCurrentContent(content);
     };
 
-    const alterSideBar = (open) => {
-        setIsOpen(open);
+    const alterSideBar = () => {
+        setIsOpen(!isSideBarOpen);
     }
 
     return (
@@ -27,7 +27,7 @@ function HomeAdmin() {
             {/* Renderiza el contenido principal */}
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>
                 {/* Renderiza el componente correspondiente en función de currentContent */}
-                {currentContent === "Productos" && <ProductList />}
+                {currentContent === "Productos" && <ProductList isOpenSideBar={isSideBarOpen}/>}
                 {currentContent === "Reportes" && <TabsComponent />}
                 {currentContent === "Venta" && <Venta />}
             </div>

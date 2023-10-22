@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 
-function ProductList() {
+function ProductList( {isOpenSideBar}) {
 
     const [products, setProducts] = useState([]);
 
@@ -80,7 +80,7 @@ function ProductList() {
             </div>
 
             <div className="card-container">
-                <div className='cardsContainer'>
+                <div className={`cardsContainer ${isOpenSideBar ? "collapsed" : ""}`}>
                     {cardsToShow.map(product => (
                         <CardProduct
                             key={product.id_product}

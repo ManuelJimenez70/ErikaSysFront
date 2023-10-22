@@ -3,5 +3,11 @@
 }
 
 .content {
-    width: calc(100%);
+    width: 93%;
+    transition: .5s;
+}
+
+.content-open {
+    width: 78%;
+    transition: .5s;
 }

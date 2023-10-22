@@ -95,11 +95,10 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
       }, [userId]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeLink, setActiveLink] = useState('');
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
-        sideBarOpen(!isCollapsed);
+        sideBarOpen();
     };
 
     return (

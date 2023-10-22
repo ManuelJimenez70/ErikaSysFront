@@ -185,7 +185,7 @@
 .card-container {
     display: flex;
     flex-direction: column;
-    width: 65vw;
+    width: 90%;
     margin-top: 20px;
 }
 
@@ -217,22 +217,22 @@
     max-height: 100vh;
 }
 
-.searchPanel{
+.searchPanel {
     margin-top: 20px;
 }
 
-.searchBar{
+.searchBar {
     display: flex;
     align-items: right;
 }
 
-.searchBar input{
+.searchBar input {
     margin: 0 !important;
     width: 80%;
     border-radius: 6px 0 0 6px;
 }
 
-.searchBar button{
+.searchBar button {
     margin: 0 !important;
     border: none;
     color: white;
@@ -240,7 +240,8 @@
     width: 20%;
 }
 
-.container-fluid> button, .pagination>button{
+.container-fluid>button,
+.pagination>button {
     border: none;
     color: white;
     padding: 5px 15px;
@@ -251,7 +252,8 @@
     max-height: 40px !important;
 }
 
-.pagination span, .container-fluid span{
+.pagination span,
+.container-fluid span {
     margin-right: 4px;
     margin-left: 4px;
 }
@@ -278,5 +280,43 @@
     .our_solution_category {
         width: 50%;
         margin: 0 auto;
+    }
+}
+
+@media only screen and (width < 1600px) {
+
+    .sol_card_top_3 {
+        position: relative;
+        top: 0;
+    }
+
+    .card-container .collapsed {
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: -10px;
+        grid-auto-rows: minmax(100px, auto);
+        transition: .5s;
+    }
+
+    .our_solution_category {
+        width: 100%;
+        margin-left: 4px;
+    }
+
+    .our_solution_category .solution_cards_box {
+        flex: auto;
+    }
+
+    .cardsContainer {
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: -10px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .pagination {
+        margin-bottom: 20px !important;
     }
 }
