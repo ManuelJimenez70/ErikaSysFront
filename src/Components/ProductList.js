@@ -4,26 +4,62 @@ import "../styles/productList.css";
 import CardProduct from "./CardProduct";
 import FormProduct from './formProduct';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faArrowLeft,
+    faArrowRight,
+    faPlus,
+    faSearch
+} from "@fortawesome/free-solid-svg-icons";
 
 
-function ProductList() {
+function ProductList( {isOpenSideBar}) {
 
     const [products, setProducts] = useState([]);
+    const [originalProducts, setOriginalProducts] = useState([]);
+
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
+        updateList();
+    }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
+
+    const updateList = () => {
         axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
+                setOriginalProducts(response.data.data);
             })
             .catch(error => {
                 console.error('Error al cargar los productos:', error);
             });
-    }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
+    }
 
-    const updateList = (list) =>{
-        setProducts(list);
+    const updateListbySearch = () => {
+        // Lógica de filtrado para actualizar la lista de productos según el término de búsqueda
+        if (searchTerm === '') {
+            setProducts(originalProducts); // Restaura la lista completa de productos
+        } else {
+            if (!isNaN(searchTerm)) {
+                // Si es un número, busca por el id_product
+                const filteredProducts = originalProducts.filter(product =>
+                    product.id_product.toString().includes(searchTerm)
+                );
+                setProducts(filteredProducts);
+            } else {
+                // Si no es un número, busca por el título
+                const filteredProducts = originalProducts.filter(product =>
+                    product.title.value.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setProducts(filteredProducts);
+            }
+        }
+    }
+
+    const handleSearch = () => {
+        updateListbySearch();
     }
 
     const [page, setPage] = useState(1);
@@ -48,45 +84,76 @@ function ProductList() {
     };
 
     return (
-        <div>
+        <div className='contentList'>
             <div className='searchPanel'>
-                <nav class="navbar navbar-light bg-light container-centered">
-                    <div class="container-fluid">
-                        <button type="button" class="btn btn-outline-primary" onClick={() => window.location.href = "#modal1"}>Agregar</button>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Nombre del producto" aria-label="Buscar"></input>
-                            <input class="btn btn-primary" type="submit" value="Buscar"></input>
-                        </form>
+                <nav className="navbar navbar-light bg-light container-centered">
+                    <div className="container-fluid">
+                        <button type="button" onClick={() => window.location.href = "#modal1"}>
+                            <span>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </span>
+                            Agregar
+                        </button>
+                        <div className="formContent">
+                            <div className='searchBar'>
+                                <input
+                                    className="form-control me-2"
+                                    type="search"
+                                    placeholder="Nombre del producto"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <button type='button' onClick={handleSearch}>
+                                    <span>
+                                        <FontAwesomeIcon icon={faSearch} />
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </nav>
             </div>
 
             <div className="card-container">
-                <div className='cardsContainer'>
+                <div className={`cardsContainer ${isOpenSideBar ? "collapsed" : ""}`}>
                     {cardsToShow.map(product => (
                         <CardProduct
                             key={product.id_product}
-                            idProduct={ product.id_product}
+                            idProduct={product.id_product}
                             title={product.title.value}
                             description={product.description.value}
                             price={product.price.value}
                             stock={product.stock.value}
-                            
+                            updateList={updateList}
+
                         />
                     ))}
                 </div>
 
                 <div className="pagination">
-                    <button onClick={handlePrevPage} disabled={page === 1}>Página anterior</button>
+                    <button onClick={handlePrevPage} disabled={page === 1}>
+                        <span>
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </span>
+
+                        Página anterior
+                    </button>
+
                     <span>Página {page} de {totalPages}</span>
-                    <button onClick={handleNextPage} disabled={page === totalPages}>Página siguiente</button>
+
+                    <button onClick={handleNextPage} disabled={page === totalPages}>
+                        Página siguiente
+                        <span>
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </span>
+                    </button>
                 </div>
 
             </div>
 
             <div id="modal1" className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct updateList= { updateList } metod = "create"></FormProduct>
+                    <FormProduct updateList={updateList} metod="create"></FormProduct>
                 </div>
             </div>
         </div>

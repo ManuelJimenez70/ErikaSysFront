@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import Sidebar from '../Components/SideBar3';
 import ProductList from '../Components/ProductList';
-import Reports from '../Components/Reports';
+import TabsComponent from '../Components/TabsComponent';
+import Venta from '../Components/Venta';
 import "../styles/homeAdmin.css";
 import Venta from '../Components/Venta';
 
+
 function HomeAdmin() {
     const [currentContent, setCurrentContent] = useState("Productos");
-    const [isSideBarOpen, setIsOpen] = useState(null);
+    const [isSideBarOpen, setIsOpen] = useState(true);
+
 
     // Función para cambiar el contenido principal en función del botón seleccionado
     const handleSidebarItemClick = (content) => {
         setCurrentContent(content);
     };
 
-    const alterSideBar = (open) => {
-        setIsOpen(open);
+    const alterSideBar = () => {
+        setIsOpen(!isSideBarOpen);
     }
 
     return (
@@ -26,8 +29,9 @@ function HomeAdmin() {
             {/* Renderiza el contenido principal */}
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>
                 {/* Renderiza el componente correspondiente en función de currentContent */}
-                {currentContent === "Productos" && <ProductList />}
-                {currentContent === "Reportes" && <Reports />}
+                {currentContent === "Productos" && <ProductList isOpenSideBar={isSideBarOpen}/>}
+                {currentContent === "Reportes" && <TabsComponent />}
+
                 {currentContent === "Venta" && <Venta />}
             </div>
         </div>

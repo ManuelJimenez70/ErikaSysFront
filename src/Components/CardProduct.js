@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "../styles/productList.css";
 import FormProduct from './formProduct';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faEdit,
+    faRecycle,
+    faRemove,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
+
 
 const CardProduct = ({ idProduct, title, description, image, price, stock, updateList }) => {
 
@@ -40,8 +48,8 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
             if (response.data.state === 'SUCCESS') {
                 console.log(response.data.data)
                 console.log(idProduct)
-                window.location.href = "/homeAdmin";
-                
+                updateList();
+
             } else {
                 setDeleteError(response.data.data);
             }
@@ -52,7 +60,7 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
     };
 
     return (
-        <div>
+        <div className='cardInfo'>
             <div className="our_solution_category">
                 <div className="solution_cards_box">
                     <div className="our_solution_category">
@@ -93,10 +101,16 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                                     Stock: {stock}
                                 </p>
                                 <div className="ButtonsDiv">
-                                    <button type="button" className="read_more_btn" onClick={() => window.location.href = "#modal" + idProduct}>
+                                    <button onClick={() => window.location.href = "#modal" + idProduct}>
+                                        <span>
+                                            <FontAwesomeIcon icon={faEdit} />
+                                        </span>
                                         Editar
                                     </button>
                                     <button type="button" className="read_more_btn" onClick={handleDeleteClick}>
+                                        <span>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </span>
                                         Borrar
                                     </button>
                                 </div>
@@ -117,7 +131,7 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
 
             <div id={`modal${idProduct}`} className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct idProduct={idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateList={updateList} metod="update"></FormProduct>
+                    <FormProduct idProduct = {idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateThisList= { updateList } metod = "update"></FormProduct>
                 </div>
             </div>
 

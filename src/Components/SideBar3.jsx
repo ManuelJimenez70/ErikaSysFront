@@ -1,7 +1,8 @@
 import React, { useState, useEffect  } from 'react';
 import '../styles/sideBar3.css'; // Asegúrate de ajustar la ruta correcta a tu archivo CSS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from '../Components/AuthContext'; 
+import { useAuth } from '../Components/AuthContext';
+
 import {
     faShoppingCart,
     faUsers,
@@ -95,11 +96,10 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
       }, [userId]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeLink, setActiveLink] = useState('');
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
-        sideBarOpen(!isCollapsed);
+        sideBarOpen();
     };
 
     return (
@@ -153,7 +153,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
 
                                     <button
                                         type="button"
-                                        className={`subMenu ${isOpenGestionProducts ? "activeSub" : ""}`}
+                                        className={`subMenu ${isOpenVenta ? "activeSub" : ""}`}
                                         onClick={() => handleSidebarItemClick("VentP")}
                                     >
                                         <div className="icon">

@@ -26,6 +26,7 @@ function LoginForm() {
   
 
   const toggleShowPassword = () => {
+    console.log("Presionandooooooo")
     setShowPassword(!showPassword);
   };
 
@@ -78,50 +79,53 @@ function LoginForm() {
           <h2>Ingresa</h2>
           <form className="formCard">
             <div className="inputs">
-              <div className="userInput">
+              <div className="ad-textbox">
                 <input
-                  placeholder="Usuario"
-                  value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  value={username}
+                  className={`${username ? "has-value" : ""}`}
+                  id='textbox'
+                  type='text'
                 />
-                <span className="material-symbols-outlined iconDropDown">
-                  <FontAwesomeIcon icon={faUser} style={{ color: 'white', marginRight:"5px"}} />
+                <span className="material-symbols-outlined iconButton">
+                  <FontAwesomeIcon icon={faUser} />
                 </span>
+                <label htmlFor='textbox'>Correo electrónico</label>
+                <div className='underline'></div>
               </div>
-              <div className="passwordInput">
-                <input
-                  placeholder="Contraseña"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
 
-                <span className="material-symbols-outlined iconDropDown">
+              <div className="ad-textbox passwordContent">
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  className={`${password ? "has-value" : ""}`}
+                  id='textbox'
+                  type={showPassword ? 'text' : 'password'}
+                />
+                <span className="material-symbols-outlined iconButton">
                   <FontAwesomeIcon
                     icon={showPassword ? faEyeSlash : faEye}
-                    style={{ color: 'white', cursor: 'pointer', marginRight:"5px"}}
                     onClick={toggleShowPassword}
                     alt="Toggle Password Visibility"
                   />
                 </span>
+                <label htmlFor='textbox'>Contraseña</label>
+                <div className='underline'></div>
               </div>
             </div>
 
             {loginError &&
 
-              <div class="alert alert-danger mt-3 p-1" role="alert">{loginError}
+              <div class="alert alert-danger mt-3 p-1 alertContent" role="alert">{loginError}
               </div>
             }
 
             <div className="buttonLog">
-              <button onClick={handleLogin}>Ingresar</button>
+              <button onClick={handleLogin}>Entrar</button>
             </div>
+
             <div className="forgot">
-              <h5>Olvidé mi contraseña</h5>
-              <div className="checkB">
-                <input type="checkbox" />
-                <h5>Recordar datos</h5>
-              </div>
+              <h4>Olvidé mi contraseña</h4>
             </div>
           </form>
         </div>

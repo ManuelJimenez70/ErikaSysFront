@@ -1,3 +1,13 @@
 .app-container{
     display: flex;
 }
+
+.content {
+    width: 93%;
+    transition: .5s;
+}
+
+.content-open {
+    width: 78%;
+    transition: .5s;
+}

@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../Components/AuthContext';
 import "../styles/ventaProducto.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAdd
+} from "@fortawesome/free-solid-svg-icons";
 
 function Venta() {
   const [productId, setProductId] = useState('');
   const { userId } = useAuth();
+
   const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
@@ -63,10 +68,11 @@ function Venta() {
       console.log(producto);
       // Actualiza el estado "productInfo" con la información del producto
       setProductInfo(producto);
-      if (producto===null) {
+      if (producto === null) {
         setMensaje('No se pudo encontrar el producto.');
       }
-      
+
+
     } catch (error) {
       console.error('Error al buscar el producto:', error);
       setMensaje('No se pudo encontrar el producto.');
@@ -74,6 +80,19 @@ function Venta() {
   };
 
   useEffect(() => {
+    if (mensaje !== '') {
+      const timer = setTimeout(() => {
+        setMensaje('');
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [mensaje]);
+
+  useEffect(() => {
+
     // Verifica si productInfo no es null
     if (productInfo) {
       console.log(productInfo.title.value);
@@ -134,17 +153,22 @@ function Venta() {
 
   return (
     <div class='m-4'>
-      <h1>Registro de Ventas</h1>
-      <div>
+      <div className='editId'>
         <label>ID del Producto:</label>
-        <input
-          type="text"
-          value={productId}
-          onChange={handleProductIdChange}
-          onKeyDown={handleQuantityKeyPress} // Maneja la tecla "Enter"
-        />
+        <div className='searchButton'>
+          <input
+            type="text"
+            value={productId}
+            onChange={handleProductIdChange}
+            onKeyDown={handleQuantityKeyPress} // Maneja la tecla "Enter"
+          />
+          <button class='mt-2' onClick={fetchProductInfo}>
+            <FontAwesomeIcon icon={faAdd} />
+          </button>
+        </div>
       </div>
-      <button class='mt-2' onClick={fetchProductInfo}>Agregar Producto</button>
+
+
       {productInfo && (
         <div>
           <h3>Información del Producto:</h3>
@@ -152,7 +176,6 @@ function Venta() {
           <p>Precio: ${productInfo?.price?.value}</p>
         </div>
       )}
-      <h3>Productos Agregados:</h3>
       <table class='styled-table'>
         <thead>
           <tr>
@@ -187,11 +210,11 @@ function Venta() {
             <div className="alert alert-danger mt-2" role="alert">
               {mensaje}
             </div>
-          ) 
+          )
         ) : null
       }
     </div>
   );
 }
-
 export default Venta;
+
