@@ -16,6 +16,9 @@ import {
 function ProductList( {isOpenSideBar}) {
 
     const [products, setProducts] = useState([]);
+    const [originalProducts, setOriginalProducts] = useState([]);
+
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
@@ -27,10 +30,36 @@ function ProductList( {isOpenSideBar}) {
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
+                setOriginalProducts(response.data.data);
             })
             .catch(error => {
                 console.error('Error al cargar los productos:', error);
             });
+    }
+
+    const updateListbySearch = () => {
+        // Lógica de filtrado para actualizar la lista de productos según el término de búsqueda
+        if (searchTerm === '') {
+            setProducts(originalProducts); // Restaura la lista completa de productos
+        } else {
+            if (!isNaN(searchTerm)) {
+                // Si es un número, busca por el id_product
+                const filteredProducts = originalProducts.filter(product =>
+                    product.id_product.toString().includes(searchTerm)
+                );
+                setProducts(filteredProducts);
+            } else {
+                // Si no es un número, busca por el título
+                const filteredProducts = originalProducts.filter(product =>
+                    product.title.value.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setProducts(filteredProducts);
+            }
+        }
+    }
+
+    const handleSearch = () => {
+        updateListbySearch();
     }
 
     const [page, setPage] = useState(1);
@@ -67,8 +96,14 @@ function ProductList( {isOpenSideBar}) {
                         </button>
                         <div className="formContent">
                             <div className='searchBar'>
-                                <input className="form-control me-2" type="search" placeholder="Nombre del producto"></input>
-                                <button type='button'>
+                                <input
+                                    className="form-control me-2"
+                                    type="search"
+                                    placeholder="Nombre del producto"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <button type='button' onClick={handleSearch}>
                                     <span>
                                         <FontAwesomeIcon icon={faSearch} />
                                     </span>

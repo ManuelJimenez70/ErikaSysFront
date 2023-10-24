@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import "../styles/formModal.css";
@@ -98,7 +98,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
                     </div>
                     <div className="input">
                         <input type="text" placeholder="ID del producto"
-                            name="id" readOnly
+                            name="id" value={idProduct} readOnly
                         ></input>
                     </div>
                 </div>
@@ -144,23 +144,15 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Beneficios</p>
+                        <p>Modulo </p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Beneficios del producto"
-                            name="beneficios"
-                        ></input>
-                    </div>
-                </div>
-
-                <div className="dataInput">
-                    <div className="label">
-                        <p>Promociones</p>
-                    </div>
-                    <div className="input">
-                        <input type="text" placeholder="Promociones del producto"
-                            name="promociones"
-                        ></input>
+                        <select type="text" placeholder="Promociones del producto" name="promociones">
+                            <option value="General">General</option>
+                            <option value="Recepción">Recepción</option>
+                            <option value="Cafetería">Cafetería</option>
+                            <option value="Cocina">Cocina</option>
+                        </select>
                     </div>
                 </div>
 
