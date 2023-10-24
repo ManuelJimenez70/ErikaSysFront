@@ -7,6 +7,7 @@ const CardVentaRecepcion = (props) => {
     const subtotal = cost * quantity; // Calcula el subtotal
     return (
         <div class="w-25  h-10 m-2">
+            <h1>hola</h1>
             <div class="card">
                 <div class="card-header">
                     Producto: {name}

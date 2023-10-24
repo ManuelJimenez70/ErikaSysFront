@@ -97,6 +97,17 @@ export const SideBar2 = ({ onSidebarItemClick, sideBarOpen }) => {
                                     </span>
                                     <p>{isOpen ? "Gestionar" : ""}</p>
                                 </button>
+                                <button
+                                    key={"Venta"}
+                                    type="button"
+                                    className="sidebar-button"
+                                    onClick={() => changePage("Venta")}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        <FontAwesomeIcon icon={faCubes} />
+                                    </span>
+                                    <p>{isOpen ? "Venta" : ""}</p>
+                                </button>
                             </div>
                         )}
 
