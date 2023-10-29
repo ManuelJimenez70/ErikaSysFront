@@ -4,7 +4,7 @@ import ProductList from '../Components/ProductList';
 import TabsComponent from '../Components/TabsComponent';
 import Venta from '../Components/Venta';
 import "../styles/homeAdmin.css";
-import Venta from '../Components/Venta';
+
 
 
 function HomeAdmin() {
