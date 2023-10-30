@@ -5,7 +5,9 @@ import TabsComponent from '../Components/TabsComponent';
 import Venta from '../Components/Venta';
 import EmployeesList from '../Components/EmployeesList';
 import "../styles/homeAdmin.css";
+
 import Snack from '../Components/Snack';
+
 
 import { Card2 } from '../Components/Card2';
 
