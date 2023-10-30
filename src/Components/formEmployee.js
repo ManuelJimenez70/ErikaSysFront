@@ -7,91 +7,102 @@ import {
     faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
 
-const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateThisList, metod, updateMessage }) => {
+const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento, newDireccion, newEmail, newPassword, updateThisList, metod, updateMessage }) => {
 
-    const [title, setTitle] = useState(newTitle);
-    const [description, setDescripcion] = useState(newDescription);
+    console.log("Id: ", idEmpleado);
+
+    const [nombre, setNombre] = useState(newNombre);
+    const [apellido, setApellido] = useState(newApellido);
     const [image] = useState('hola');
-    const [price, setPrice] = useState(newPrice);
-    const [stock, setStock] = useState(newStock);
-    const [id] = useState(idProduct);
-    const [module, setModule] = useState("Restaurante");
+    const [direccion, setDireccion] = useState(newDireccion);
+    const [documento, setDocumento] = useState(newDocumento);
+    const [id] = useState(idEmpleado);
     const [isOpenDrop, setOpenDrop] = useState(false);
     const [loginError, setLoginError] = useState('');
+    const [email, setEmail] = useState(newEmail);
+    const [password, setPassword] = useState(newPassword);
+    const [rol, setRol] = useState(newRol);
 
     const changeOpen = () => {
         setOpenDrop(!isOpenDrop);
     }
 
-    const changeModule = (module) => {
-        setModule(module);
-        setOpenDrop(false);
+    const changeRol = (newRole) => {
+        setRol(newRole);
     }
 
-    const handleCreateProduct = async (e) => {
+    const handleCreateEmployee = async (e) => {
         window.location.href = "#";
-        console.log("Creando el producto de nombre: " + title);
-        try {
 
+        try {
             const requestData = {
-                id: id,
-                title: title,
-                description: description,
-                image: image,
-                price: price,
-                stock: stock,
+                //id: id,
+                email: email,
+                name: nombre,
+                lastName: apellido,
+                typeDocument: "CC",
+                document_number: documento,
+                direction: direccion,
+                password: password,
+                roles: [rol === "Administrador" ? 1 : 2],
+                state: "Activo"
             };
 
             const response = await axios.post(
-                'http://www.ErikaSys.somee.com/api/Product/createProduct/',
+                'http://www.erikasys.somee.com/api/User/createUser/',
                 requestData
             );
 
-            console.log("Respuesta: " + response.data.data)
+            console.log(response);
+
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
                 updateThisList();
                 updateMessage(response.data.message, true);
             } else {
                 setLoginError(response.data.message);
+                updateMessage(response.data.message, false);
             }
         } catch (error) {
-            console.error('Error al agregar:', error);
-            setLoginError('Error al agregar producto');
+            updateMessage("Upsss, no pudimos hacer esto.", false);
         }
     };
 
-    const handleUpdateProduct = async (e) => {
+    const handleUpdateEmployee = async (e) => {
         window.location.href = "#";
-        try {
 
+        try {
             const requestData = {
-                id: id,
-                title: title,
-                price: price,
-                description: description,
-                image: image,
-                stock: stock,
+                id: idEmpleado,
+                email: email,
+                name: nombre,
+                lastName: apellido,
+                typeDocument: "CC",
+                document_number: documento,
+                direction: direccion,
                 state: "Activo",
+                description: "Por que si"
             };
 
+            console.log("Respuesta: ", requestData);
+
             const response = await axios.post(
-                'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
+                'http://www.erikasys.somee.com/api/User/updateUser/',
                 requestData
             );
 
-            console.log("Respuesta: " + requestData)
+            console.log(response);
 
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
                 updateThisList();
                 updateMessage(response.data.message, true);
             } else {
-                setLoginError(response.data.data);
+                setLoginError(response.data.message);
+                updateMessage(response.data.message, false);
             }
         } catch (error) {
-            console.error('Error al agregar:', error);
-            setLoginError('Error al agregar producto');
+            updateMessage("Upsss, no pudimos hacer esto.", false);
         }
     };
 
@@ -104,21 +115,18 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Módulo</p>
+                        <p>Rol</p>
                     </div>
                     <div className="input">
                         <div class="dropdown" onClick={changeOpen}>
                             <div className='contentDrop'>
-                                <a >{module}</a>
+                                <a >{rol}</a>
                                 <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
-                                    <li onClick={() => changeModule("Restaurante")}>
-                                        Restaurante
+                                    <li onClick={() => changeRol("Administrador")}>
+                                        Administrador
                                     </li>
-                                    <li onClick={() => changeModule("Cafeteria")}>
-                                        Cafetería
-                                    </li>
-                                    <li onClick={() => changeModule("Recepcion")}>
-                                        Recepción
+                                    <li onClick={() => changeRol("Trabajador")}>
+                                        Trabajador
                                     </li>
                                 </ul>
                             </div>
@@ -134,70 +142,75 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
                         <p>Nombre</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Nombre del producto"
+                        <input type="text" placeholder="Nombre"
                             name="nombre"
-                            value={title ? title : newTitle}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={nombre ? nombre : newNombre}
+                            onChange={(e) => setNombre(e.target.value)}
                         ></input>
                     </div>
                 </div>
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Descripción</p>
+                        <p>Apellido</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Descripción del producto"
-                            name="descripcion"
-                            value={description ? description : newDescription}
-                            onChange={(e) => setDescripcion(e.target.value)}
+                        <input type="text" placeholder="Apellido"
+                            name="apellido"
+                            value={apellido ? apellido : newApellido}
+                            onChange={(e) => setApellido(e.target.value)}
                         ></input>
                     </div>
                 </div>
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Costo</p>
+                        <p>Documento</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Costo del producto"
-                            name="precio"
-                            value={price ? price : newPrice}
-                            onChange={(e) => setPrice(e.target.value)}
+                        <input type="text" placeholder="Direccion"
+                            name="documento"
+                            value={ documento ? documento : newDocumento}
+                            onChange={(e) => setDocumento(e.target.value)}
                         ></input>
                     </div>
                 </div>
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Beneficios</p>
+                        <p>Dirección</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Beneficios del producto"
-                            name="beneficios"
+                        <input type="text" placeholder="Direccion"
+                            name="direccion"
+                            value={direccion ? direccion : newDireccion}
+                            onChange={(e) => setDireccion(e.target.value)}
                         ></input>
                     </div>
                 </div>
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Promociones</p>
+                        <p>Email</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Promociones del producto"
-                            name="promociones"
+                        <input type="email" placeholder="Correo electrónico"
+                            name="email"
+                            value={email ? email : newEmail}
+                            onChange={(e) => setEmail(e.target.value)}
                         ></input>
                     </div>
                 </div>
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Stock</p>
+                        <p>Contraseña</p>
                     </div>
                     <div className="input">
-                        <input type="number" placeholder="Unidades disponibles"
-                            value={stock ? stock : newStock}
-                            onChange={(e) => setStock(e.target.value)}
+                        <input type="text" placeholder="Contraseña"
+                            name="contraseña"
+                            value={password ? password : newPassword}
+                            onChange={(e) => setPassword(e.target.value)}
                         ></input>
                     </div>
                 </div>
@@ -207,7 +220,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
                 <button
                     type="button"
                     className="myButton"
-                    onClick={metod === "create" ? handleCreateProduct : handleUpdateProduct}
+                    onClick={metod === "create" ? handleCreateEmployee : handleUpdateEmployee}
                 >
                     <span className="material-symbols-outlined">
                         <FontAwesomeIcon icon={faSave} />
@@ -229,4 +242,4 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
 }
 
-export default FormProduct;
+export default FormEmployee;

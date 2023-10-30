@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/sideBar3.css'; // Asegúrate de ajustar la ruta correcta a tu archivo CSS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from '../Components/AuthContext';
@@ -12,7 +12,6 @@ import {
     faPenToSquare,
     faUserPen,
     faChevronLeft,
-    faChevronRight,
     faHotel,
     faSwimmingPool,
     faBellConcierge,
@@ -35,20 +34,37 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
     const [isOpenRooms, setIsOpenRooms] = useState(false);
     const [isOpenGestionProducts, setIsOpenGestionProducts] = useState(false);
     const [isOpenGestionEmpleados, setIsOpenGestionEmpleados] = useState(false);
-    const [isOpenVenta , setIsOpenVenta] = useState(false);
+    const [isOpenVenta, setIsOpenVenta] = useState(false);
 
     const handleSidebarItemClick = (buttonName) => {
         if (buttonName === 'Productos') {
+            setIsOpenEmployees(false);
+            setIsOpenServices(false);
+            setIsOpenReports(false);
             setIsOpenProductos(!isOpenProductos);
         } else if (buttonName === 'Empleados') {
+            setIsOpenProductos(false);
+            setIsOpenServices(false);
+            setIsOpenReports(false);
             setIsOpenEmployees(!isOpenEmployees);
         } else if (buttonName === 'Servicios') {
+            setIsOpenProductos(false);
+            setIsOpenEmployees(false);
+            setIsOpenReports(false);
             setIsOpenServices(!isOpenServices);
         } else if (buttonName === 'Reportes') {
-            setIsOpenReports(!isOpenReports);
+            setIsOpenEmployees(false);
+            setIsOpenServices(false);
+            setIsOpenProductos(false);
+            setIsOpenGestionProducts(false);
+            setIsOpenVenta(false);
+            setIsOpenReports(true);
+            setIsOpenGestionEmpleados(false);
             changePage("Reportes");
         } else if (buttonName === 'GesP') {
-            setIsOpenGestionProducts(!isOpenGestionProducts);
+            setIsOpenGestionProducts(true);
+            setIsOpenVenta(false);
+            setIsOpenGestionEmpleados(false);
             changePage("Productos");
         } else if (buttonName === 'Pool') {
             setIsOpenPool(!isOpenPool);
@@ -60,12 +76,16 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
             setIsOpenRooms(!isOpenRooms);
             changePage("Rooms");
         } else if (buttonName === 'GesE') {
-            setIsOpenGestionEmpleados(!isOpenGestionEmpleados);
+            setIsOpenVenta(false);
+            setIsOpenGestionProducts(false);
+            setIsOpenGestionEmpleados(true);
             changePage("Empleados");
-        } else if (buttonName === 'VentP'){
-            setIsOpenVenta(!isOpenVenta);
+        } else if (buttonName === 'VentP') {
+            setIsOpenGestionProducts(false);
+            setIsOpenGestionEmpleados(false);
+            setIsOpenVenta(true);
             changePage("Venta")
-            
+
         }
     };
 
@@ -75,38 +95,38 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
 
     useEffect(() => {
         if (userId) {
-          // Realiza la solicitud a la API usando el userId
-          const fetchUserInfo = async () => {
-            try {
-              const response = await fetch(`http://www.erikasys.somee.com/api/User/getUserById/${userId}`);
-              const userData = await response.json();
-    
-              if (userData.state === 'SUCCESS') {
-                const { name } = userData.data;
-                setUserName(name.value); // Actualiza el estado con el nombre del usuario
-              }
-            } catch (error) {
-              console.error('Error al obtener la información del usuario:', error);
-            }
-          };
-    
-          fetchUserInfo(); // Llama a la función para obtener la información del usuario
+            // Realiza la solicitud a la API usando el userId
+            const fetchUserInfo = async () => {
+                try {
+                    const response = await fetch(`http://www.erikasys.somee.com/api/User/getUserById/${userId}`);
+                    const userData = await response.json();
+
+                    if (userData.state === 'SUCCESS') {
+                        const { name } = userData.data;
+                        setUserName(name.value); // Actualiza el estado con el nombre del usuario
+                    }
+                } catch (error) {
+                    console.error('Error al obtener la información del usuario:', error);
+                }
+            };
+
+            fetchUserInfo(); // Llama a la función para obtener la información del usuario
         }
-      }, [userId]);
+    }, [userId]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
-        sideBarOpen();
+        sideBarOpen(!isCollapsed);
     };
 
     return (
         <div className={`body ${isCollapsed ? "collapsed" : ""}`}>
             <nav className='navBar'>
                 <div className="sidebar-top">
-                    <span className="expand-btn" onClick={toggleSidebar}>
-                        <FontAwesomeIcon icon={isCollapsed ? faChevronRight : faChevronLeft} />
+                    <span className= {`expand-btn`} onClick={toggleSidebar}>
+                        <FontAwesomeIcon icon={faChevronLeft} className= {`${isCollapsed ? "up" : "down"}`}/>
                     </span>
                     <img
                         src={Logo}
@@ -127,12 +147,8 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                 </div>
                                 <span className="link hide">Productos</span>
 
-                                <span className={`material-symbols-outlined iconDropDown hide`} >
-                                    {isOpenProductos ? (
-                                        <FontAwesomeIcon icon={faChevronUp} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    )}
+                                <span className={`material-symbols-outlined iconDropDown hide ${isOpenProductos ? "up" : "down"}`} >
+                                    <FontAwesomeIcon icon={faChevronDown} />
                                 </span>
                             </button>
 
@@ -176,12 +192,8 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                 </div>
                                 <span className="link hide">Empleados</span>
 
-                                <span className={`material-symbols-outlined iconDropDown hide`} >
-                                    {isOpenEmployees ? (
-                                        <FontAwesomeIcon icon={faChevronUp} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    )}
+                                <span className={`material-symbols-outlined iconDropDown hide ${isOpenEmployees ? "up" : "down"}`} >
+                                    <FontAwesomeIcon icon={faChevronDown} />
                                 </span>
                             </button>
 
@@ -211,12 +223,8 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                 </div>
                                 <span className="link hide">Servicios</span>
 
-                                <span className={`material-symbols-outlined iconDropDown hide`} >
-                                    {isOpenServices ? (
-                                        <FontAwesomeIcon icon={faChevronUp} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    )}
+                                <span className={`material-symbols-outlined iconDropDown hide ${isOpenServices ? "up" : "down"}`} >
+                                    <FontAwesomeIcon icon={faChevronDown} />
                                 </span>
                             </button>
 

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "../styles/productList.css";
-import FormProduct from './formProduct';
+import FormEmployee from './formEmployee';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faEdit,
-    faRecycle,
-    faRemove,
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
 
 
-const CardProduct = ({ idProduct, title, description, image, price, stock, updateList, updateMessage}) => {
+const CardEmployee = ({ idEmpleado, nombre, apellido, documento, direccion, email, password, rol, updateList, updateMessage }) => {
 
     const [deleteError, setDeleteError] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -34,28 +32,32 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
 
     const handleUpdateState = async (e) => {
         try {
+
             const requestData = {
-                id: idProduct,
-                state: 'inactivo',
+                id: idEmpleado,
+                email: email,
+                name: nombre,
+                lastName: apellido,
+                typeDocument: "CC",
+                document_number: documento,
+                direction: direccion,
+                state: "Inactivo",
+                description: "Por que si"
             };
 
             const response = await axios.post(
-                'http://www.ErikaSys.somee.com/api/Product/updateProduct/',
+                'http://www.erikasys.somee.com/api/User/updateUser/',
                 requestData
             );
 
-            // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
-                console.log(response.data.data)
-                console.log(idProduct)
                 updateList();
-
+                updateMessage(response.data.message, true);
             } else {
-                setDeleteError(response.data.data);
+                updateMessage(response.data.message, false)
             }
         } catch (error) {
             console.error('Error al agregar:', error);
-            setDeleteError('Error al agregar producto');
         }
     };
 
@@ -85,23 +87,26 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                                 </svg>
                             </div>
                             <div className="solu_title">
-                                <h3> {title} </h3>
+                                <h3> {`${nombre} ${apellido}`} </h3>
                             </div>
                             <div className="solu_description">
                                 <p>
-                                    Nombre: {title}
+                                    Nombre: {nombre}
                                 </p>
                                 <p>
-                                    Descripción: {description}
+                                    Apellido: {apellido}
                                 </p>
                                 <p>
-                                    Costo: {price}
+                                    N° Documento: {documento}
                                 </p>
                                 <p>
-                                    Stock: {stock}
+                                    Dirección: {direccion}
+                                </p>
+                                <p>
+                                    Rol: {rol}
                                 </p>
                                 <div className="ButtonsDiv">
-                                    <button onClick={() => window.location.href = "#modal" + idProduct}>
+                                    <button onClick={() => window.location.href = "#modal" + idEmpleado}>
                                         <span>
                                             <FontAwesomeIcon icon={faEdit} />
                                         </span>
@@ -118,7 +123,7 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                                 {/* Pop-up de confirmación */}
                                 {showConfirmation && (
                                     <div className="confirmation-popup">
-                                        <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                                        <p>¿Estás seguro de que deseas eliminar al empleado?</p>
                                         <button onClick={handleConfirmDelete}>Sí</button>
                                         <button onClick={handleCancelDelete}>Cancelar</button>
                                     </div>
@@ -129,9 +134,9 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                 </div>
             </div>
 
-            <div id={`modal${idProduct}`} className="modalmask">
+            <div id={`modal${idEmpleado}`} className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct idProduct = {idProduct} newTitle={title} newDescription={description} newPrice={price} newStock={stock} updateThisList= { updateList } metod = "update" updateMessage={ updateMessage }></FormProduct>
+                    <FormEmployee idEmpleado={idEmpleado} newNombre={nombre} newApellido={apellido} newDireccion={direccion} newDocumento={documento} newEmail= {email} updateThisList={updateList} metod="update" updateMessage={updateMessage}></FormEmployee>
                 </div>
             </div>
 
@@ -139,4 +144,4 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
     );
 }
 
-export default CardProduct;
+export default CardEmployee;

@@ -17,6 +17,7 @@ function Reports() {
   const [options, setOptions] = useState({
     labels: [],
   });
+
   const optionsChart = {
     title: "Balance",
     curveType: "function",
@@ -29,37 +30,37 @@ function Reports() {
 
     // Realiza la solicitud para obtener las acciones
     axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=in`)
-    .then(response => {
-      const responseData = response.data; // Listado de acciones
+      .then(response => {
+        const responseData = response.data; // Listado de acciones
 
-      // Calcula la cantidad de acciones por módulo dinámicamente
-      const moduleCounts = {};
+        // Calcula la cantidad de acciones por módulo dinámicamente
+        const moduleCounts = {};
 
-      responseData.forEach(action => {
-        const moduleName = action.moduleName;
-        if (!moduleCounts[moduleName]) {
-          moduleCounts[moduleName] = 1;
-        } else {
-          moduleCounts[moduleName] += 1;
-        }
+        responseData.forEach(action => {
+          const moduleName = action.moduleName;
+          if (!moduleCounts[moduleName]) {
+            moduleCounts[moduleName] = 1;
+          } else {
+            moduleCounts[moduleName] += 1;
+          }
+        });
+
+        // Extrae los nombres de módulos y sus conteos
+        const moduleNames = Object.keys(moduleCounts);
+        const moduleValues = moduleNames.map(moduleName => moduleCounts[moduleName]);
+
+        // Actualiza los datos del gráfico
+        setChartData(moduleValues);
+
+        // Actualiza las etiquetas del gráfico
+        setOptions({
+          labels: moduleNames,
+          // Otras opciones de configuración del gráfico
+        });
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos de las acciones:', error);
       });
-
-      // Extrae los nombres de módulos y sus conteos
-      const moduleNames = Object.keys(moduleCounts);
-      const moduleValues = moduleNames.map(moduleName => moduleCounts[moduleName]);
-
-      // Actualiza los datos del gráfico
-      setChartData(moduleValues);
-
-      // Actualiza las etiquetas del gráfico
-      setOptions({
-        labels: moduleNames,
-        // Otras opciones de configuración del gráfico
-      });
-    })
-    .catch(error => {
-      console.error('Error al obtener los datos de las acciones:', error);
-    });
   }, [startDate2, endDate2, showApexChart])
 
 
@@ -160,22 +161,22 @@ function Reports() {
           <br></br>
           <h3>Fecha Final</h3>
           <DataPicker selected={endDate2} onChange={date => setEndDate2(date)} />
-          
+
           <div id="chart">
-          <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
-          {showApexChart && (
+            <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
+            {showApexChart && (
               <ReactApexChart options={options} series={chartData} type="pie" width="380" />
             )}
-            
+
           </div>
           <br></br>
-          
+
         </div>
         {/* Agrega más reportes aquí siguiendo el mismo patrón */}
       </div>
     </div>
   );
-  
+
 }
 
 export default Reports;

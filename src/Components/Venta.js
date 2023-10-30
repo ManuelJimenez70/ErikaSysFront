@@ -4,7 +4,8 @@ import { useAuth } from '../Components/AuthContext';
 import "../styles/ventaProducto.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAdd
+  faAdd,
+  faSearch
 } from "@fortawesome/free-solid-svg-icons";
 
 function Venta() {
@@ -15,11 +16,12 @@ function Venta() {
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
   const [mensaje, setMensaje] = useState('');
   const [total, setTotal] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
 
 
   // Función para manejar la adición de productos
-  const handleAddProduct = () => {
+  const handleAddProduct = (e) => {
     if (productId && quantity > 0) {
       // Verifica si el producto ya está en la lista
       const existingProductIndex = products.findIndex(product => product.id === productId);
@@ -60,20 +62,23 @@ function Venta() {
 
   // Función para obtener información de un producto por su ID
   const fetchProductInfo = async () => {
-    try {
-      console.log(productId)
-      const response = await axios.get(`http://www.erikasys.somee.com/api/Product/getProductById/${productId}`);
-      const producto = response.data.data;
-      console.log(producto);
-      // Actualiza el estado "productInfo" con la información del producto
-      setProductInfo(producto);
-      if (producto === null) {
+    setIsSearching(true);
+    if (isSearching) {
+      try {
+        console.log(productId)
+        const response = await axios.get(`http://www.erikasys.somee.com/api/Product/getProductById/${productId}`);
+        const producto = response.data.data;
+        console.log(producto);
+        // Actualiza el estado "productInfo" con la información del producto
+        setProductInfo(producto);
+        if (producto === null) {
+          setMensaje('No se pudo encontrar el producto.');
+        }
+
+      } catch (error) {
+        console.error('Error al buscar el producto:', error);
         setMensaje('No se pudo encontrar el producto.');
       }
-
-    } catch (error) {
-      console.error('Error al buscar el producto:', error);
-      setMensaje('No se pudo encontrar el producto.');
     }
   };
 
@@ -151,27 +156,20 @@ function Venta() {
   return (
     <div class='m-4'>
       <div className='editId'>
-        <label>ID del Producto:</label>
-        <div className='searchButton'>
+        <p>Vender productos</p>
+        <div className={`${isSearching ? "searchButton" : "search"}`}>
           <input
             type="text"
             value={productId}
+            placeholder='Nombre o id del producto'
             onChange={handleProductIdChange}
             onKeyDown={handleQuantityKeyPress} // Maneja la tecla "Enter"
           />
-          <button class='mt-2' onClick={fetchProductInfo}>
-            <FontAwesomeIcon icon={faAdd} />
+          <button className='mt-2' onClick={fetchProductInfo}>
+            <FontAwesomeIcon icon={isSearching ? faAdd : faSearch} />
           </button>
         </div>
       </div>
-
-      {productInfo && (
-        <div>
-          <h3>Información del Producto:</h3>
-          <p>Nombre: {productInfo?.title?.value}</p>
-          <p>Precio: ${productInfo?.price?.value}</p>
-        </div>
-      )}
 
       <table class='styled-table'>
         <thead>
@@ -186,11 +184,11 @@ function Venta() {
         <tbody>
           {products.map((product) => (
             <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>${product.price}</td>
-              <td>{product.quantity}</td>
-              <td>${product.price * product.quantity}</td>
+              <td> <p>{product.id}</p></td>
+              <td><p>{product.name}</p></td>
+              <td><p>${product.price}</p></td>
+              <td><p>{product.quantity}</p></td>
+              <td><p>${product.price * product.quantity}</p></td>
             </tr>
           ))}
         </tbody>
