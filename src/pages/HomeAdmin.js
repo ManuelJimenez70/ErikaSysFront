@@ -52,6 +52,7 @@ function HomeAdmin() {
                 {/* Renderiza el componente correspondiente en función de currentContent */}
                 {currentContent === "Productos" && <ProductList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
                 {currentContent === "Reportes" && <TabsComponent />}
+
                 {currentContent === "Venta" && <Venta />}
                 {currentContent === "Empleados" && <EmployeesList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
             </div>

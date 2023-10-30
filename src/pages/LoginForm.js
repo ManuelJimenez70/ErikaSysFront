@@ -20,6 +20,7 @@ function LoginForm() {
   const [messageSnack, setMessageSnack] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+  
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -27,6 +28,7 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
       const requestData = {
         email: username,
@@ -43,11 +45,12 @@ function LoginForm() {
         updateMessage("En un momento serás dirigido...", true);
         const decoded = jwt_decode(response.data.data);
         if (decoded.roles.toLowerCase() === "administrador") {
+          setUserId(decoded.id);
           navigate('/homeAdmin');
         } else {
           navigate('/home');
         }
-        console.log(response.data.data)
+        console.log(decoded)
       } else {
         setLoginError(response.data.data);
       }

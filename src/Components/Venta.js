@@ -10,7 +10,8 @@ import {
 
 function Venta() {
   const [productId, setProductId] = useState('');
-  const { userId } = "1";
+  const { userId } = useAuth();
+
   const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
@@ -95,6 +96,7 @@ function Venta() {
   }, [mensaje]);
 
   useEffect(() => {
+
     // Verifica si productInfo no es null
     if (productInfo) {
       console.log(productInfo.title.value);
@@ -211,5 +213,5 @@ function Venta() {
     </div>
   );
 }
-
 export default Venta;
+

@@ -19,4 +19,6 @@ export function AuthProvider({ children }) {
 // Hook personalizado para acceder al contexto
 export function useAuth() {
   return useContext(AuthContext);
+
 }
+

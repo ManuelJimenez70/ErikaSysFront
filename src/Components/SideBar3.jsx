@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/sideBar3.css'; // Asegúrate de ajustar la ruta correcta a tu archivo CSS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from '../Components/AuthContext';
+
 import {
     faShoppingCart,
     faUsers,
@@ -24,7 +25,7 @@ import Logo from "../images/Logo2.jpg";
 export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
 
     const [userName, setUserName] = useState('');
-    const { userId } = "12";
+    const { userId } = useAuth();
     const [isOpenProductos, setIsOpenProductos] = useState(false);
     const [isOpenEmployees, setIsOpenEmployees] = useState(false);
     const [isOpenServices, setIsOpenServices] = useState(false);
