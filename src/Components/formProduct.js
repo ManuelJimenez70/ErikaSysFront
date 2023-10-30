@@ -170,20 +170,6 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>Modulo </p>
-                    </div>
-                    <div className="input">
-                        <select type="text" placeholder="Promociones del producto" name="promociones">
-                            <option value="General">General</option>
-                            <option value="Recepción">Recepción</option>
-                            <option value="Cafetería">Cafetería</option>
-                            <option value="Cocina">Cocina</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div className="dataInput">
-                    <div className="label">
                         <p>Stock</p>
                     </div>
                     <div className="input">

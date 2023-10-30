@@ -244,3 +244,19 @@ button>.iconDropDown{
   }
 
 }
+
+.sidebar-top>h3{
+  font-size: 25px;
+  min-width: 75%;
+  margin-left: -10px !important;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-top>h3 p{
+  margin: 0;
+  margin-left: 5px;
+  text-transform: capitalize;
+  overflow: hidden;
+  color: #fffefea2;
+}

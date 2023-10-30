@@ -154,3 +154,20 @@ td {
     width: 0px;
     display: none;
 }
+
+.editId .dropdown {
+    border: solid 1px var(--button-color) !important;
+    border-radius: 5px;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+}
+
+.openD{
+    margin-top: 112px;
+}
+
+.editId>p>span{
+    font-size: 15px;
+    color: #1147708c;
+}

@@ -52,6 +52,7 @@ function LoginForm() {
           setUserId(decoded.id);
           navigate('/homeAdmin');
         } else {
+          setUserId(decoded.id);
           navigate('/home');
         }
         console.log(decoded)

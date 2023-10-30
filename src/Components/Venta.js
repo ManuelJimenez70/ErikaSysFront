@@ -5,21 +5,21 @@ import "../styles/ventaProducto.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
-  faSearch
+  faSearch,
+  faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
 
 function Venta() {
+
   const [productId, setProductId] = useState('');
   const { userId } = useAuth();
-
   const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
   const [mensaje, setMensaje] = useState('');
   const [total, setTotal] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
-
-
+  const [moduleNum, setModuleNum] = useState(3);
 
   // Función para manejar la adición de productos
   const handleAddProduct = (e) => {
@@ -63,15 +63,24 @@ function Venta() {
 
   // Función para obtener información de un producto por su ID
   const fetchProductInfo = async () => {
+
     setIsSearching(true);
     if (isSearching) {
       try {
         console.log(productId)
         const response = await axios.get(`http://www.erikasys.somee.com/api/Product/getProductById/${productId}`);
         const producto = response.data.data;
-        console.log(producto);
+
+        console.log("Modulo del producto: ", producto.id_module.value);
+        console.log("Modulo actual: ", moduleNum);
+
         // Actualiza el estado "productInfo" con la información del producto
-        setProductInfo(producto);
+        if(producto.id_module.value === ""+moduleNum){
+          setProductInfo(producto);
+        } else {
+          setMensaje('El producto no pertenece al módulo.');
+        }
+        
         if (producto === null) {
           setMensaje('No se pudo encontrar el producto.');
         }
@@ -115,6 +124,7 @@ function Venta() {
     const newProductId = e.target.value;
     setProductId(newProductId);
   };
+
   const fetchProductSell = async () => {
     try {
       // Crea un objeto con la información de la venta
@@ -124,10 +134,12 @@ function Venta() {
           id_user: userId, // Cambia esto al ID del usuario actual
           id_action: 6, // ID correspondiente a la acción de venta
           id_product: product.id, // ID del producto actual
-          id_module: 1, // Cambia esto al ID del módulo correspondiente
+          id_module: moduleNum, // Cambia esto al ID del módulo correspondiente
           quantity: product.quantity, // Cantidad del producto actual
           state: 'Success',
         };
+
+        console.log("Información de la venta: ", saleData);
 
         // Realiza la solicitud POST para registrar el producto
         const response = await axios.post('http://www.erikasys.somee.com/api/Action/recordAction', saleData);
@@ -154,11 +166,46 @@ function Venta() {
     }
   };
 
+  const [isOpenDrop, setOpenDrop] = useState(false);
+  const [module, setModule] = useState("Restaurante");
+
+  const changeOpen = () => {
+    setOpenDrop(!isOpenDrop);
+  }
+
+  const changeModule = (module) => {
+    setModule(module);
+    setOpenDrop(false);
+    setModuleNum(module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3);
+    setProducts([]);
+}
 
   return (
     <div class='m-4'>
       <div className='editId'>
-        <p>Vender productos</p>
+        <p>Vender productos / <span>{module}</span></p>
+
+
+        <div class="dropdown" onClick={changeOpen}>
+          <div className= {`contentDrop ${isOpenDrop ? "openD" : "closeD"}`}>
+            <a >{module}</a>
+            <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
+              <li onClick={() => changeModule("Restaurante")}>
+                Restaurante
+              </li>
+              <li onClick={() => changeModule("Cafeteria")}>
+                Cafetería
+              </li>
+              <li onClick={() => changeModule("Recepcion")}>
+                Recepción
+              </li>
+            </ul>
+          </div>
+          <span className={isOpenDrop ? "up" : "down"}>
+            <FontAwesomeIcon icon={faChevronDown} className='iconBut' />
+          </span>
+        </div>
+
         <div className={`${isSearching ? "searchButton" : "search"}`}>
           <input
             type="text"
