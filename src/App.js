@@ -13,10 +13,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<LoginForm />} />
-          <Route path="/homeAdmin" element={<HomeAdmin />}>
-            <Route path="productos" element={<ProductList />} />
-            <Route path="venta" element={<Venta />} /> {/* Cambia esto */}
-          </Route>
+          <Route path="/homeAdmin" element={<HomeAdmin rol={"administrador"}/>}/>
+          <Route path="/home" element={<HomeAdmin/>}/>
         </Routes>
       </div>
     </AuthProvider>

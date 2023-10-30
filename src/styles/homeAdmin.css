@@ -1,4 +1,4 @@
-.app-container{
+.app-container {
     display: flex;
 }
 
@@ -10,4 +10,15 @@
 .content-open {
     width: 78%;
     transition: .5s;
+}
+
+@media only screen and (width < 814px) {
+    .app-container {
+        display: block;
+    }
+
+    .content {
+        min-width: 100%;
+        margin: 0 auto;
+    }
 }

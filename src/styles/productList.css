@@ -185,24 +185,24 @@
 .card-container {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     margin-top: 20px;
+    align-items: center;
 }
 
 .cardsContainer {
     max-width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: -10px;
-    grid-auto-rows: minmax(100px, auto);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 25%;
     margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .contentList button {
@@ -271,52 +271,24 @@
     }
 }
 
+@media only screen and (width < 794px) {
+    .container-fluid>button {
+       min-width: 100%;
+       margin: 0 auto;
+       margin-bottom: 10px;
+       transition: .5s;
+    }
+
+    .formContent, .searchBar {
+        width: 100%;
+    }
+}
+
 @media only screen and (min-width: 1024px) {
     .sol_card_top_3 {
         position: relative;
         top: -3rem;
     }
-
-    .our_solution_category {
-        width: 50%;
-        margin: 0 auto;
-    }
 }
 
-@media only screen and (width < 1600px) {
 
-    .sol_card_top_3 {
-        position: relative;
-        top: 0;
-    }
-
-    .card-container .collapsed {
-        max-width: 100%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: -10px;
-        grid-auto-rows: minmax(100px, auto);
-        transition: .5s;
-    }
-
-    .our_solution_category {
-        width: 100%;
-        margin-left: 4px;
-    }
-
-    .our_solution_category .solution_cards_box {
-        flex: auto;
-    }
-
-    .cardsContainer {
-        max-width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: -10px;
-        grid-auto-rows: minmax(100px, auto);
-    }
-
-    .pagination {
-        margin-bottom: 20px !important;
-    }
-}

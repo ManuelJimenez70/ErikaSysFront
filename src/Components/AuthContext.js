@@ -5,7 +5,9 @@ const AuthContext = createContext();
 
 // Proveedor de contexto
 export function AuthProvider({ children }) {
+
   const [userId, setUserId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   return (
     <AuthContext.Provider value={{ userId, setUserId }}>
