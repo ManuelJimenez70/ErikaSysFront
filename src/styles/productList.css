@@ -214,11 +214,12 @@
 
 .contentList {
     width: 100%;
-    max-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .searchPanel {
-    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .searchBar {

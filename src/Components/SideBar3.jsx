@@ -123,7 +123,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
     };
 
     return (
-        <div className={`body ${isCollapsed ? "collapsed" : ""}`}>
+        <div className={`bodyNav ${isCollapsed ? "collapsed" : ""}`}>
             <nav className='navBar'>
                 <div className="sidebar-top">
                     <span className= {`expand-btn`} onClick={toggleSidebar}>

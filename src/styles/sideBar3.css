@@ -13,15 +13,15 @@
   --text-color: white;
 }
 
-.sidebar-top img {
-  border-radius: 10px;
+.bodyNav {
+  height: 100vh;
 }
 
 .navBar {
-  position: sticky !important;
+  position: sticky;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   background-color: var(--button-color);
   width: 18rem;
   padding: 1.8rem 0.65rem;
@@ -37,6 +37,10 @@
   display: flex;
   align-items: center;
   margin-bottom: 32px;
+}
+
+.sidebar-top img {
+  border-radius: 10px;
 }
 
 .sidebar-top .logo {
