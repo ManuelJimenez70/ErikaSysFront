@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState  } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import "../styles/formModal.css";
 import axios from "axios";
-import Snack from './Snack';
+import {
+    faChevronDown
+} from "@fortawesome/free-solid-svg-icons";
 
-const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateThisList, metod }) => {
+const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, updateThisList, metod, updateMessage }) => {
 
     const [title, setTitle] = useState(newTitle);
     const [description, setDescripcion] = useState(newDescription);
@@ -13,9 +15,18 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
     const [price, setPrice] = useState(newPrice);
     const [stock, setStock] = useState(newStock);
     const [id] = useState(idProduct);
-    const [showSnack, setShowSnack] = useState(false);
+    const [module, setModule] = useState("Restaurante");
+    const [isOpenDrop, setOpenDrop] = useState(false);
     const [loginError, setLoginError] = useState('');
 
+    const changeOpen = () => {
+        setOpenDrop(!isOpenDrop);
+    }
+
+    const changeModule = (module) => {
+        setModule(module);
+        setOpenDrop(false);
+    }
 
     const handleCreateProduct = async (e) => {
         window.location.href = "#";
@@ -40,7 +51,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
                 updateThisList();
-                console.log(response.data.message)
+                updateMessage(response.data.message, true);
             } else {
                 setLoginError(response.data.message);
             }
@@ -51,6 +62,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
     };
 
     const handleUpdateProduct = async (e) => {
+        window.location.href = "#";
         try {
 
             const requestData = {
@@ -73,9 +85,7 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
             // Mueve este bloque dentro del .then
             if (response.data.state === 'SUCCESS') {
                 updateThisList();
-                window.location.href = "#";
-                console.log(response.data.message)
-
+                updateMessage(response.data.message, true);
             } else {
                 setLoginError(response.data.data);
             }
@@ -94,12 +104,28 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
 
                 <div className="dataInput">
                     <div className="label">
-                        <p>ID</p>
+                        <p>Módulo</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="ID del producto"
-                            name="id" value={idProduct} readOnly
-                        ></input>
+                        <div class="dropdown" onClick={changeOpen}>
+                            <div className='contentDrop'>
+                                <a >{module}</a>
+                                <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
+                                    <li onClick={() => changeModule("Restaurante")}>
+                                        Restaurante
+                                    </li>
+                                    <li onClick={() => changeModule("Cafeteria")}>
+                                        Cafetería
+                                    </li>
+                                    <li onClick={() => changeModule("Recepcion")}>
+                                        Recepción
+                                    </li>
+                                </ul>
+                            </div>
+                            <span className= { isOpenDrop ? "up" : "down"}>
+                                <FontAwesomeIcon icon={faChevronDown} className='iconBut' />
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -139,20 +165,6 @@ const FormProduct = ({ idProduct, newTitle, newDescription, newPrice, newStock, 
                             value={price ? price : newPrice}
                             onChange={(e) => setPrice(e.target.value)}
                         ></input>
-                    </div>
-                </div>
-
-                <div className="dataInput">
-                    <div className="label">
-                        <p>Modulo </p>
-                    </div>
-                    <div className="input">
-                        <select type="text" placeholder="Promociones del producto" name="promociones">
-                            <option value="General">General</option>
-                            <option value="Recepción">Recepción</option>
-                            <option value="Cafetería">Cafetería</option>
-                            <option value="Cocina">Cocina</option>
-                        </select>
                     </div>
                 </div>
 

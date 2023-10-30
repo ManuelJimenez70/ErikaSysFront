@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/formModal.css";
 import "../styles/productList.css";
-import CardProduct from "./CardProduct";
-import FormProduct from './formProduct';
+import FormEmployee from './formEmployee';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,16 +10,12 @@ import {
     faPlus,
     faSearch
 } from "@fortawesome/free-solid-svg-icons";
+import CardEmployee from './CardEmployee';
 
-import { Card2 } from './Card2';
 
-
-function ProductList( {isOpenSideBar, updateMessage}) {
+function EmployeesList({ isOpenSideBar, updateMessage }) {
 
     const [products, setProducts] = useState([]);
-    const [originalProducts, setOriginalProducts] = useState([]);
-
-    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         // Realiza la solicitud GET a la API
@@ -28,40 +23,14 @@ function ProductList( {isOpenSideBar, updateMessage}) {
     }, []); // El segundo argumento del useEffect es un array vacío para que se ejecute solo una vez al montar el componente
 
     const updateList = () => {
-        axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=50&state=Activo')
+        axios.get('http://www.erikasys.somee.com/api/User/getUsersByRange?numI=0&numF=50&state=Activo')
             .then(response => {
                 // Almacena los datos de productos en el estado
                 setProducts(response.data.data);
-                setOriginalProducts(response.data.data);
             })
             .catch(error => {
-                console.error('Error al cargar los productos:', error);
+                console.error('Error al cargar los usuarios:', error);
             });
-    }
-
-    const updateListbySearch = () => {
-        // Lógica de filtrado para actualizar la lista de productos según el término de búsqueda
-        if (searchTerm === '') {
-            setProducts(originalProducts); // Restaura la lista completa de productos
-        } else {
-            if (!isNaN(searchTerm)) {
-                // Si es un número, busca por el id_product
-                const filteredProducts = originalProducts.filter(product =>
-                    product.id_product.toString().includes(searchTerm)
-                );
-                setProducts(filteredProducts);
-            } else {
-                // Si no es un número, busca por el título
-                const filteredProducts = originalProducts.filter(product =>
-                    product.title.value.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                setProducts(filteredProducts);
-            }
-        }
-    }
-
-    const handleSearch = () => {
-        updateListbySearch();
     }
 
     const [page, setPage] = useState(1);
@@ -98,14 +67,8 @@ function ProductList( {isOpenSideBar, updateMessage}) {
                         </button>
                         <div className="formContent">
                             <div className='searchBar'>
-                                <input
-                                    className="form-control me-2"
-                                    type="search"
-                                    placeholder="Nombre del producto"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <button type='button' onClick={handleSearch}>
+                                <input className="form-control me-2" type="search" placeholder="Nombre del producto"></input>
+                                <button type='button'>
                                     <span>
                                         <FontAwesomeIcon icon={faSearch} />
                                     </span>
@@ -118,16 +81,18 @@ function ProductList( {isOpenSideBar, updateMessage}) {
 
             <div className="card-container">
                 <div className={`cardsContainer ${isOpenSideBar ? "collapsed" : ""}`}>
-                    {cardsToShow.map(product => (
-                        <Card2
-                            key={product.id_product}
-                            idProduct={product.id_product}
-                            title={product.title.value}
-                            description={product.description.value}
-                            price={product.price.value}
-                            stock={product.stock.value}
+                    {cardsToShow.map(employee => (
+                        <CardEmployee
+                            key={employee.id_user}
+                            idEmpleado={employee.id_user}
+                            nombre={employee.name.value}
+                            apellido={employee.lastName.value}
+                            documento={employee.identification.value}
+                            direccion={employee.direction.value}
+                            rol={employee.rol_Users}
+                            email={employee.email.value}
                             updateList={updateList}
-                            updateMessage = {updateMessage}
+                            updateMessage={updateMessage}
                         />
                     ))}
                 </div>
@@ -155,12 +120,12 @@ function ProductList( {isOpenSideBar, updateMessage}) {
 
             <div id="modal1" className="modalmask">
                 <div className="modalbox movedown">
-                    <FormProduct updateList={updateList} metod="create" updateMessage={ updateMessage}></FormProduct>
+                    <FormEmployee updateThisList={updateList} metod="create" updateMessage={updateMessage}></FormEmployee>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ProductList;
+export default EmployeesList;
 

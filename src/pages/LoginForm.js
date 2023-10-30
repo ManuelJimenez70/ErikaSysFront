@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../Components/AuthContext'; 
-
-
+import Snack from '../Components/Snack';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faEye,
   faEyeSlash
 } from "@fortawesome/free-solid-svg-icons";
-
 import '../styles/login.css';
 import jwt_decode from 'jwt-decode';
+
+import { useAuth } from '../Components/AuthContext'; 
 
 function LoginForm() {
 
@@ -20,13 +19,14 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
-  const { setUserId } = useAuth();
-
+  const [messageSnack, setMessageSnack] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+
+  const { setUserId } = useAuth();
   
 
   const toggleShowPassword = () => {
-    console.log("Presionandooooooo")
     setShowPassword(!showPassword);
   };
 
@@ -46,13 +46,13 @@ function LoginForm() {
 
       // Mueve este bloque dentro del .then
       if (response.data.state === 'SUCCESS') {
-
+        updateMessage("En un momento serás dirigido...", true);
         const decoded = jwt_decode(response.data.data);
-
         if (decoded.roles.toLowerCase() === "administrador") {
           setUserId(decoded.id);
           navigate('/homeAdmin');
         } else {
+          setUserId(decoded.id);
           navigate('/home');
         }
         console.log(decoded)
@@ -64,6 +64,23 @@ function LoginForm() {
       setLoginError('Error al intentar iniciar sesión');
     }
   };
+
+  const updateMessage = (message, success) => {
+    setMessageSnack(message);
+    setIsSuccess(success);
+  }
+
+  useEffect(() => {
+    if (messageSnack !== '') {
+      const timer = setTimeout(() => {
+        setMessageSnack('');
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [messageSnack]);
 
   return (
     <div className="general">
@@ -130,6 +147,10 @@ function LoginForm() {
           </form>
         </div>
       </div>
+
+      {messageSnack &&
+        <Snack success={isSuccess} message={messageSnack} show={messageSnack ? true : false}></Snack>
+      }
     </div>
   );
 }
