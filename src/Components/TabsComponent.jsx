@@ -70,51 +70,58 @@ function TabsComponent() {
     }, [startDate2, endDate2, showApexChart])
 
     ////////////////////////////////////////////////////////////////////////////////////////este
-    useEffect(() => {
-        if (showChartPrueba) {
-            const formattedStartDate = startNuevo;
-            const formattedEndDate = endNuevo;
+    const fetchDataForChart = () => {
+        const formattedStartDate = startNuevo;
+        const formattedEndDate = endNuevo;
+      
+        axios
+          .get(
+            `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateModuleType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&moduleId=${selectedModule}&type=out`
+          )
+          .then((response) => {
+            const responseData = response.data; // Listado de acciones
+            console.log("response", responseData)
+            // Filtra los datos para obtener solo los del módulo 1
 
-            axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateModuleType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&moduleId=${selectedModule}&type=out`)
-                .then(response => {
-                    const responseData = response.data; // Listado de acciones
-
-                    // Filtra los datos para obtener solo los del módulo 1
-                    const module1Data = responseData.filter(item => item.id_module === selectedModule);
-
-                    // Obtén un arreglo de fechas dentro del rango
-                    const dateRange = getDateRange(formattedStartDate, formattedEndDate);
-
-                    // Agrupa los datos por fechas y suma las cantidades
-                    const groupedData = module1Data.reduce((accumulator, current) => {
-                        const date = current.creationDate.value.split('T')[0]; // Obtiene la fecha sin la hora
-                        if (!accumulator[date]) {
-                            accumulator[date] = 0;
-                        }
-                        accumulator[date] += current.quantity.value;
-                        return accumulator;
-                    }, {});
-
-                    // Rellena las fechas faltantes con un valor de 0
-                    dateRange.forEach(date => {
-                        if (!groupedData[date]) {
-                            groupedData[date] = 0;
-                        }
-                    });
-
-                    // Prepara los datos en un formato adecuado para Recharts
-                    const dataForRecharts = dateRange.map(date => ({
-                        date,
-                        totalQuantity: groupedData[date],
-                    }));
-                    setDataPrueba(dataForRecharts);
-                    console.log(dataForRecharts);
-                })
-                .catch(error => {
-                    console.error('Error al obtener los datos de las acciones:', error);
-                });
-        }
-    }, [startNuevo, endNuevo, showChartPrueba, selectedModule]);
+      
+            // Obtén un arreglo de fechas dentro del rango
+            const dateRange = getDateRange(formattedStartDate, formattedEndDate);
+      
+            // Agrupa los datos por fechas y suma las cantidades
+            const groupedData = responseData.reduce((accumulator, current) => {
+              const date = current.creationDate.value.split("T")[0]; // Obtiene la fecha sin la hora
+              if (!accumulator[date]) {
+                accumulator[date] = 0;
+              }
+              accumulator[date] += current.quantity.value;
+              return accumulator;
+            }, {});
+      
+            // Rellena las fechas faltantes con un valor de 0
+            dateRange.forEach((date) => {
+              if (!groupedData[date]) {
+                groupedData[date] = 0;
+              }
+            });
+      
+            // Prepara los datos en un formato adecuado para Recharts
+            const dataForRecharts = dateRange.map((date) => ({
+              date,
+              Cantidad: groupedData[date],
+            }));
+            setDataPrueba(dataForRecharts);
+            setShowChartPrueba(true);
+            console.log(dataForRecharts);
+          })
+          .catch((error) => {
+            console.error("Error al obtener los datos de las acciones:", error);
+          });
+      };
+      
+      // Llama a la función fetchDataForChart cuando se hace clic en el botón "Mostrar"
+      const handleNuevoChart = () => {
+        fetchDataForChart();
+      };
 
 
     function getDateRange(startDate, endDate) {
@@ -128,16 +135,6 @@ function TabsComponent() {
     }
 
 
-    //
-
-
-    useEffect(() => {
-        if (showChartPrueba) {
-
-            // axios.get(`http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`)
-        }
-
-    }, [showChartPrueba]);
 
 
 
@@ -149,9 +146,6 @@ function TabsComponent() {
         setShowApexChart(true);
     };
 
-    const handleNuevoChart = () => {
-        setShowChartPrueba(true);
-    };
     const handleModuleChange = (event) => {
         setSelectedModule(event.target.value);
     };
@@ -202,26 +196,29 @@ function TabsComponent() {
                         </div>
 
                         <div className='chart'>
-                            {showChartPrueba && (
-                                <BarChart width={600} height={400} data={charDataPrueba} >
+                            {showChartPrueba ? (
+                                charDataPrueba.length > 0 ? (
+                                <BarChart width={800}height={800} data={charDataPrueba} >
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis
                                         label={{ value: 'Días', position: 'insideBottom', offset: 0 }}
                                         dataKey="date"
                                         tickFormatter={(date) => {
-                                            
                                             const parsedDate = new Date(date);
-                                            const day = parsedDate.getDate(); // Obtiene el número del día
-                                            return `${day}`;
+                                            const day = parsedDate.getDate() + 1; // Obtiene el número del día
+                                            return day.toString(); // Convierte el número del día en una cadena
                                         }}
                                     />
-                                    
+                                    <Tooltip />
+                                    <Legend />
                                     <YAxis label={{ value: 'Cantidad', angle: -90, position: 'insideLeft' }} />
-                                    <Bar dataKey="totalQuantity" fill="#82ca9d" />
-                                    
-                                </BarChart>
+                                    <Bar dataKey="Cantidad" fill="#82ca9d" />
 
-                            )}
+                                </BarChart>
+                                ) : (
+                                    <p>Cargando datos...</p>
+                                  )
+                            ): null}
                         </div>
 
 
@@ -260,7 +257,7 @@ function TabsComponent() {
 
                         <div className="chart">
                             {showApexChart && (
-                                <ReactApexChart options={options} series={chartData} type="pie" width="380" />
+                                <ReactApexChart options={options} series={chartData} type="pie" width="600" />
                             )}
 
                         </div>
