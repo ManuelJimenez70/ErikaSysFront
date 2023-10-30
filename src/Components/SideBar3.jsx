@@ -8,21 +8,18 @@ import {
     faUsers,
     faChartBar,
     faArrowLeft,
-    faChevronUp,
     faChevronDown,
     faPenToSquare,
     faUserPen,
     faChevronLeft,
     faHotel,
-    faSwimmingPool,
-    faBellConcierge,
     faBed,
     faDollar
 } from "@fortawesome/free-solid-svg-icons";
 
 import Logo from "../images/Logo2.jpg";
 
-export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
+export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
 
     const [userName, setUserName] = useState('');
     const { userId } = useAuth();
@@ -63,6 +60,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
             setIsOpenGestionEmpleados(false);
             changePage("Reportes");
         } else if (buttonName === 'GesP') {
+            setIsOpenRooms(false);
             setIsOpenGestionProducts(true);
             setIsOpenVenta(false);
             setIsOpenGestionEmpleados(false);
@@ -74,7 +72,9 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
             setIsOpenReceipt(!isOpenReceipt);
             changePage("Bookin");
         } else if (buttonName === 'Rooms') {
-            setIsOpenRooms(!isOpenRooms);
+            setIsOpenGestionProducts(false);
+            setIsOpenVenta(false);
+            setIsOpenRooms(true);
             changePage("Rooms");
         } else if (buttonName === 'GesE') {
             setIsOpenVenta(false);
@@ -84,6 +84,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
         } else if (buttonName === 'VentP') {
             setIsOpenGestionProducts(false);
             setIsOpenGestionEmpleados(false);
+            setIsOpenRooms(false);
             setIsOpenVenta(true);
             changePage("Venta")
 
@@ -126,32 +127,36 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
         <div className={`bodyNav ${isCollapsed ? "collapsed" : ""}`}>
             <nav className='navBar'>
                 <div className="sidebar-top">
-                    <span className= {`expand-btn`} onClick={toggleSidebar}>
-                        <FontAwesomeIcon icon={faChevronLeft} className= {`${isCollapsed ? "up" : "down"}`}/>
+                    <span className={`expand-btn`} onClick={toggleSidebar}>
+                        <FontAwesomeIcon icon={faChevronLeft} className={`${isCollapsed ? "up" : "down"}`} />
                     </span>
                     <img
                         src={Logo}
                         className="logo"
                     ></img>
-                    <h3 className="hide">{userName}</h3> {/* Muestra el nombre del usuario */}
+                    <h3 className="hide">User:<p>{userName}</p></h3> {/* Muestra el nombre del usuario */}
                 </div>
                 <div className="sidebar-links">
                     <ul>
                         <li>
-                            <button
-                                type="button"
-                                className={`${isOpenProductos ? "active" : ""}`}
-                                onClick={() => handleSidebarItemClick('Productos')}
-                            >
-                                <div className="icon">
-                                    <FontAwesomeIcon icon={faShoppingCart} />
-                                </div>
-                                <span className="link hide">Productos</span>
+                            {
+                                rol &&
+                                <button
+                                    type="button"
+                                    className={`${isOpenProductos ? "active" : ""}`}
+                                    onClick={() => handleSidebarItemClick('Productos')}
+                                >
+                                    <div className="icon">
+                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                    </div>
+                                    <span className="link hide">Productos</span>
 
-                                <span className={`material-symbols-outlined iconDropDown hide ${isOpenProductos ? "up" : "down"}`} >
-                                    <FontAwesomeIcon icon={faChevronDown} />
-                                </span>
-                            </button>
+                                    <span className={`material-symbols-outlined iconDropDown hide ${isOpenProductos ? "up" : "down"}`} >
+                                        <FontAwesomeIcon icon={faChevronDown} />
+                                    </span>
+                                </button>
+                            }
+
 
                             {/* Lista de elementos de Productos */}
                             {isOpenProductos && (
@@ -166,37 +171,27 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                         </div>
                                         <span className="link hide">Gestionar</span>
                                     </button>
-
-                                    <button
-                                        type="button"
-                                        className={`subMenu ${isOpenVenta ? "activeSub" : ""}`}
-                                        onClick={() => handleSidebarItemClick("VentP")}
-                                    >
-                                        <div className="icon">
-                                            <FontAwesomeIcon icon={faDollar} />
-                                        </div>
-                                        <span className="link hide">Venta</span>
-                                    </button>
-
                                 </div>
                             )}
 
                             {/* Botón de Empleados */}
 
-                            <button
-                                type="button"
-                                className={`${isOpenEmployees ? "active" : ""}`}
-                                onClick={() => handleSidebarItemClick('Empleados')}
-                            >
-                                <div className="icon">
-                                    <FontAwesomeIcon icon={faUsers} />
-                                </div>
-                                <span className="link hide">Empleados</span>
+                            {rol &&
+                                <button
+                                    type="button"
+                                    className={`${isOpenEmployees ? "active" : ""}`}
+                                    onClick={() => handleSidebarItemClick('Empleados')}
+                                >
+                                    <div className="icon">
+                                        <FontAwesomeIcon icon={faUsers} />
+                                    </div>
+                                    <span className="link hide">Empleados</span>
 
-                                <span className={`material-symbols-outlined iconDropDown hide ${isOpenEmployees ? "up" : "down"}`} >
-                                    <FontAwesomeIcon icon={faChevronDown} />
-                                </span>
-                            </button>
+                                    <span className={`material-symbols-outlined iconDropDown hide ${isOpenEmployees ? "up" : "down"}`} >
+                                        <FontAwesomeIcon icon={faChevronDown} />
+                                    </span>
+                                </button>
+                            }
 
                             {/* Lista de elementos de Empleados */}
                             {isOpenEmployees && (
@@ -211,6 +206,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                     </button>
                                 </div>
                             )}
+
 
                             {/* Botón de Servicios */}
 
@@ -232,24 +228,6 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                             {/* Lista de elementos de Servicios */}
                             {isOpenServices && (
                                 <div className={`dropdown-container ${isCollapsed ? "menuCol" : ""}`}>
-                                    <button className={`subMenu ${isOpenPool ? "activeSub" : ""}`}
-                                        onClick={() => handleSidebarItemClick("Pool")}
-                                    >
-                                        <div className="icon">
-                                            <FontAwesomeIcon icon={faSwimmingPool} />
-                                        </div>
-                                        <span className="link hide">Piscina</span>
-                                    </button>
-
-                                    <button className={`subMenu ${isOpenReceipt ? "activeSub" : ""}`}
-                                        onClick={() => handleSidebarItemClick("Receipt")}
-                                    >
-                                        <div className="icon">
-                                            <FontAwesomeIcon icon={faBellConcierge} />
-                                        </div>
-                                        <span className="link hide">Recepcion</span>
-                                    </button>
-
                                     <button className={`subMenu ${isOpenRooms ? "activeSub" : ""}`}
                                         onClick={() => handleSidebarItemClick("Rooms")}
                                     >
@@ -258,20 +236,33 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
                                         </div>
                                         <span className="link hide">Habitaciones</span>
                                     </button>
+
+                                    <button
+                                        type="button"
+                                        className={`subMenu ${isOpenVenta ? "activeSub" : ""}`}
+                                        onClick={() => handleSidebarItemClick("VentP")}
+                                    >
+                                        <div className="icon">
+                                            <FontAwesomeIcon icon={faDollar} />
+                                        </div>
+                                        <span className="link hide">Venta</span>
+                                    </button>
                                 </div>
                             )}
 
-                            <button
-                                type="button"
-                                className={`${isOpenReports ? "active" : ""}`}
-                                onClick={() => handleSidebarItemClick('Reportes')}
-                            >
-                                <div className="icon">
-                                    <FontAwesomeIcon icon={faChartBar} />
-                                </div>
-                                <span className="link hide">Reportes</span>
+                            {rol &&
+                                <button
+                                    type="button"
+                                    className={`${isOpenReports ? "active" : ""}`}
+                                    onClick={() => handleSidebarItemClick('Reportes')}
+                                >
+                                    <div className="icon">
+                                        <FontAwesomeIcon icon={faChartBar} />
+                                    </div>
+                                    <span className="link hide">Reportes</span>
 
-                            </button>
+                                </button>
+                            }
 
                             {/* Lista de elementos de Servicios */}
                             {isOpenReports && (
@@ -294,6 +285,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen }) => {
 
                                 </button>
                             </div>
+
                         </li>
                     </ul>
                 </div>

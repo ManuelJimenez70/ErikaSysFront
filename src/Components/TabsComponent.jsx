@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Chart } from 'react-google-charts';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactApexChart from 'react-apexcharts';
 import "../styles/Tabs.css";
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+
+
+
 
 function TabsComponent() {
 
     const currentDate = new Date().toISOString().split('T')[0];
 
-    const [startDate, setStartDate] = useState(currentDate);
-    const [endDate, setEndDate] = useState(currentDate);
     const [startDate2, setStartDate2] = useState(currentDate);
     const [endDate2, setEndDate2] = useState(currentDate);
-    const [data, setData] = useState([]);
-    const [showChart, setShowChart] = useState(true); // Estado para controlar la visualización del gráfico
+    const [showChartPrueba, setShowChartPrueba] = useState(false);
     const [chartData, setChartData] = useState([]);
     const [showApexChart, setShowApexChart] = useState(true);
     const [options, setOptions] = useState({
         labels: [],
     });
-    const optionsChart = {
-        title: "Balance",
-        curveType: "function",
-        legend: { position: "bottom" },
-        hAxis: {
-            title: "Dias",
-        },
-        vAxis: {
-            title: "Cantidad",
-        },
-    };
+    const [selectedModule, setSelectedModule] = useState(1);
+
+    const [startNuevo, setNuevo] = useState(currentDate);
+    const [endNuevo, setEndNuevo] = useState(currentDate);
+
+    const [charDataPrueba, setDataPrueba] = useState({
+
+    });
 
     useEffect(() => {
         const formattedStartDate = startDate2;
@@ -71,95 +69,76 @@ function TabsComponent() {
             });
     }, [startDate2, endDate2, showApexChart])
 
+    ////////////////////////////////////////////////////////////////////////////////////////este
+    const fetchDataForChart = () => {
+        const formattedStartDate = startNuevo;
+        const formattedEndDate = endNuevo;
+      
+        axios
+          .get(
+            `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateModuleType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&moduleId=${selectedModule}&type=out`
+          )
+          .then((response) => {
+            const responseData = response.data; // Listado de acciones
+            console.log("response", responseData)
+            // Filtra los datos para obtener solo los del módulo 1
 
-    useEffect(() => {
-        if (showChart) {
-            const formattedStartDate = startDate;
-            const formattedEndDate = endDate;
-
-            // Hacer dos solicitudes GET separadas para las acciones 'in' y 'out'
-            const apiUrlIn = `http://www.ErikaSys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=in`;
-            const apiUrlOut = `http://www.ErikaSys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`;
-
-            // Realizar las solicitudes GET a la API para 'in' y 'out'
-            axios
-                .all([axios.get(apiUrlIn), axios.get(apiUrlOut)])
-                .then(axios.spread((responseIn, responseOut) => {
-                    // Combinar los datos de 'in' y 'out' en el formato adecuado para el gráfico
-                    const dataIn = responseIn.data;
-                    const dataOut = responseOut.data;
-                    console.log(dataIn)
-                    console.log(dataOut)
-
-                    // Procesar los datos para obtener las entradas y salidas por día (puedes ajustar esto según tus datos reales)
-                    const entriesByDay = {}; // Un objeto para almacenar las entradas por día
-                    const exitsByDay = {};   // Un objeto para almacenar las salidas por día
-
-                    dataIn.forEach(item => {
-                        const date = item.creationDate.value.split('T')[0];
-                        if (!entriesByDay[date]) {
-                            entriesByDay[date] = 0;
-                        }
-                        entriesByDay[date] += item.quantity.value;
-                    });
-
-                    dataOut.forEach(item => {
-                        const date = item.creationDate.value.split('T')[0];
-                        if (!exitsByDay[date]) {
-                            exitsByDay[date] = 0;
-                        }
-                        exitsByDay[date] += item.quantity.value;
-
-
-                    });
-
-                    // Crear el formato final para el gráfico
-                    const chartData = [['Dias', 'Entradas', 'Salidas']];
-                    const startDate = new Date(formattedStartDate);
-                    const endDate = new Date(formattedEndDate);
-                    const datesInRange = getDatesInRange(startDate, endDate);
-                    console.log(datesInRange);
-
-                    datesInRange.forEach(date => {
-                        console.log(date.substring(date.length - 2, date.length));
-                        console.log(entriesByDay[date])
-
-                        chartData.push([date.substring(date.length - 2, date.length), entriesByDay[date] || 0, exitsByDay[date] || 0]);
-                    });
+      
+            // Obtén un arreglo de fechas dentro del rango
+            const dateRange = getDateRange(formattedStartDate, formattedEndDate);
+      
+            // Agrupa los datos por fechas y suma las cantidades
+            const groupedData = responseData.reduce((accumulator, current) => {
+              const date = current.creationDate.value.split("T")[0]; // Obtiene la fecha sin la hora
+              if (!accumulator[date]) {
+                accumulator[date] = 0;
+              }
+              accumulator[date] += current.quantity.value;
+              return accumulator;
+            }, {});
+      
+            // Rellena las fechas faltantes con un valor de 0
+            dateRange.forEach((date) => {
+              if (!groupedData[date]) {
+                groupedData[date] = 0;
+              }
+            });
+      
+            // Prepara los datos en un formato adecuado para Recharts
+            const dataForRecharts = dateRange.map((date) => ({
+              date,
+              Cantidad: groupedData[date],
+            }));
+            setDataPrueba(dataForRecharts);
+            setShowChartPrueba(true);
+            console.log(dataForRecharts);
+          })
+          .catch((error) => {
+            console.error("Error al obtener los datos de las acciones:", error);
+          });
+      };
+      
+      // Llama a la función fetchDataForChart cuando se hace clic en el botón "Mostrar"
+      const handleNuevoChart = () => {
+        fetchDataForChart();
+      };
 
 
-
-
-                    // Actualizar el estado 'data' con los datos combinados
-                    setData(chartData);
-                }))
-                .catch(error => {
-                    console.error('Error al obtener los datos de la API:', error);
-                });
+    function getDateRange(startDate, endDate) {
+        const dateRange = [];
+        const currentDate = new Date(startDate);
+        while (currentDate <= new Date(endDate)) {
+            dateRange.push(currentDate.toISOString().split('T')[0]);
+            currentDate.setDate(currentDate.getDate() + 1);
         }
-    }, [startDate, endDate, showChart]);
-
-    function getDatesInRange(startDate, endDate) {
-        const dateArray = [];
-        let currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            dateArray.push(currentDate.toISOString().slice(0, 10)); // Agrega la fecha al array en formato 'YYYY-MM-DD'
-            currentDate.setDate(currentDate.getDate() + 1); // Incrementa la fecha en 1 día
-        }
-
-        return dateArray;
+        return dateRange;
     }
 
 
+
+
+
     // Obtén el array de fechas en el rango
-
-
-
-    const handleButtonClick = () => {
-        setShowChart(true);
-    };
-
 
 
     const handleApexChartButtonClick = () => {
@@ -167,13 +146,18 @@ function TabsComponent() {
         setShowApexChart(true);
     };
 
+    const handleModuleChange = (event) => {
+        setSelectedModule(event.target.value);
+    };
+
+
     return (
         <div className='contentTabs'>
             <div className='main'>
-                <input id="tab1" type="radio" name="tabs"/>
+                <input id="tab1" type="radio" name="tabs" />
                 <label htmlFor="tab1">Ventas generales</label>
 
-                <input id="tab2" type="radio" name="tabs"/>
+                <input id="tab2" type="radio" name="tabs" />
                 <label htmlFor="tab2">Ventas por módulo</label>
 
                 <section id="content1">
@@ -182,9 +166,9 @@ function TabsComponent() {
                             <div className='contentData'>
                                 <input
                                     type='date'
-                                    value={startDate}
+                                    value={startNuevo}
                                     onChange={(event) => {
-                                        setStartDate(new Date(event.target.value).toISOString().split('T')[0]);
+                                        setNuevo(new Date(event.target.value).toISOString().split('T')[0]);
                                     }}
                                 />
 
@@ -194,27 +178,50 @@ function TabsComponent() {
                             <div className='contentData'>
                                 <input
                                     type='date'
-                                    value={endDate}
+                                    value={endNuevo}
                                     onChange={(event) => {
-                                        setEndDate(new Date(event.target.value).toISOString().split('T')[0]);
+                                        setEndNuevo(new Date(event.target.value).toISOString().split('T')[0]);
                                     }}
                                 />
                                 <p>Fecha final</p>
                             </div>
+                            <p>Selecciona un modulo:</p>
+                            <select id="module-select" value={selectedModule} onChange={handleModuleChange}>
+                                <option value={1}>Recepción</option>
+                                <option value={2}>Cafetería</option>
+                                <option value={3}>Cocina</option>
+                            </select>
+                            <button type="button" className="btn btn-primary" onClick={handleNuevoChart}>Mostrar</button>
 
-                            <button type="button" className="btn btn-primary" onClick={handleButtonClick}>Mostrar</button>
                         </div>
 
                         <div className='chart'>
-                            {showChart && (
-                                <Chart
-                                    chartType="LineChart"
-                                    height="400px"
-                                    data={data}
-                                    options={optionsChart}
-                                />
-                            )}
+                            {showChartPrueba ? (
+                                charDataPrueba.length > 0 ? (
+                                <BarChart width={800}height={800} data={charDataPrueba} >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis
+                                        label={{ value: 'Días', position: 'insideBottom', offset: 0 }}
+                                        dataKey="date"
+                                        tickFormatter={(date) => {
+                                            const parsedDate = new Date(date);
+                                            const day = parsedDate.getDate() + 1; // Obtiene el número del día
+                                            return day.toString(); // Convierte el número del día en una cadena
+                                        }}
+                                    />
+                                    <Tooltip />
+                                    <Legend />
+                                    <YAxis label={{ value: 'Cantidad', angle: -90, position: 'insideLeft' }} />
+                                    <Bar dataKey="Cantidad" fill="#82ca9d" />
+
+                                </BarChart>
+                                ) : (
+                                    <p>Cargando datos...</p>
+                                  )
+                            ): null}
                         </div>
+
+
                     </div>
                 </section>
 
@@ -250,7 +257,7 @@ function TabsComponent() {
 
                         <div className="chart">
                             {showApexChart && (
-                                <ReactApexChart options={options} series={chartData} type="pie" width="380" />
+                                <ReactApexChart options={options} series={chartData} type="pie" width="600" />
                             )}
 
                         </div>

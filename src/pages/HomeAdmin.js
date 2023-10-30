@@ -5,13 +5,15 @@ import TabsComponent from '../Components/TabsComponent';
 import Venta from '../Components/Venta';
 import EmployeesList from '../Components/EmployeesList';
 import "../styles/homeAdmin.css";
+
 import Snack from '../Components/Snack';
+
 
 import { Card2 } from '../Components/Card2';
 
 
-function HomeAdmin() {
-    const [currentContent, setCurrentContent] = useState("Productos");
+function HomeAdmin({ rol }) {
+    const [currentContent, setCurrentContent] = useState(rol ? "Productos" : "Venta");
     const [isSideBarOpen, setIsOpen] = useState(true);
     const [messageSnack, setMessageSnack] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
@@ -45,7 +47,7 @@ function HomeAdmin() {
     return (
         <div className='app-container'>
             {/* Renderiza el Sidebar2 */}
-            <Sidebar onSidebarItemClick={handleSidebarItemClick} sideBarOpen={alterSideBar} />
+            <Sidebar onSidebarItemClick={handleSidebarItemClick} sideBarOpen={alterSideBar} rol={rol}/>
 
             {/* Renderiza el contenido principal */}
             <div className={`content ${isSideBarOpen ? 'content-open' : ''}`}>

@@ -11,6 +11,8 @@ import {
 import '../styles/login.css';
 import jwt_decode from 'jwt-decode';
 
+import { useAuth } from '../Components/AuthContext'; 
+
 function LoginForm() {
 
   const [username, setUsername] = useState('');
@@ -20,6 +22,8 @@ function LoginForm() {
   const [messageSnack, setMessageSnack] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+
+  const { setUserId } = useAuth();
   
 
   const toggleShowPassword = () => {
@@ -48,6 +52,7 @@ function LoginForm() {
           setUserId(decoded.id);
           navigate('/homeAdmin');
         } else {
+          setUserId(decoded.id);
           navigate('/home');
         }
         console.log(decoded)

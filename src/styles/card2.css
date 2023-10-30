@@ -11,7 +11,7 @@
 	--c-fair-pink: #9fcbec;
 	--c-apricot: #5ab4f8;
 	--c-coffee: #114770;
-	--c-del-rio: #14588b;
+	--c-del-rio: var(--c-ash);
 
 
 	--c-java: #114770;
@@ -21,6 +21,13 @@
 	--c-cold-purple: #a69fd6;
 	--c-indigo: #227fc5;
 	--c-governor: #14588b;
+
+	--primary-color: #5ab3f7;
+	--primary-color-dark: #1766a1;
+	--button-color: #14588b;
+	--button-color-hover: #227fc5;
+	--button-color-shadow: #114770;
+	--text-color: white;
 }
 
 body {
@@ -28,15 +35,16 @@ body {
 }
 
 .card {
+	margin-bottom: 20px;
 	border-radius: 16px;
 	box-shadow: 0 30px 30px -25px rgba(#4133B7, .25);
 	max-width: 300px;
+	background-color: #5ab3f754 !important;
 }
 
 .plan {
 	width: 300px;
-	padding: 10px;
-	background-color: var(--c-white);
+	padding: 5px;
 	color: var(--c-del-rio);
 	margin-top: 5px;
 }
@@ -79,6 +87,7 @@ strong {
 	font-size: .75em;
 	margin-left: .25em;
 }
+
 
 .inner .title {
 	font-weight: 600;
@@ -153,7 +162,9 @@ strong {
 	&:hover,
 	&:focus {
 		background-color: var(--c-governor);
-	};
+	}
+
+	;
 	margin: 0;
 	margin-right: 10px;
 	align-self: flex-end !important;
