@@ -34,7 +34,6 @@ function Venta() {
       .then(response => {
         // Almacena los datos de productos en el estado
         setProductsByModule(response.data.data);
-        console.log("Obtuvimos los siguientes productos: ", response.data.data); // Agrega un console.log para verificar los datos obtenidos
       })
       .catch(error => {
         console.error('Error al cargar los productos:', error);
@@ -295,14 +294,14 @@ function Venta() {
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>ID</th>
+                <th>Precio</th>
               </tr>
             </thead>
             <tbody className='tableBody'>
               {productsBM.map((product) => (
                 <tr key={product.id_product} onClick={() => addProductFromTable(product.id_product)}>
                   <td><p>{product.title.value}</p></td>
-                  <td> <p>{product.id_product}</p></td>
+                  <td> <p>${product.price.value}</p></td>
                 </tr>
               ))}
             </tbody>
