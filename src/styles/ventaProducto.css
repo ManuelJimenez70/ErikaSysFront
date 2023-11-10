@@ -17,13 +17,44 @@
     -moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.79);
 }
 
-.m-4>table {
+.contentTable>table {
     background-color: white;
     border-collapse: separate;
     border-spacing: 0;
-    width: 100%;
+    width: 100% !important;
     border-radius: 10px;
     /* Ajusta este valor según tu preferencia */
+}
+
+.contentTable{
+    width: 80%;
+}
+
+.tables {
+    display: flex; 
+}
+
+.contentT {
+    width: 30%;
+    border: 1px solid var(--button-color);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.contentT>table{
+    width: 95%;
+    margin: 0 auto;
+    border: collapse;
+    outline: none;
+    border-radius: 10px;
+}
+
+.contentT th{
+    padding-left: 10px !important;
+}
+
+.contentT th:nth-child(1){
+    width: 85%;
 }
 
 thead {
@@ -38,6 +69,10 @@ thead th{
 .m-4 table th,
 td {
     padding: 6px 15px 6px 10px;
+}
+
+.tableBody {
+    max-width: 30px !important;
 }
 
 .m-4 table tbody tr:hover {
@@ -170,4 +205,28 @@ td {
 .editId>p>span{
     font-size: 15px;
     color: #1147708c;
+}
+
+.tables button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    border: solid 1px rgb(150, 0, 0);
+    outline: none;
+    color: white;
+    background-color: red;
+}
+
+.tables button:hover{
+    transform: rotate(180deg);
+    transition: .2s;
+    background-color: red;
+}
+
+.tableBody tr {
+    cursor: pointer;
 }

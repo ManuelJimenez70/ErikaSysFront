@@ -6,20 +6,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
   faSearch,
-  faChevronDown
+  faChevronDown, 
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
+import { set } from 'lodash';
 
 function Venta() {
 
   const [productId, setProductId] = useState('');
   const { userId } = useAuth();
   const [quantity, setQuantity] = useState(1);
-  const [products, setProducts] = useState([]);
+  const [productsByModule, setProductsByModule] = useState([]);
+  const [productsBM, setProductsBM] = useState([]);
   const [productInfo, setProductInfo] = useState(null); // Información del producto seleccionado
   const [mensaje, setMensaje] = useState('');
   const [total, setTotal] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [moduleNum, setModuleNum] = useState(3);
+  const [isOpenDrop, setOpenDrop] = useState(false);
+  const [module, setModule] = useState("Selecciona..");
+  const [isOpenDropP, setOpenDropP] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Realiza la solicitud GET a la API
+    axios.get('http://www.ErikaSys.somee.com/api/Product/getProductsByRangeState?numI=0&numF=100&state=Activo')
+      .then(response => {
+        // Almacena los datos de productos en el estado
+        setProductsByModule(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error al cargar los productos:', error);
+      });
+  }, [productsByModule]); // Agrega productsByModule como una dependencia
+  
 
   // Función para manejar la adición de productos
   const handleAddProduct = (e) => {
@@ -63,24 +83,19 @@ function Venta() {
 
   // Función para obtener información de un producto por su ID
   const fetchProductInfo = async () => {
-
     setIsSearching(true);
     if (isSearching) {
       try {
-        console.log(productId)
         const response = await axios.get(`http://www.erikasys.somee.com/api/Product/getProductById/${productId}`);
         const producto = response.data.data;
 
-        console.log("Modulo del producto: ", producto.id_module.value);
-        console.log("Modulo actual: ", moduleNum);
-
         // Actualiza el estado "productInfo" con la información del producto
-        if(producto.id_module.value === ""+moduleNum){
+        if (producto.id_module.value === "" + moduleNum) {
           setProductInfo(producto);
         } else {
           setMensaje('El producto no pertenece al módulo.');
         }
-        
+
         if (producto === null) {
           setMensaje('No se pudo encontrar el producto.');
         }
@@ -108,8 +123,6 @@ function Venta() {
 
     // Verifica si productInfo no es null
     if (productInfo) {
-      console.log(productInfo.title.value);
-      console.log("Entro pa");
       handleAddProduct();
       calculateTotal(); // Actualiza el total cuando se agrega un producto
     }
@@ -124,6 +137,17 @@ function Venta() {
     const newProductId = e.target.value;
     setProductId(newProductId);
   };
+
+  //Método para añadir un producto desde la tabla
+  const addProductFromTable = (idP) => {
+    setProductId("" + idP);
+  };
+
+  useEffect(() => {
+    if (productId !== '') {
+      fetchProductInfo();
+    }
+  }, [productId]);
 
   const fetchProductSell = async () => {
     try {
@@ -166,28 +190,47 @@ function Venta() {
     }
   };
 
-  const [isOpenDrop, setOpenDrop] = useState(false);
-  const [module, setModule] = useState("Restaurante");
+  const changeOpen = (dropdown) => {
+    if (dropdown === "modulo") {
+      setOpenDrop(!isOpenDrop);
+    } else {
+      setOpenDropP(!isOpenDropP);
+    }
 
-  const changeOpen = () => {
-    setOpenDrop(!isOpenDrop);
   }
+
+  // Método para filtrar productos por módulo
+  const filterProductsByModule = (module) => {
+    const filteredProducts = productsByModule.filter(product => {
+      // Verifica si id_module no es null antes de comparar su valor
+      return product.id_module && product.id_module.value === module;
+    });
+    setProductsBM(filteredProducts);
+
+    console.lo
+  };
 
   const changeModule = (module) => {
     setModule(module);
     setOpenDrop(false);
-    setModuleNum(module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3);
+    const newModuleNum = module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3;
+    setModuleNum(newModuleNum);
     setProducts([]);
-}
+    filterProductsByModule("" + newModuleNum);
+  }
+
+  const removeItem = (idItem) => {
+    // Filtra la lista para excluir el elemento con el ID especificado
+    const updatedProducts = products.filter(product => product.id !== idItem);
+    setProducts(updatedProducts);
+  }  
 
   return (
     <div class='m-4'>
       <div className='editId'>
         <p>Vender productos / <span>{module}</span></p>
-
-
-        <div class="dropdown" onClick={changeOpen}>
-          <div className= {`contentDrop ${isOpenDrop ? "openD" : "closeD"}`}>
+        <div class="dropdown" onClick={() => changeOpen("modulo")}>
+          <div className={`contentDrop ${isOpenDrop ? "openD" : "closeD"}`}>
             <a >{module}</a>
             <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
               <li onClick={() => changeModule("Restaurante")}>
@@ -220,28 +263,52 @@ function Venta() {
         </div>
       </div>
 
-      <table class='styled-table'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td> <p>{product.id}</p></td>
-              <td><p>{product.name}</p></td>
-              <td><p>${product.price}</p></td>
-              <td><p>{product.quantity}</p></td>
-              <td><p>${product.price * product.quantity}</p></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className='tables'>
+        <div className='contentTable'>
+          <table class='styled-table'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td> <p>{product.id}</p></td>
+                  <td><p>{product.name}</p></td>
+                  <td><p>${product.price}</p></td>
+                  <td><p>{product.quantity}</p></td>
+                  <td><p>${product.price * product.quantity}</p></td>
+                  <td><button onClick={() => removeItem(product.id)}><FontAwesomeIcon icon={faTimes}/></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className='contentT'>
+          <table className='styled-table tableDat'>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            <tbody className='tableBody'>
+              {productsBM.map((product) => (
+                <tr key={product.id_product} onClick={() => addProductFromTable(product.id_product)}>
+                  <td><p>{product.title.value}</p></td>
+                  <td> <p>${product.price.value}</p></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <p>Total: ${total}</p>
       <button onClick={fetchProductSell}>Registrar venta</button>
       {
@@ -257,7 +324,7 @@ function Venta() {
           )
         ) : null
       }
-    </div>
+    </div >
   );
 }
 export default Venta;
