@@ -23,8 +23,9 @@ function Venta() {
   const [total, setTotal] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [moduleNum, setModuleNum] = useState(3);
-  const [isOpenDrop, setOpenDrop] = useState(false);
+  const [isOpenDrop, setIsOpenDrop] = useState(false);
   const [module, setModule] = useState("Selecciona..");
+  const [isOpenDropP, setIsOpenDropP] = useState(false);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -38,7 +39,6 @@ function Venta() {
         console.error('Error al cargar los productos:', error);
       });
   }, [productsByModule]); // Agrega productsByModule como una dependencia
-
   
 
   // Función para manejar la adición de productos
@@ -192,9 +192,9 @@ function Venta() {
 
   const changeOpen = (dropdown) => {
     if (dropdown === "modulo") {
-      setOpenDrop(!isOpenDrop);
+      setIsOpenDrop(!isOpenDrop);
     } else {
-      setOpenDropP(!isOpenDropP);
+      setIsOpenDropP(!isOpenDropP);
     }
 
   }
@@ -213,16 +213,7 @@ function Venta() {
   const changeModule = (module) => {
     setModule(module);
     setOpenDrop(false);
-
-    let newModuleNum;
-    if (module === "Recepcion") {
-      newModuleNum = 1;
-    } else if (module === "Cafeteria") {
-      newModuleNum = 2;
-    } else {
-      newModuleNum = 3;
-    }
-
+    const newModuleNum = module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3;
     setModuleNum(newModuleNum);
     setProducts([]);
     filterProductsByModule("" + newModuleNum);
@@ -235,12 +226,12 @@ function Venta() {
   }  
 
   return (
-    <div className='m-4'>
+    <div class='m-4'>
       <div className='editId'>
         <p>Vender productos / <span>{module}</span></p>
-        <div className="dropdown" onClick={() => changeOpen("modulo")}>
+        <div class="dropdown" onClick={() => changeOpen("modulo")}>
           <div className={`contentDrop ${isOpenDrop ? "openD" : "closeD"}`}>
-            <a tabIndex="0">{module}</a>
+            <a >{module}</a>
             <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
               <li onClick={() => changeModule("Restaurante")}>
                 Restaurante
@@ -274,7 +265,7 @@ function Venta() {
 
       <div className='tables'>
         <div className='contentTable'>
-          <table className='styled-table'>
+          <table class='styled-table'>
             <thead>
               <tr>
                 <th>ID</th>
