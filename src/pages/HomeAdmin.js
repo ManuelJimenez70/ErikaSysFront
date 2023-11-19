@@ -9,9 +9,6 @@ import "../styles/homeAdmin.css";
 import Snack from '../Components/Snack';
 
 
-import { Card2 } from '../Components/Card2';
-
-
 function HomeAdmin({ rol }) {
     const [currentContent, setCurrentContent] = useState(rol ? "Productos" : "Venta");
     const [isSideBarOpen, setIsOpen] = useState(true);
