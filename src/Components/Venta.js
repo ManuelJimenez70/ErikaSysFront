@@ -207,7 +207,6 @@ function Venta() {
     });
     setProductsBM(filteredProducts);
 
-    console.lo
   };
 
   const changeModule = (module) => {
