@@ -212,7 +212,7 @@ function Venta() {
 
   const changeModule = (module) => {
     setModule(module);
-    setOpenIsDrop(false);
+    setIsOpenDrop(false);
     const newModuleNum = module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3;
     setModuleNum(newModuleNum);
     setProducts([]);
