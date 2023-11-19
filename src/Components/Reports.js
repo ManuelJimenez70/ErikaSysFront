@@ -40,9 +40,9 @@ function Reports() {
           const responseData = response.data; // Listado de acciones
 
         // Calcula la cantidad de acciones por módulo dinámicamente
-        const moduleCounts = {};
+        //const moduleCounts = {};
         // Calcula la cantidad de acciones por módulo dinámicamente
-        const moduleCounts = {};
+        //const moduleCounts = {};
 
         responseData.forEach(action => {
           const moduleName = action.moduleName;
@@ -52,6 +52,8 @@ function Reports() {
             moduleCounts[moduleName] += 1;
           }
         });
+
+
         responseData.forEach(action => {
           const moduleName = action.moduleName;
           if (!moduleCounts[moduleName]) {
@@ -86,7 +88,7 @@ function Reports() {
       .catch(error => {
         console.error('Error al obtener los datos de las acciones:', error);
       });
-  }, [startDate2, endDate2, showApexChart])
+ 
 
 
   useEffect(() => {
@@ -222,8 +224,8 @@ function Reports() {
             <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
             {showApexChart && (
             <button type="button" className="btn btn-primary" onClick={handleApexChartButtonClick}>Mostrar</button>
-            {showApexChart && (
-              <ReactApexChart options={options} series={chartData} type="pie" width="380" />
+            )}{showApexChart && (
+            <ReactApexChart options={options} series={chartData} type="pie" width="380" />
             )}
 
 
