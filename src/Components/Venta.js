@@ -25,7 +25,6 @@ function Venta() {
   const [moduleNum, setModuleNum] = useState(3);
   const [isOpenDrop, setOpenDrop] = useState(false);
   const [module, setModule] = useState("Selecciona..");
-  const [isOpenDropP, setOpenDropP] = useState(false);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -39,6 +38,7 @@ function Venta() {
         console.error('Error al cargar los productos:', error);
       });
   }, [productsByModule]); // Agrega productsByModule como una dependencia
+
   
 
   // Función para manejar la adición de productos
@@ -213,7 +213,16 @@ function Venta() {
   const changeModule = (module) => {
     setModule(module);
     setOpenDrop(false);
-    const newModuleNum = module === "Recepcion" ? 1 : module === "Cafeteria" ? 2 : 3;
+
+    let newModuleNum;
+    if (module === "Recepcion") {
+      newModuleNum = 1;
+    } else if (module === "Cafeteria") {
+      newModuleNum = 2;
+    } else {
+      newModuleNum = 3;
+    }
+
     setModuleNum(newModuleNum);
     setProducts([]);
     filterProductsByModule("" + newModuleNum);
@@ -226,12 +235,12 @@ function Venta() {
   }  
 
   return (
-    <div class='m-4'>
+    <div className='m-4'>
       <div className='editId'>
         <p>Vender productos / <span>{module}</span></p>
-        <div class="dropdown" onClick={() => changeOpen("modulo")}>
+        <div className="dropdown" onClick={() => changeOpen("modulo")}>
           <div className={`contentDrop ${isOpenDrop ? "openD" : "closeD"}`}>
-            <a >{module}</a>
+            <a tabIndex="0">{module}</a>
             <ul className={isOpenDrop ? "openDrop" : "closeDrop"}>
               <li onClick={() => changeModule("Restaurante")}>
                 Restaurante
@@ -265,7 +274,7 @@ function Venta() {
 
       <div className='tables'>
         <div className='contentTable'>
-          <table class='styled-table'>
+          <table className='styled-table'>
             <thead>
               <tr>
                 <th>ID</th>
