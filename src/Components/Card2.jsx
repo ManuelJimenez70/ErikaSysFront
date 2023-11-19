@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../styles/card2.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -53,8 +53,9 @@ export const Card2 = ({ idProduct, title, description, image, price, stock, upda
                 setDeleteError(response.data.data);
             }
         } catch (error) {
-            console.error('Error al agregar:', error);
             setDeleteError('Error al agregar producto');
+            console.error('Error al agregar:', deleteError);
+
         }
     };
 

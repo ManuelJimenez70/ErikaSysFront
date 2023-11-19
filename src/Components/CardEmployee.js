@@ -11,7 +11,6 @@ import {
 
 const CardEmployee = ({ idEmpleado, nombre, apellido, documento, direccion, email, password, rol, updateList, updateMessage }) => {
 
-    const [deleteError, setDeleteError] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const handleDeleteClick = () => {

@@ -4,7 +4,7 @@ import { CSVLink } from 'react-csv';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactApexChart from 'react-apexcharts';
 import "../styles/Tabs.css";
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 
 

@@ -5,8 +5,6 @@ import FormProduct from './formProduct';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faEdit,
-    faRecycle,
-    faRemove,
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -54,8 +52,8 @@ const CardProduct = ({ idProduct, title, description, image, price, stock, updat
                 setDeleteError(response.data.data);
             }
         } catch (error) {
-            console.error('Error al agregar:', error);
             setDeleteError('Error al agregar producto');
+            console.error('Error al agregar:', deleteError);
         }
     };
 

@@ -9,7 +9,6 @@ import {
   faChevronDown, 
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
-import { set } from 'lodash';
 
 function Venta() {
 

@@ -133,6 +133,7 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
                     <img
                         src={Logo}
                         className="logo"
+                        alt='logo'
                     ></img>
                     <h3 className="hide">User:<p>{userName}</p></h3> {/* Muestra el nombre del usuario */}
                 </div>

@@ -3,8 +3,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomeAdmin from './pages/HomeAdmin';
 import LoginForm from './pages/LoginForm';
-import ProductList from './Components/ProductList';
-import Venta from './Components/Venta';
 import { AuthProvider } from './Components/AuthContext';
 
 function App() {
