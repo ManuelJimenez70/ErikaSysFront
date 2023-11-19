@@ -10,7 +10,7 @@ import {
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
 
-
+/**/ 
 const CardProduct = ({ idProduct, title, description, image, price, stock, updateList, updateMessage}) => {
 
     const [deleteError, setDeleteError] = useState('');
