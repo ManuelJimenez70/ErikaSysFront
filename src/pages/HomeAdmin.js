@@ -4,6 +4,7 @@ import ProductList from '../Components/ProductList';
 import TabsComponent from '../Components/TabsComponent';
 import Venta from '../Components/Venta';
 import EmployeesList from '../Components/EmployeesList';
+import CheckInCheckOutComponent from '../Components/CheckIn-Out';
 import "../styles/homeAdmin.css";
 
 import Snack from '../Components/Snack';
@@ -54,9 +55,9 @@ function HomeAdmin({ rol }) {
                 {/* Renderiza el componente correspondiente en función de currentContent */}
                 {currentContent === "Productos" && <ProductList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
                 {currentContent === "Reportes" && <TabsComponent />}
-
                 {currentContent === "Venta" && <Venta />}
                 {currentContent === "Empleados" && <EmployeesList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
+                {currentContent === "CheckIn/Out" && <CheckInCheckOutComponent/>}
             </div>
 
             { messageSnack &&

@@ -14,7 +14,10 @@ import {
     faChevronLeft,
     faHotel,
     faBed,
-    faDollar
+    faDollar,
+    faListCheck,
+    faCalendarCheck,
+    faCalendarWeek
 } from "@fortawesome/free-solid-svg-icons";
 
 import Logo from "../images/Logo2.jpg";
@@ -87,7 +90,8 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
             setIsOpenRooms(false);
             setIsOpenVenta(true);
             changePage("Venta")
-
+        } else if (buttonName === "CheckIn/Out") {
+            changePage("CheckIn/Out")
         }
     };
 
@@ -236,6 +240,32 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
                                         </div>
                                         <span className="link hide">Habitaciones</span>
                                     </button>
+
+                                    {/* Lista de elementos de habitaciones*/}
+                                    {isOpenRooms && (
+                                        <div className={`dropdown-container ${isCollapsed ? "menuCol" : ""}`}>
+                                            
+                                            <button className={`subMenu ${isOpenRooms ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("Rooms")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faListCheck} />
+                                                </div>
+                                                <span className="link hide">Gestionar</span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className={`subMenu ${isOpenVenta ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("CheckIn/Out")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faCalendarCheck} />
+                                                </div>
+                                                <span className="link hide">Reservar</span>
+                                            </button>
+                                        </div>
+                                    )}
 
                                     <button
                                         type="button"
