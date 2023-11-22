@@ -1,0 +1,107 @@
+/* styles.css */
+
+:root {
+    --primary-color: #5ab3f7;
+    --primary-color-dark: #1766a1;
+    --button-color: #14588b;
+    --button-color-hover: #227fc5;
+    --button-color-shadow: #114770;
+    --text-color: white;
+  }
+  
+
+.content {
+    padding-left: 40px;
+    padding-top: 40px;
+    max-width: 800px;
+}
+
+.content h2 {
+    color: #114770 !important;
+    padding-bottom: 30px;
+}
+
+.content input {
+    margin-bottom: 20px;
+}
+
+.content button {
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin-top: 20px;
+}
+
+.content select {
+    width: 240px;
+    margin-top: 20px;
+    background-color: transparent;
+    margin-left: 10px;
+}
+
+.content button:hover{
+    transform: scale(1.1);
+    transition: .2s;
+    background: white;
+    color: #114770;
+    border: solid 1px #114770;
+}
+
+.contentModules {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+
+.container {
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.inputContainer {
+    margin-bottom: 15px;
+}
+
+.content input,
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: var(--button-color);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+list {
+    list-style: none;
+    padding: 0;
+}
+
+.listItem {
+    margin-bottom: 5px;
+}
+
+.checkInButton {
+    background-color: var(--button-color-hover);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
