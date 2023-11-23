@@ -74,8 +74,6 @@ function Bookin({ updateMessage }) {
   const handleCreateBookin = async (e) => {
     try {
 
-      console.log("fecha inicial: ", checkInDate);
-
       // Crear un objeto Date en base al valor del input de tipo date (en zona horaria local)
       const localDate = new Date(checkInDate + "T00:00:00");
 
