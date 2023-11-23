@@ -166,7 +166,7 @@ const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento
                         <p>Documento</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Direccion"
+                        <input type="text" placeholder="Documento"
                             name="documento"
                             value={ documento ? documento : newDocumento}
                             onChange={(e) => setDocumento(e.target.value)}
