@@ -4,13 +4,16 @@ import ProductList from '../Components/ProductList';
 import TabsComponent from '../Components/TabsComponent';
 import Venta from '../Components/Venta';
 import EmployeesList from '../Components/EmployeesList';
-import CheckInCheckOutComponent from '../Components/CheckIn-Out';
+import CheckIn from '../Components/CheckIn';
 import "../styles/homeAdmin.css";
 
 import Snack from '../Components/Snack';
 
 
 import { Card2 } from '../Components/Card2';
+import RoomList from '../Components/RoomList';
+import Bookin from '../Components/Bookin';
+import CheckOut from '../Components/CheckOut';
 
 
 function HomeAdmin({ rol }) {
@@ -57,7 +60,10 @@ function HomeAdmin({ rol }) {
                 {currentContent === "Reportes" && <TabsComponent />}
                 {currentContent === "Venta" && <Venta />}
                 {currentContent === "Empleados" && <EmployeesList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
-                {currentContent === "CheckIn/Out" && <CheckInCheckOutComponent/>}
+                {currentContent === "CheckIn" && <CheckIn updateMessage={updateMessage}/>}
+                {currentContent === "CheckOut" && <CheckOut updateMessage={updateMessage}/>}
+                {currentContent === "Habitaciones" && <RoomList isOpenSideBar={isSideBarOpen} updateMessage={ updateMessage }/>}
+                {currentContent === "Bookin" && <Bookin updateMessage={updateMessage}/>}
             </div>
 
             { messageSnack &&

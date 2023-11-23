@@ -207,8 +207,6 @@ function Venta() {
       return product.id_module && product.id_module.value === module;
     });
     setProductsBM(filteredProducts);
-
-    console.lo
   };
 
   const changeModule = (module) => {

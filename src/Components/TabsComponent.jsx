@@ -5,10 +5,6 @@ import ReactApexChart from 'react-apexcharts';
 import "../styles/Tabs.css";
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-
-
-
-
 function TabsComponent() {
 
     const currentDate = new Date().toISOString().split('T')[0];
@@ -69,7 +65,6 @@ function TabsComponent() {
             });
     }, [startDate2, endDate2, showApexChart])
 
-    ////////////////////////////////////////////////////////////////////////////////////////este
     const fetchDataForChart = () => {
         const formattedStartDate = startNuevo;
         const formattedEndDate = endNuevo;

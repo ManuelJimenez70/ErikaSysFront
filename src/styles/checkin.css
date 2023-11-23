@@ -10,36 +10,36 @@
   }
   
 
-.content {
+.contentCheck {
     padding-left: 40px;
     padding-top: 40px;
     max-width: 800px;
 }
 
-.content h2 {
+.contentCheck h2 {
     color: #114770 !important;
     padding-bottom: 30px;
 }
 
-.content input {
+.contentCheck input {
     margin-bottom: 20px;
 }
 
-.content button {
+.contentCheck button {
     border-radius: 15px;
     border: none;
     outline: none;
     margin-top: 20px;
 }
 
-.content select {
+.contentCheck select {
     width: 240px;
     margin-top: 20px;
     background-color: transparent;
     margin-left: 10px;
 }
 
-.content button:hover{
+.contentCheck button:hover{
     transform: scale(1.1);
     transition: .2s;
     background: white;
@@ -50,30 +50,11 @@
 .contentModules {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: start;
 }
 
 
-
-.container {
-    margin: 20px;
-    padding: 20px;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.heading {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.inputContainer {
-    margin-bottom: 15px;
-}
-
-.content input,
+.contentCheck input,
 select {
     width: 100%;
     padding: 8px;
@@ -81,7 +62,8 @@ select {
     border: 1px solid #ccc;
 }
 
-button {
+.contentCheck button {
+    margin-top: 80px;
     background-color: var(--button-color);
     color: var(--text-color);
     padding: 10px 15px;
@@ -89,19 +71,26 @@ button {
     cursor: pointer;
 }
 
-list {
-    list-style: none;
-    padding: 0;
+.content2 {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.listItem {
-    margin-bottom: 5px;
+.content2 input {
+    margin: 0 auto;
+    margin-left: 10px;
 }
 
-.checkInButton {
-    background-color: var(--button-color-hover);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
+.content2 label {
+    margin-left: 50px;
+}
+
+.iconCheck {
+    padding-right: 10px;
+}
+
+.personsInput {
+    max-width: 25%;
+    margin-left: 20px;
 }
