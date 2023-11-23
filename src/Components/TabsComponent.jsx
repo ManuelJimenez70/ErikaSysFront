@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { CSVLink } from 'react-csv';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactApexChart from 'react-apexcharts';
 import "../styles/Tabs.css";
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 function TabsComponent() {
 
@@ -14,10 +15,12 @@ function TabsComponent() {
     const [showChartPrueba, setShowChartPrueba] = useState(false);
     const [chartData, setChartData] = useState([]);
     const [showApexChart, setShowApexChart] = useState(true);
+    const [dataTable, setDataTable] = useState([]);
     const [options, setOptions] = useState({
         labels: [],
     });
-    const [selectedModule, setSelectedModule] = useState(1);
+
+    const [dataTransformed ,setDataTransformed] = useState([]);
 
     const [startNuevo, setNuevo] = useState(currentDate);
     const [endNuevo, setEndNuevo] = useState(currentDate);
@@ -71,14 +74,45 @@ function TabsComponent() {
       
         axios
           .get(
-            `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateModuleType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&moduleId=${selectedModule}&type=out`
+            `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`
           )
           .then((response) => {
             const responseData = response.data; // Listado de acciones
-            console.log("response", responseData)
             // Filtra los datos para obtener solo los del módulo 1
-
-      
+            let asi = [];
+            asi = responseData
+            const formattedData = asi.map((item) => {
+                // Aquí asumimos que creationDate es la propiedad que contiene la fecha
+                const originalDate = item.creationDate.value;
+                const formattedDate = originalDate.split("T")[0];
+                // Devuelve un nuevo objeto con la fecha formateada
+                return {
+                  ...item,
+                  creationDate: {
+                    value: formattedDate,
+                  },
+                };
+            });
+            
+            
+          
+              // Establecer la lista formateada en el estado
+            setDataTable(formattedData);
+            console.log("Esta es",formattedData);
+            const valuesList = formattedData.map(item => {
+                const values = {};
+                Object.keys(item).forEach(key => {
+                  if (item[key] && item[key].hasOwnProperty('value')) {
+                    values[key] = item[key].value;
+                  } else {
+                    values[key] = item[key];
+                  }
+                });
+                return values;
+            });
+            setDataTransformed(valuesList);
+            console.log("this", valuesList);
+            
             // Obtén un arreglo de fechas dentro del rango
             const dateRange = getDateRange(formattedStartDate, formattedEndDate);
       
@@ -111,14 +145,14 @@ function TabsComponent() {
           .catch((error) => {
             console.error("Error al obtener los datos de las acciones:", error);
           });
-      };
+    };
       
       // Llama a la función fetchDataForChart cuando se hace clic en el botón "Mostrar"
       const handleNuevoChart = () => {
         fetchDataForChart();
       };
 
-
+    
     function getDateRange(startDate, endDate) {
         const dateRange = [];
         const currentDate = new Date(startDate);
@@ -130,20 +164,11 @@ function TabsComponent() {
     }
 
 
-
-
-
-    // Obtén el array de fechas en el rango
-
-
     const handleApexChartButtonClick = () => {
         // Cuando se hace clic en el botón del gráfico de ApexCharts, mostrar el gráfico.
         setShowApexChart(true);
     };
 
-    const handleModuleChange = (event) => {
-        setSelectedModule(event.target.value);
-    };
 
 
     return (
@@ -180,12 +205,6 @@ function TabsComponent() {
                                 />
                                 <p>Fecha final</p>
                             </div>
-                            <p>Selecciona un modulo:</p>
-                            <select id="module-select" value={selectedModule} onChange={handleModuleChange}>
-                                <option value={1}>Recepción</option>
-                                <option value={2}>Cafetería</option>
-                                <option value={3}>Cocina</option>
-                            </select>
                             <button type="button" className="btn btn-primary" onClick={handleNuevoChart}>Mostrar</button>
 
                         </div>
@@ -215,7 +234,33 @@ function TabsComponent() {
                                   )
                             ): null}
                         </div>
-
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Usuario</th>
+                                        <th>Producto</th>
+                                        <th>Módulo</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {dataTable.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.creationDate.value}</td>
+                                            <td>{item.id_user}</td>
+                                            <td>{item.id_product}</td>
+                                            <td>{item.moduleName}</td>
+                                            <td>{item.quantity.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <CSVLink data = {dataTransformed} filename={"reportes.csv"}><button type="button" className="btn btn-primary">exportar</button></CSVLink>
+                        </div>                
 
                     </div>
                 </section>

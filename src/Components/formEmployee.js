@@ -13,18 +13,16 @@ const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento
 
     const [nombre, setNombre] = useState(newNombre);
     const [apellido, setApellido] = useState(newApellido);
-    const [image] = useState('hola');
     const [direccion, setDireccion] = useState(newDireccion);
     const [documento, setDocumento] = useState(newDocumento);
-    const [id] = useState(idEmpleado);
-    const [isOpenDrop, setOpenDrop] = useState(false);
+    const [isOpenDrop, setIsOpenDrop] = useState(false);
     const [loginError, setLoginError] = useState('');
     const [email, setEmail] = useState(newEmail);
     const [password, setPassword] = useState(newPassword);
     const [rol, setRol] = useState(newRol);
 
     const changeOpen = () => {
-        setOpenDrop(!isOpenDrop);
+        setIsOpenDrop(!isOpenDrop);
     }
 
     const changeRol = (newRole) => {
@@ -61,7 +59,7 @@ const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento
                 updateMessage(response.data.message, true);
             } else {
                 setLoginError(response.data.message);
-                updateMessage(response.data.message, false);
+                updateMessage(loginError, false);
             }
         } catch (error) {
             updateMessage("Upsss, no pudimos hacer esto.", false);
@@ -109,7 +107,7 @@ const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento
     return (
         <div className="contentForm">
             <div className="imageContent">
-                <img src=" "></img>
+                <img src=" " alt='img'></img>
             </div>
             <div className="bodyContent">
 
@@ -168,7 +166,7 @@ const FormEmployee = ({ idEmpleado, newNombre, newRol, newApellido, newDocumento
                         <p>Documento</p>
                     </div>
                     <div className="input">
-                        <input type="text" placeholder="Direccion"
+                        <input type="text" placeholder="Documento"
                             name="documento"
                             value={ documento ? documento : newDocumento}
                             onChange={(e) => setDocumento(e.target.value)}

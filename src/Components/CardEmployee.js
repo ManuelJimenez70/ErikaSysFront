@@ -11,7 +11,6 @@ import {
 
 const CardEmployee = ({ idEmpleado, nombre, apellido, documento, direccion, email, password, rol, updateList, updateMessage }) => {
 
-    const [deleteError, setDeleteError] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const handleDeleteClick = () => {
@@ -103,7 +102,7 @@ const CardEmployee = ({ idEmpleado, nombre, apellido, documento, direccion, emai
                                     Dirección: {direccion}
                                 </p>
                                 <p>
-                                    Rol: {rol}
+                                    Rol: {rol ?? "Empleado"}
                                 </p>
                                 <div className="ButtonsDiv">
                                     <button onClick={() => window.location.href = "#modal" + idEmpleado}>
