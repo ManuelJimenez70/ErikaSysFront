@@ -230,3 +230,22 @@ td {
 .tableBody tr {
     cursor: pointer;
 }
+
+.searching {
+    display: none;
+}
+
+.checkButton {
+    margin: 0 auto !important;
+    border-radius: 50% !important;
+}
+
+.tableNew {
+    min-width: 100%;
+}
+
+.contentTable {
+    max-height: 80vh;
+    min-width: 150%;
+    overflow-y: scroll;
+}

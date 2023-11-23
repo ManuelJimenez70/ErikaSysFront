@@ -14,7 +14,12 @@ import {
     faChevronLeft,
     faHotel,
     faBed,
-    faDollar
+    faDollar,
+    faListCheck,
+    faCalendarCheck,
+    faCalendarWeek,
+    faDoorOpen, 
+    faDoorClosed
 } from "@fortawesome/free-solid-svg-icons";
 
 import Logo from "../images/Logo2.jpg";
@@ -33,6 +38,9 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
     const [isOpenGestionProducts, setIsOpenGestionProducts] = useState(false);
     const [isOpenGestionEmpleados, setIsOpenGestionEmpleados] = useState(false);
     const [isOpenVenta, setIsOpenVenta] = useState(false);
+    const [isOpenCheckIn, setIsOpenChekIn] = useState(false);
+    const [isOpenCheckOut, setIsOpenChekOut] = useState(false);
+    const [isOpenGesRooms, setIsOpenGesRooms] = useState(false);
 
     const handleSidebarItemClick = (buttonName) => {
         if (buttonName === 'Productos') {
@@ -68,14 +76,16 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
         } else if (buttonName === 'Pool') {
             setIsOpenPool(!isOpenPool);
             changePage("Pool");
-        } else if (buttonName === 'Receipt') {
-            setIsOpenReceipt(!isOpenReceipt);
+        } else if (buttonName === 'Receip') {
+            setIsOpenReceipt(true);
+            setIsOpenChekIn(false);
+            setIsOpenGesRooms(false);
+            setIsOpenChekOut(false);
             changePage("Bookin");
         } else if (buttonName === 'Rooms') {
             setIsOpenGestionProducts(false);
             setIsOpenVenta(false);
             setIsOpenRooms(true);
-            changePage("Rooms");
         } else if (buttonName === 'GesE') {
             setIsOpenVenta(false);
             setIsOpenGestionProducts(false);
@@ -86,8 +96,25 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
             setIsOpenGestionEmpleados(false);
             setIsOpenRooms(false);
             setIsOpenVenta(true);
-            changePage("Venta")
-
+            changePage("Venta");
+        } else if (buttonName === "CheckIn") {
+            setIsOpenChekIn(true);
+            setIsOpenReceipt(false);
+            setIsOpenGesRooms(false);
+            setIsOpenChekOut(false);
+            changePage("CheckIn");
+        } else if (buttonName === "Habitaciones") {
+            setIsOpenGesRooms(true);
+            setIsOpenChekIn(false);
+            setIsOpenReceipt(false);
+            setIsOpenChekOut(false);
+            changePage("Habitaciones");
+        } else if (buttonName === "CheckOut") {
+            setIsOpenGesRooms(false);
+            setIsOpenChekIn(false);
+            setIsOpenReceipt(false);
+            setIsOpenChekOut(true);
+            changePage("CheckOut");
         }
     };
 
@@ -237,6 +264,54 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
                                         </div>
                                         <span className="link hide">Habitaciones</span>
                                     </button>
+
+                                    {/* Lista de elementos de habitaciones*/}
+                                    {isOpenRooms && (
+                                        <div className={`dropdown-container ${isCollapsed ? "menuCol" : ""}`}>
+                                            
+                                            <button className={`subMenu ${isOpenGesRooms ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("Habitaciones")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faListCheck} />
+                                                </div>
+                                                <span className="link hide">Gestionar</span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className={`subMenu ${isOpenReceipt ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("Receip")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faCalendarCheck} />
+                                                </div>
+                                                <span className="link hide">Reservar</span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className={`subMenu ${isOpenCheckIn ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("CheckIn")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faDoorOpen} />
+                                                </div>
+                                                <span className="link hide">Check-In</span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className={`subMenu ${isOpenCheckOut ? "activeSub" : ""}`}
+                                                onClick={() => handleSidebarItemClick("CheckOut")}
+                                            >
+                                                <div className="icon">
+                                                    <FontAwesomeIcon icon={faDoorClosed} />
+                                                </div>
+                                                <span className="link hide">Check-Out</span>
+                                            </button>
+                                        </div>
+                                    )}
 
                                     <button
                                         type="button"

@@ -10,6 +10,7 @@
 .contentTabs {
     margin-top: 20px;
     color: var(--button-color);
+    max-height: 97vh;
 }
 
 .main {
