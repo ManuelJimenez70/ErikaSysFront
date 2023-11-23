@@ -67,7 +67,7 @@ function EmployeesList({ isOpenSideBar, updateMessage }) {
                         </button>
                         <div className="formContent">
                             <div className='searchBar'>
-                                <input className="form-control me-2" type="search" placeholder="Nombre del producto"></input>
+                                <input className="form-control me-2" type="search" placeholder="Nombre del usuario"></input>
                                 <button type='button'>
                                     <span>
                                         <FontAwesomeIcon icon={faSearch} />

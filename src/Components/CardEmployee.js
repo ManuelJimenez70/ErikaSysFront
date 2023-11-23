@@ -102,7 +102,7 @@ const CardEmployee = ({ idEmpleado, nombre, apellido, documento, direccion, emai
                                     Dirección: {direccion}
                                 </p>
                                 <p>
-                                    Rol: {rol}
+                                    Rol: {rol ?? "Empleado"}
                                 </p>
                                 <div className="ButtonsDiv">
                                     <button onClick={() => window.location.href = "#modal" + idEmpleado}>
