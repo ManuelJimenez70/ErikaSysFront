@@ -240,12 +240,12 @@ td {
     border-radius: 50% !important;
 }
 
-.tableNew {
-    min-width: 100%;
-}
-
 .contentTable {
     max-height: 80vh;
-    min-width: 80%;
+    min-width: 65%;
     overflow-y: scroll;
+}
+
+.tableNew {
+    min-width: 110%;
 }
