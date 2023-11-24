@@ -6,6 +6,12 @@ import ReactApexChart from 'react-apexcharts';
 import "../styles/Tabs.css";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+    faDownload
+} from "@fortawesome/free-solid-svg-icons";
+
 function TabsComponent() {
 
     const currentDate = new Date().toISOString().split('T')[0];
@@ -20,7 +26,7 @@ function TabsComponent() {
         labels: [],
     });
 
-    const [dataTransformed ,setDataTransformed] = useState([]);
+    const [dataTransformed, setDataTransformed] = useState([]);
 
     const [startNuevo, setNuevo] = useState(currentDate);
     const [endNuevo, setEndNuevo] = useState(currentDate);
@@ -71,88 +77,88 @@ function TabsComponent() {
     const fetchDataForChart = () => {
         const formattedStartDate = startNuevo;
         const formattedEndDate = endNuevo;
-      
-        axios
-          .get(
-            `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`
-          )
-          .then((response) => {
-            const responseData = response.data; // Listado de acciones
-            // Filtra los datos para obtener solo los del módulo 1
-            let asi = [];
-            asi = responseData
-            const formattedData = asi.map((item) => {
-                // Aquí asumimos que creationDate es la propiedad que contiene la fecha
-                const originalDate = item.creationDate.value;
-                const formattedDate = originalDate.split("T")[0];
-                // Devuelve un nuevo objeto con la fecha formateada
-                return {
-                  ...item,
-                  creationDate: {
-                    value: formattedDate,
-                  },
-                };
-            });
-            
-            
-          
-              // Establecer la lista formateada en el estado
-            setDataTable(formattedData);
-            console.log("Esta es",formattedData);
-            const valuesList = formattedData.map(item => {
-                const values = {};
-                Object.keys(item).forEach(key => {
-                  if (item[key] && item[key].hasOwnProperty('value')) {
-                    values[key] = item[key].value;
-                  } else {
-                    values[key] = item[key];
-                  }
-                });
-                return values;
-            });
-            setDataTransformed(valuesList);
-            console.log("this", valuesList);
-            
-            // Obtén un arreglo de fechas dentro del rango
-            const dateRange = getDateRange(formattedStartDate, formattedEndDate);
-      
-            // Agrupa los datos por fechas y suma las cantidades
-            const groupedData = responseData.reduce((accumulator, current) => {
-              const date = current.creationDate.value.split("T")[0]; // Obtiene la fecha sin la hora
-              if (!accumulator[date]) {
-                accumulator[date] = 0;
-              }
-              accumulator[date] += current.quantity.value;
-              return accumulator;
-            }, {});
-      
-            // Rellena las fechas faltantes con un valor de 0
-            dateRange.forEach((date) => {
-              if (!groupedData[date]) {
-                groupedData[date] = 0;
-              }
-            });
-      
-            // Prepara los datos en un formato adecuado para Recharts
-            const dataForRecharts = dateRange.map((date) => ({
-              date,
-              Cantidad: groupedData[date],
-            }));
-            setDataPrueba(dataForRecharts);
-            setShowChartPrueba(true);
-            console.log(dataForRecharts);
-          })
-          .catch((error) => {
-            console.error("Error al obtener los datos de las acciones:", error);
-          });
-    };
-      
-      // Llama a la función fetchDataForChart cuando se hace clic en el botón "Mostrar"
-      const handleNuevoChart = () => {
-        fetchDataForChart();
-      };
 
-    
+        axios
+            .get(
+                `http://www.erikasys.somee.com/api/Action/getActionsByRangeDateType?dateI=${formattedStartDate}&dateF=${formattedEndDate}&type=out`
+            )
+            .then((response) => {
+                const responseData = response.data; // Listado de acciones
+                // Filtra los datos para obtener solo los del módulo 1
+                let asi = [];
+                asi = responseData
+                const formattedData = asi.map((item) => {
+                    // Aquí asumimos que creationDate es la propiedad que contiene la fecha
+                    const originalDate = item.creationDate.value;
+                    const formattedDate = originalDate.split("T")[0];
+                    // Devuelve un nuevo objeto con la fecha formateada
+                    return {
+                        ...item,
+                        creationDate: {
+                            value: formattedDate,
+                        },
+                    };
+                });
+
+
+
+                // Establecer la lista formateada en el estado
+                setDataTable(formattedData);
+                console.log("Esta es", formattedData);
+                const valuesList = formattedData.map(item => {
+                    const values = {};
+                    Object.keys(item).forEach(key => {
+                        if (item[key] && item[key].hasOwnProperty('value')) {
+                            values[key] = item[key].value;
+                        } else {
+                            values[key] = item[key];
+                        }
+                    });
+                    return values;
+                });
+                setDataTransformed(valuesList);
+                console.log("this", valuesList);
+
+                // Obtén un arreglo de fechas dentro del rango
+                const dateRange = getDateRange(formattedStartDate, formattedEndDate);
+
+                // Agrupa los datos por fechas y suma las cantidades
+                const groupedData = responseData.reduce((accumulator, current) => {
+                    const date = current.creationDate.value.split("T")[0]; // Obtiene la fecha sin la hora
+                    if (!accumulator[date]) {
+                        accumulator[date] = 0;
+                    }
+                    accumulator[date] += current.quantity.value;
+                    return accumulator;
+                }, {});
+
+                // Rellena las fechas faltantes con un valor de 0
+                dateRange.forEach((date) => {
+                    if (!groupedData[date]) {
+                        groupedData[date] = 0;
+                    }
+                });
+
+                // Prepara los datos en un formato adecuado para Recharts
+                const dataForRecharts = dateRange.map((date) => ({
+                    date,
+                    Cantidad: groupedData[date],
+                }));
+                setDataPrueba(dataForRecharts);
+                setShowChartPrueba(true);
+                console.log(dataForRecharts);
+            })
+            .catch((error) => {
+                console.error("Error al obtener los datos de las acciones:", error);
+            });
+    };
+
+    // Llama a la función fetchDataForChart cuando se hace clic en el botón "Mostrar"
+    const handleNuevoChart = () => {
+        fetchDataForChart();
+    };
+
+
     function getDateRange(startDate, endDate) {
         const dateRange = [];
         const currentDate = new Date(startDate);
@@ -209,58 +215,69 @@ function TabsComponent() {
 
                         </div>
 
-                        <div className='chart'>
-                            {showChartPrueba ? (
-                                charDataPrueba.length > 0 ? (
-                                <BarChart width={800}height={800} data={charDataPrueba} >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        label={{ value: 'Días', position: 'insideBottom', offset: 0 }}
-                                        dataKey="date"
-                                        tickFormatter={(date) => {
-                                            const parsedDate = new Date(date);
-                                            const day = parsedDate.getDate() + 1; // Obtiene el número del día
-                                            return day.toString(); // Convierte el número del día en una cadena
-                                        }}
-                                    />
-                                    <Tooltip />
-                                    <Legend />
-                                    <YAxis label={{ value: 'Cantidad', angle: -90, position: 'insideLeft' }} />
-                                    <Bar dataKey="Cantidad" fill="#82ca9d" />
+                        <div className='contentTables'>
+                            <div className='chart'>
+                                {showChartPrueba ? (
+                                    charDataPrueba.length > 0 ? (
+                                        <BarChart width={800} height={800} data={charDataPrueba} className='dataBar'>
+                                            <CartesianGrid strokeDasharray="3 3" className='cartesian' />
+                                            <XAxis
+                                                className='axisTable'
+                                                label={{ value: 'Días', position: 'insideBottom', offset: 0 }}
+                                                dataKey="date"
+                                                tickFormatter={(date) => {
+                                                    const parsedDate = new Date(date);
+                                                    const day = parsedDate.getDate() + 1; // Obtiene el número del día
+                                                    return day === 32 ? "1" : day.toString(); // Convierte el número del día en una cadena
+                                                }}
+                                            />
+                                            <Tooltip />
+                                            <Legend />
+                                            <YAxis label={{ value: 'Cantidad', angle: -90, position: 'insideLeft' }} />
+                                            <Bar dataKey="Cantidad" fill="#82ca9d" />
 
-                                </BarChart>
-                                ) : (
-                                    <p>Cargando datos...</p>
-                                  )
-                            ): null}
-                        </div>
-                        <div>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Usuario</th>
-                                        <th>Producto</th>
-                                        <th>Módulo</th>
-                                        <th>Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {dataTable.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{item.creationDate.value}</td>
-                                            <td>{item.id_user}</td>
-                                            <td>{item.id_product}</td>
-                                            <td>{item.moduleName}</td>
-                                            <td>{item.quantity.value}</td>
+                                        </BarChart>
+                                    ) : (
+                                        <p>Cargando datos...</p>
+                                    )
+                                ) : null}
+                            </div>
+                            <div className="tableInfo2 tableInfo3" >
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Usuario</th>
+                                            <th>Producto</th>
+                                            <th>Módulo</th>
+                                            <th>Cantidad</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {dataTable.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.creationDate.value}</td>
+                                                <td>{item.id_user}</td>
+                                                <td>{item.id_product}</td>
+                                                <td>{item.moduleName}</td>
+                                                <td>{item.quantity.value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
                         <div>
-                            <CSVLink data = {dataTransformed} filename={"reportes.csv"}><button type="button" className="btn btn-primary">exportar</button></CSVLink>
-                        </div>                
+                            <CSVLink data={dataTransformed} filename={"reportes.csv"}>
+                                <button type="button" className="btn btn-primary downloadBtn">
+                                    <span className={`material-symbols-outlined downloadButton`} >
+                                        <FontAwesomeIcon icon={faDownload} />
+                                    </span>
+                                    exportar
+                                </button>
+                            </CSVLink>
+                        </div>
 
                     </div>
                 </section>
@@ -299,7 +316,6 @@ function TabsComponent() {
                             {showApexChart && (
                                 <ReactApexChart options={options} series={chartData} type="pie" width="600" />
                             )}
-
                         </div>
                     </div>
                 </section>

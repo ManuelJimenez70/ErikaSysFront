@@ -246,6 +246,6 @@ td {
 
 .contentTable {
     max-height: 80vh;
-    min-width: 150%;
+    min-width: 80%;
     overflow-y: scroll;
 }

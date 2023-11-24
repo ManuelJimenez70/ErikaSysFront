@@ -175,3 +175,42 @@
     padding: 3px;
     text-align: center;
 }
+
+.contentTables {
+    display: flex;
+    max-width: 65%;
+    height: 650px;
+}
+
+.dataBar {
+    max-height: 100%;
+}
+
+.cartesian{
+    background-color: blue;
+}
+
+.tableInfo2 {
+    max-width: 100%;
+}
+
+.tableInfo3 {
+    overflow: scroll !important;
+    min-width: 58%;
+}
+
+.recharts-surface{
+    max-height: 100%;
+}
+
+.downloadButton {
+    margin-right: 10px;
+}
+
+.downloadBtn:hover {
+    color: #114770 !important;
+    background-color: white !important;
+    border: solid 1px #114770 !important;
+    transform: scale(1.1);
+    transition: .2s;
+}

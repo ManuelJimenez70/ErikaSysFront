@@ -18,7 +18,7 @@ import {
     faListCheck,
     faCalendarCheck,
     faCalendarWeek,
-    faDoorOpen, 
+    faDoorOpen,
     faDoorClosed
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -268,15 +268,17 @@ export const Sidebar = ({ onSidebarItemClick, sideBarOpen, rol }) => {
                                     {/* Lista de elementos de habitaciones*/}
                                     {isOpenRooms && (
                                         <div className={`dropdown-container ${isCollapsed ? "menuCol" : ""}`}>
-                                            
-                                            <button className={`subMenu ${isOpenGesRooms ? "activeSub" : ""}`}
-                                                onClick={() => handleSidebarItemClick("Habitaciones")}
-                                            >
-                                                <div className="icon">
-                                                    <FontAwesomeIcon icon={faListCheck} />
-                                                </div>
-                                                <span className="link hide">Gestionar</span>
-                                            </button>
+
+                                            {rol &&
+                                                <button className={`subMenu ${isOpenGesRooms ? "activeSub" : ""}`}
+                                                    onClick={() => handleSidebarItemClick("Habitaciones")}
+                                                >
+                                                    <div className="icon">
+                                                        <FontAwesomeIcon icon={faListCheck} />
+                                                    </div>
+                                                    <span className="link hide">Gestionar</span>
+                                                </button>
+                                            }
 
                                             <button
                                                 type="button"
